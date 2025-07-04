@@ -29,8 +29,11 @@ jobs:
     - name: Build
       run: npx ng build --configuration production --base-href=/nanjing-et-club/
     
-    - name: List build output
-      run: ls -la dist/
+    - name: Debug - List dist structure
+      run: |
+        echo "=== Dist directory structure ==="
+        find dist/ -type f -name "*.html" -o -name "*.js" -o -name "*.css" | head -20
+        echo "=== End of file list ==="
     
     - name: Setup Pages
       uses: actions/configure-pages@v4
