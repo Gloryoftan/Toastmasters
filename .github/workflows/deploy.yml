@@ -29,13 +29,16 @@ jobs:
     - name: Build
       run: npx ng build --configuration production --base-href=/nanjing-et-club/
     
+    - name: List build output
+      run: ls -la dist/
+    
     - name: Setup Pages
       uses: actions/configure-pages@v4
     
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./dist/nanjing-et-club
+        path: ./dist/nanjing-et-club/browser
     
     - name: Deploy to GitHub Pages
       id: deployment
