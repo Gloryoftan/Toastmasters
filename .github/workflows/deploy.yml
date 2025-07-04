@@ -27,7 +27,7 @@ jobs:
       run: npm ci
     
     - name: Build
-      run: npx ng build --configuration production --base-href=/Toastmasters/
+      run: npx ng build --configuration production
     
     - name: Debug - List dist structure
       run: |

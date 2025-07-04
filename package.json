@@ -8,7 +8,7 @@
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration production --base-href=/nanjing-et-club/ && npx angular-cli-ghpages --dir=dist/nanjing-et-club",
+    "deploy": "ng build --configuration production && npx angular-cli-ghpages --dir=dist/nanjing-et-club/browser --repo=https://github.com/GloryOfTan/Toastmasters.git",
     "predeploy": "npm run build:prod"
   },
   "prettier": {
