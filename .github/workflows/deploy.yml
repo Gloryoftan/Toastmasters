@@ -27,7 +27,7 @@ jobs:
       run: npm ci
     
     - name: Build
-      run: ng build --configuration production --base-href=/nanjing-et-club/
+      run: npx ng build --configuration production --base-href=/nanjing-et-club/
     
     - name: Setup Pages
       uses: actions/configure-pages@v4
