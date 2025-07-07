@@ -1,0 +1,40 @@
+[
+  {
+    "id": "member-1",
+    "name": "张三",
+    "toastmastersId": "TM001",
+    "isGuest": false,
+    "joinDate": "2023-01-15T00:00:00.000Z",
+    "email": "zhangsan@example.com",
+    "status": "active",
+    "pathwaysTrack": "Dynamic Leadership",
+    "ccManualLevel": 5
+  },
+  {
+    "id": "member-2",
+    "name": "李四",
+    "toastmastersId": "TM002",
+    "isGuest": false,
+    "joinDate": "2023-03-20T00:00:00.000Z",
+    "email": "lisi@example.com",
+    "status": "active",
+    "pathwaysTrack": "Presentation Mastery"
+  },
+  {
+    "id": "member-3",
+    "name": "王五",
+    "toastmastersId": "TM003",
+    "isGuest": false,
+    "joinDate": "2023-06-10T00:00:00.000Z",
+    "email": "wangwu@example.com",
+    "status": "active",
+    "pathwaysTrack": "Engaging Humor"
+  },
+  {
+    "id": "guest-1",
+    "name": "赵六",
+    "isGuest": true,
+    "joinDate": "2024-01-15T00:00:00.000Z",
+    "status": "active"
+  }
+] 

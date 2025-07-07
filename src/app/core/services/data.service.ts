@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Member, CreateMemberRequest } from '../models/member.model';
 import { Meeting, MeetingRoleAssignment, MeetingWithAssignments } from '../models/meeting.model';
 import { Role, DEFAULT_ROLES } from '../models/role.model';
@@ -9,13 +10,6 @@ import { AttendanceStats, MemberGrowthStats } from '../models/statistics.model';
   providedIn: 'root'
 })
 export class DataService {
-  private readonly STORAGE_KEYS = {
-    MEMBERS: 'nanjing-et-club-members',
-    MEETINGS: 'nanjing-et-club-meetings',
-    ASSIGNMENTS: 'nanjing-et-club-assignments',
-    ROLES: 'nanjing-et-club-roles'
-  };
-
   private membersSubject = new BehaviorSubject<Member[]>([]);
   private meetingsSubject = new BehaviorSubject<Meeting[]>([]);
   private assignmentsSubject = new BehaviorSubject<MeetingRoleAssignment[]>([]);
@@ -26,129 +20,48 @@ export class DataService {
   public assignments$ = this.assignmentsSubject.asObservable();
   public roles$ = this.rolesSubject.asObservable();
 
-  constructor() {
-    this.loadDataFromStorage();
-    this.setupAutoSave();
+  constructor(private http: HttpClient) {
+    this.loadDataFromJson();
   }
 
-  private loadDataFromStorage() {
-    // 从localStorage加载数据，如果没有则使用初始数据
-    const members = this.loadFromStorage<Member[]>(this.STORAGE_KEYS.MEMBERS, this.getInitialMembers());
-    const meetings = this.loadFromStorage<Meeting[]>(this.STORAGE_KEYS.MEETINGS, this.getInitialMeetings());
-    const assignments = this.loadFromStorage<MeetingRoleAssignment[]>(this.STORAGE_KEYS.ASSIGNMENTS, []);
-    const roles = this.loadFromStorage<Role[]>(this.STORAGE_KEYS.ROLES, DEFAULT_ROLES);
-
-    // 处理日期反序列化
-    const processedMembers = members.map(member => ({
-      ...member,
-      joinDate: new Date(member.joinDate)
-    }));
-
-    const processedMeetings = meetings.map(meeting => ({
-      ...meeting,
-      date: new Date(meeting.date)
-    }));
-
-    this.membersSubject.next(processedMembers);
-    this.meetingsSubject.next(processedMeetings);
-    this.assignmentsSubject.next(assignments);
-    this.rolesSubject.next(roles);
-  }
-
-  private setupAutoSave() {
-    // 自动保存数据到localStorage
-    this.members$.subscribe(members => {
-      this.saveToStorage(this.STORAGE_KEYS.MEMBERS, members);
-    });
-
-    this.meetings$.subscribe(meetings => {
-      this.saveToStorage(this.STORAGE_KEYS.MEETINGS, meetings);
-    });
-
-    this.assignments$.subscribe(assignments => {
-      this.saveToStorage(this.STORAGE_KEYS.ASSIGNMENTS, assignments);
-    });
-
-    this.roles$.subscribe(roles => {
-      this.saveToStorage(this.STORAGE_KEYS.ROLES, roles);
-    });
-  }
-
-  private loadFromStorage<T>(key: string, defaultValue: T): T {
-    try {
-      const stored = localStorage.getItem(key);
-      return stored ? JSON.parse(stored) : defaultValue;
-    } catch (error) {
-      console.warn(`Failed to load ${key} from localStorage:`, error);
-      return defaultValue;
-    }
-  }
-
-  private saveToStorage(key: string, data: any): void {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-      console.warn(`Failed to save ${key} to localStorage:`, error);
-    }
-  }
-
-  private getInitialMembers(): Member[] {
-    return [
-      {
-        id: 'member-1',
-        name: '张三',
-        toastmastersId: 'TM001',
-        isGuest: false,
-        joinDate: new Date('2023-01-15'),
-        email: 'zhangsan@example.com',
-        status: 'active',
-        pathwaysTrack: 'Dynamic Leadership',
-        ccManualLevel: 5
+  // 从JSON文件加载数据
+  private loadDataFromJson() {
+    // 加载会员数据
+    this.http.get<Member[]>('/data/members.json').subscribe({
+      next: (members) => {
+        const processedMembers = members.map(member => ({
+          ...member,
+          joinDate: new Date(member.joinDate)
+        }));
+        this.membersSubject.next(processedMembers);
       },
-      {
-        id: 'member-2',
-        name: '李四',
-        toastmastersId: 'TM002',
-        isGuest: false,
-        joinDate: new Date('2023-03-20'),
-        email: 'lisi@example.com',
-        status: 'active',
-        pathwaysTrack: 'Presentation Mastery'
-      },
-      {
-        id: 'guest-1',
-        name: '王五',
-        isGuest: true,
-        joinDate: new Date(),
-        status: 'active'
+      error: (error) => {
+        console.warn('Failed to load members from JSON:', error);
+        this.membersSubject.next(this.getInitialMembers());
       }
-    ];
-  }
+    });
 
-  private getInitialMeetings(): Meeting[] {
-    return [
-      {
-        id: 'meeting-1',
-        date: new Date('2024-01-15'),
-        meetingNumber: 1001,
-        theme: '新年新开始',
-        venue: '会议室A',
-        type: 'regular',
-        status: 'completed'
+    // 加载会议数据
+    this.http.get<Meeting[]>('/data/meetings.json').subscribe({
+      next: (meetings) => {
+        const processedMeetings = meetings.map(meeting => ({
+          ...meeting,
+          date: new Date(meeting.date)
+        }));
+        this.meetingsSubject.next(processedMeetings);
       },
-      {
-        id: 'meeting-2',
-        date: new Date('2024-01-29'),
-        meetingNumber: 1002,
-        theme: '沟通的艺术',
-        venue: '会议室A',
-        type: 'regular',
-        status: 'completed'
+      error: (error) => {
+        console.warn('Failed to load meetings from JSON:', error);
+        this.meetingsSubject.next(this.getInitialMeetings());
       }
-    ];
+    });
+
+    // 初始化其他数据
+    this.assignmentsSubject.next([]);
+    this.rolesSubject.next(DEFAULT_ROLES);
   }
 
-  // 会员管理
+  // 保留原有的业务逻辑方法
   getMembers(): Observable<Member[]> {
     return this.members$;
   }
@@ -264,8 +177,8 @@ export class DataService {
     );
   }
 
-  // 数据导入导出功能
-  exportData(): string {
+  // 数据导出到JSON格式
+  exportToJson(): string {
     const data = {
       members: this.membersSubject.value,
       meetings: this.meetingsSubject.value,
@@ -276,47 +189,40 @@ export class DataService {
     return JSON.stringify(data, null, 2);
   }
 
-  importData(jsonData: string): boolean {
-    try {
-      const data = JSON.parse(jsonData);
-      
-      if (data.members) {
-        const processedMembers = data.members.map((member: any) => ({
-          ...member,
-          joinDate: new Date(member.joinDate)
-        }));
-        this.membersSubject.next(processedMembers);
-      }
-      
-      if (data.meetings) {
-        const processedMeetings = data.meetings.map((meeting: any) => ({
-          ...meeting,
-          date: new Date(meeting.date)
-        }));
-        this.meetingsSubject.next(processedMeetings);
-      }
-      
-      if (data.assignments) {
-        this.assignmentsSubject.next(data.assignments);
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('Failed to import data:', error);
-      return false;
-    }
+  // 重新加载JSON数据
+  reloadData(): void {
+    this.loadDataFromJson();
   }
 
-  // 清除所有数据
-  clearAllData(): void {
-    Object.values(this.STORAGE_KEYS).forEach(key => {
-      localStorage.removeItem(key);
-    });
-    
-    this.membersSubject.next(this.getInitialMembers());
-    this.meetingsSubject.next(this.getInitialMeetings());
-    this.assignmentsSubject.next([]);
-    this.rolesSubject.next(DEFAULT_ROLES);
+  // 保留原有的fallback方法
+  private getInitialMembers(): Member[] {
+    return [
+      {
+        id: 'member-1',
+        name: '张三',
+        toastmastersId: 'TM001',
+        isGuest: false,
+        joinDate: new Date('2023-01-15'),
+        email: 'zhangsan@example.com',
+        status: 'active',
+        pathwaysTrack: 'Dynamic Leadership',
+        ccManualLevel: 5
+      }
+    ];
+  }
+
+  private getInitialMeetings(): Meeting[] {
+    return [
+      {
+        id: 'meeting-1',
+        date: new Date('2024-01-15'),
+        meetingNumber: 1001,
+        theme: '新年新开始',
+        venue: '会议室A',
+        type: 'regular',
+        status: 'completed'
+      }
+    ];
   }
 
   private generateId(prefix: string): string {
