@@ -27,7 +27,7 @@ export class DataService {
   // 从JSON文件加载数据
   private loadDataFromJson() {
     // 加载会员数据
-    this.http.get<Member[]>('/data/members.json').subscribe({
+    this.http.get<Member[]>('data/members.json').subscribe({
       next: (members) => {
         const processedMembers = members.map(member => ({
           ...member,
@@ -42,7 +42,7 @@ export class DataService {
     });
 
     // 加载会议数据
-    this.http.get<Meeting[]>('/data/meetings.json').subscribe({
+    this.http.get<Meeting[]>('data/meetings.json').subscribe({
       next: (meetings) => {
         const processedMeetings = meetings.map(meeting => ({
           ...meeting,
@@ -55,6 +55,7 @@ export class DataService {
         this.meetingsSubject.next(this.getInitialMeetings());
       }
     });
+// ... existing code ...
 
     // 初始化其他数据
     this.assignmentsSubject.next([]);
