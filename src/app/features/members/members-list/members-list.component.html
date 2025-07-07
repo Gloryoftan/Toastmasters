@@ -1,0 +1,29 @@
+<div class="members-list">
+  <div class="page-header">
+    <h1>会员管理</h1>
+    <button class="btn-primary" routerLink="/members/new">添加会员</button>
+  </div>
+
+  <div class="members-grid" *ngIf="members$ | async as members">
+    <div class="member-card" *ngFor="let member of members">
+      <div class="member-info">
+        <h3>{{ member.englishName }}<span *ngIf="member.chineseName"> ({{ member.chineseName }})</span></h3>
+        <p *ngIf="member.toastmastersId">TM ID: {{ member.toastmastersId }}</p>
+        <p>身份类型: {{ member.membershipType }}</p>
+        <p class="join-date">加入日期: {{ member.joinDate | date:'yyyy-MM-dd' }}</p>
+        <p *ngIf="member.credentials">头衔: {{ member.credentials }}</p>
+        <p *ngIf="member.pathwaysTrack">Pathways: {{ member.pathwaysTrack }}</p>
+        <span class="status-badge" [class]="member.status">{{ member.status === 'active' ? '活跃' : '非活跃' }}</span>
+      </div>
+      <div class="member-actions">
+        <button class="btn-secondary" [routerLink]="['/members', member.id]">查看详情</button>
+        <button class="btn-secondary" [routerLink]="['/members', member.id, 'edit']">编辑</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="(members$ | async)?.length === 0" class="empty-state">
+    <p>还没有会员记录</p>
+    <button class="btn-primary" routerLink="/members/new">添加第一个会员</button>
+  </div>
+</div> 

@@ -37,7 +37,6 @@ export class DataService {
       },
       error: (error) => {
         console.warn('Failed to load members from JSON:', error);
-        this.membersSubject.next(this.getInitialMembers());
       }
     });
 
@@ -164,7 +163,7 @@ export class DataService {
 
           return {
             memberId: member.id,
-            memberName: member.name,
+            memberName: `${member.englishName} (${member.chineseName})`,
             totalMeetings: meetings.filter(m => m.status === 'completed').length,
             attendedMeetings,
             attendanceRate: attendedMeetings / Math.max(1, meetings.filter(m => m.status === 'completed').length),
@@ -196,22 +195,6 @@ export class DataService {
   }
 
   // 保留原有的fallback方法
-  private getInitialMembers(): Member[] {
-    return [
-      {
-        id: 'member-1',
-        name: '张三',
-        toastmastersId: 'TM001',
-        isGuest: false,
-        joinDate: new Date('2023-01-15'),
-        email: 'zhangsan@example.com',
-        status: 'active',
-        pathwaysTrack: 'Dynamic Leadership',
-        ccManualLevel: 5
-      }
-    ];
-  }
-
   private getInitialMeetings(): Meeting[] {
     return [
       {
@@ -227,6 +210,11 @@ export class DataService {
   }
 
   private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    // 生成简洁的数字ID
+    const currentMembers = this.membersSubject.value;
+    const maxId = currentMembers.length > 0 
+      ? Math.max(...currentMembers.map(m => parseInt(m.id) || 0))
+      : 0;
+    return (maxId + 1).toString();
   }
 } 

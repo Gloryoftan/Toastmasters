@@ -1,22 +1,48 @@
+// src/app/core/models/member.model.ts
+
+export type MembershipType =
+  | 'member'
+  | 'guest'
+  | 'visitor'
+  | 'other';
+
+export type MembershipStatus = 'active' | 'inactive' | 'pending';
+
+export type PathwaysTrack =
+  | 'Dynamic Leadership'
+  | 'Presentation Mastery'
+  | 'Visionary Communication'
+  | 'Motivational Strategies'
+  | 'Team Collaboration'
+  | 'Strategic Relationships'
+  | 'Engaging Humor'
+  | 'Effective Coaching'
+  | 'Innovative Planning'
+  | 'Leadership Development'
+  | 'Persuasive Influence'
+  | 'none'
+  | string;
+
 export interface Member {
   id: string;
-  name: string;
-  toastmastersId?: string; // 可选，有些会员可能还没有
-  isGuest: boolean; // 是否为访客
+  englishName: string;
+  chineseName: string;
+  toastmastersId?: string;
+  membershipType: MembershipType;
   joinDate: Date;
   email?: string;
   phone?: string;
-  status: 'active' | 'inactive';
-  pathwaysTrack?: string; // Pathways学习路径
-  ccManualLevel?: number; // CC手册级别
-  acManualLevel?: number; // AC手册级别
+  status: MembershipStatus;
+  pathwaysTrack?: PathwaysTrack;
+  credentials?: string;
 }
 
 export interface CreateMemberRequest {
-  name: string;
+  englishName: string;
+  chineseName: string;
   toastmastersId?: string;
-  isGuest: boolean;
+  membershipType: MembershipType;
   email?: string;
   phone?: string;
-  pathwaysTrack?: string;
+  pathwaysTrack?: PathwaysTrack;
 } 
