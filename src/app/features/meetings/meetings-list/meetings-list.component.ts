@@ -13,7 +13,6 @@ import { Meeting } from '../../../core/models/meeting.model';
     <div class="meetings-list">
       <div class="page-header">
         <h1>会议管理</h1>
-        <button class="btn-primary" routerLink="/meetings/new">创建会议</button>
       </div>
 
       <div class="meetings-table" *ngIf="meetings$ | async as meetings">
@@ -49,7 +48,6 @@ import { Meeting } from '../../../core/models/meeting.model';
 
       <div *ngIf="(meetings$ | async)?.length === 0" class="empty-state">
         <p>还没有会议记录</p>
-        <button class="btn-primary" routerLink="/meetings/new">创建第一个会议</button>
       </div>
     </div>
   `,

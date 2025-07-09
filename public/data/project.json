@@ -1,0 +1,177 @@
+[
+  {
+    "id": "PJ01",
+    "englishName": "Icebreaker",
+    "chineseName": "破冰演讲"
+  },
+  {
+    "id": "PJ02",
+    "englishName": "Evaluation and Feedback",
+    "chineseName": "评估与反馈"
+  },
+  {
+    "id": "PJ03",
+    "englishName": "Researching and Presenting",
+    "chineseName": "研究与展示"
+  },
+  {
+    "id": "PJ04",
+    "englishName": "Creating an Introduction",
+    "chineseName": "制作介绍"
+  },
+  {
+    "id": "PJ05",
+    "englishName": "Understanding Your Leadership Style",
+    "chineseName": "了解你的领导风格"
+  },
+  {
+    "id": "PJ06",
+    "englishName": "Vocal Variety",
+    "chineseName": "声音变化"
+  },
+  {
+    "id": "PJ07",
+    "englishName": "Body Language",
+    "chineseName": "肢体语言"
+  },
+  {
+    "id": "PJ08",
+    "englishName": "Inspire Your Audience",
+    "chineseName": "激励你的听众"
+  },
+  {
+    "id": "PJ09",
+    "englishName": "Connect with Your Audience",
+    "chineseName": "与听众建立联系"
+  },
+  {
+    "id": "PJ10",
+    "englishName": "Motivate Others",
+    "chineseName": "激励他人"
+  },
+  {
+    "id": "PJ11",
+    "englishName": "Team Building",
+    "chineseName": "团队建设"
+  },
+  {
+    "id": "PJ12",
+    "englishName": "Active Listening",
+    "chineseName": "积极倾听"
+  },
+  {
+    "id": "PJ13",
+    "englishName": "Building a Social Media Presence",
+    "chineseName": "建立社交媒体影响力"
+  },
+  {
+    "id": "PJ14",
+    "englishName": "Deliver Social Speeches",
+    "chineseName": "发表社交演讲"
+  },
+  {
+    "id": "PJ15",
+    "englishName": "Make Connections Through Networking",
+    "chineseName": "通过网络建立联系"
+  },
+  {
+    "id": "PJ16",
+    "englishName": "Storytelling",
+    "chineseName": "讲故事"
+  },
+  {
+    "id": "PJ17",
+    "englishName": "Using Humor in a Speech",
+    "chineseName": "在演讲中使用幽默"
+  },
+  {
+    "id": "PJ18",
+    "englishName": "Coaching and Mentoring",
+    "chineseName": "指导与辅导"
+  },
+  {
+    "id": "PJ19",
+    "englishName": "Planning and Implementation",
+    "chineseName": "规划与实施"
+  },
+  {
+    "id": "PJ20",
+    "englishName": "Leading in Any Situation",
+    "chineseName": "在任何情况下领导"
+  },
+  {
+    "id": "PJ21",
+    "englishName": "Persuasive Speaking",
+    "chineseName": "说服性演讲"
+  },
+  {
+    "id": "PJ22",
+    "englishName": "Negotiation",
+    "chineseName": "谈判技巧"
+  },
+  {
+    "id": "PJ23",
+    "englishName": "Innovative Planning",
+    "chineseName": "创新规划"
+  },
+  {
+    "id": "PJ24",
+    "englishName": "Managing Projects",
+    "chineseName": "项目管理"
+  },
+  {
+    "id": "PJ25",
+    "englishName": "Managing Change",
+    "chineseName": "变革管理"
+  },
+  {
+    "id": "PJ26",
+    "englishName": "Moderate a Panel Discussion",
+    "chineseName": "主持小组讨论"
+  },
+  {
+    "id": "PJ27",
+    "englishName": "Organize a Meeting",
+    "chineseName": "组织会议"
+  },
+  {
+    "id": "PJ28",
+    "englishName": "Prepare to Speak Professionally",
+    "chineseName": "准备专业演讲"
+  },
+  {
+    "id": "PJ29",
+    "englishName": "Write a Compelling Blog",
+    "chineseName": "撰写引人入胜的博客"
+  },
+  {
+    "id": "PJ30",
+    "englishName": "Create a Podcast",
+    "chineseName": "制作播客"
+  },
+  {
+    "id": "PJ31",
+    "englishName": "Elective: Improvement Through Improv",
+    "chineseName": "选修：通过即兴表演改进"
+  },
+  {
+    "id": "PJ32",
+    "englishName": "Elective: Speak Up for Your Cause",
+    "chineseName": "选修：为你的事业发声"
+  },
+  {
+    "id": "PJ33",
+    "englishName": "Elective: Mastering the Motivational Speech",
+    "chineseName": "选修：掌握激励演讲"
+  },
+  {
+    "id": "PJ34",
+    "englishName": "Elective: Conference Speaking",
+    "chineseName": "选修：会议演讲"
+  },
+  {
+    "id": "PJ35",
+    "englishName": "Elective: Question and Answer Session",
+    "chineseName": "选修：问答环节"
+  }
+]

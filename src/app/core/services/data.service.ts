@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Member, CreateMemberRequest } from '../models/member.model';
-import { Meeting, MeetingRoleAssignment, MeetingWithAssignments } from '../models/meeting.model';
-import { Role, DEFAULT_ROLES } from '../models/role.model';
-import { AttendanceStats, MemberGrowthStats } from '../models/statistics.model';
+import { Member } from '../models/member.model';
+import { Meeting, Assignment, Speech } from '../models/meeting.model';
+import { Role } from '../models/role.model';
+import { Project } from '../models/project.model';
+import { AttendanceStats } from '../models/statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ import { AttendanceStats, MemberGrowthStats } from '../models/statistics.model';
 export class DataService {
   private membersSubject = new BehaviorSubject<Member[]>([]);
   private meetingsSubject = new BehaviorSubject<Meeting[]>([]);
-  private assignmentsSubject = new BehaviorSubject<MeetingRoleAssignment[]>([]);
-  private rolesSubject = new BehaviorSubject<Role[]>(DEFAULT_ROLES);
+  private rolesSubject = new BehaviorSubject<Role[]>([]);
+  private projectsSubject = new BehaviorSubject<Project[]>([]);
 
   public members$ = this.membersSubject.asObservable();
   public meetings$ = this.meetingsSubject.asObservable();
-  public assignments$ = this.assignmentsSubject.asObservable();
   public roles$ = this.rolesSubject.asObservable();
+  public projects$ = this.projectsSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadDataFromJson();
@@ -27,7 +28,7 @@ export class DataService {
   // 从JSON文件加载数据
   private loadDataFromJson() {
     // 加载会员数据
-    this.http.get<Member[]>('data/members.json').subscribe({
+    this.http.get<Member[]>('data/member.json').subscribe({
       next: (members) => {
         const processedMembers = members.map(member => ({
           ...member,
@@ -37,11 +38,12 @@ export class DataService {
       },
       error: (error) => {
         console.warn('Failed to load members from JSON:', error);
+        this.membersSubject.next([]);
       }
     });
 
     // 加载会议数据
-    this.http.get<Meeting[]>('data/meetings.json').subscribe({
+    this.http.get<Meeting[]>('data/meeting.json').subscribe({
       next: (meetings) => {
         const processedMeetings = meetings.map(meeting => ({
           ...meeting,
@@ -51,17 +53,34 @@ export class DataService {
       },
       error: (error) => {
         console.warn('Failed to load meetings from JSON:', error);
-        this.meetingsSubject.next(this.getInitialMeetings());
+        this.meetingsSubject.next([]);
       }
     });
-// ... existing code ...
 
-    // 初始化其他数据
-    this.assignmentsSubject.next([]);
-    this.rolesSubject.next(DEFAULT_ROLES);
+    // 加载角色数据
+    this.http.get<Role[]>('data/role.json').subscribe({
+      next: (roles) => {
+        this.rolesSubject.next(roles);
+      },
+      error: (error) => {
+        console.warn('Failed to load roles from JSON:', error);
+        this.rolesSubject.next([]);
+      }
+    });
+
+    // 加载项目数据
+    this.http.get<Project[]>('data/project.json').subscribe({
+      next: (projects) => {
+        this.projectsSubject.next(projects);
+      },
+      error: (error) => {
+        console.warn('Failed to load projects from JSON:', error);
+        this.projectsSubject.next([]);
+      }
+    });
   }
 
-  // 保留原有的业务逻辑方法
+  // 会员查询方法
   getMembers(): Observable<Member[]> {
     return this.members$;
   }
@@ -72,36 +91,7 @@ export class DataService {
     );
   }
 
-  addMember(memberData: CreateMemberRequest): Observable<Member> {
-    const newMember: Member = {
-      id: this.generateId('member'),
-      ...memberData,
-      joinDate: new Date(),
-      status: 'active'
-    };
-
-    const currentMembers = this.membersSubject.value;
-    this.membersSubject.next([...currentMembers, newMember]);
-    
-    return new BehaviorSubject(newMember).asObservable();
-  }
-
-  updateMember(id: string, updates: Partial<Member>): Observable<Member> {
-    const currentMembers = this.membersSubject.value;
-    const memberIndex = currentMembers.findIndex(m => m.id === id);
-    
-    if (memberIndex === -1) {
-      throw new Error('会员不存在');
-    }
-
-    const updatedMember = { ...currentMembers[memberIndex], ...updates };
-    currentMembers[memberIndex] = updatedMember;
-    
-    this.membersSubject.next([...currentMembers]);
-    return new BehaviorSubject(updatedMember).asObservable();
-  }
-
-  // 会议管理
+  // 会议查询方法
   getMeetings(): Observable<Meeting[]> {
     return this.meetings$;
   }
@@ -112,109 +102,91 @@ export class DataService {
     );
   }
 
-  addMeeting(meeting: Omit<Meeting, 'id'>): Observable<Meeting> {
-    const newMeeting: Meeting = {
-      id: this.generateId('meeting'),
-      ...meeting
-    };
-
-    const currentMeetings = this.meetingsSubject.value;
-    this.meetingsSubject.next([...currentMeetings, newMeeting]);
-    
-    return new BehaviorSubject(newMeeting).asObservable();
+  // 角色查询方法
+  getRoles(): Observable<Role[]> {
+    return this.roles$;
   }
 
-  // 角色分配管理
-  assignRole(assignment: Omit<MeetingRoleAssignment, 'id'>): Observable<MeetingRoleAssignment> {
-    const newAssignment: MeetingRoleAssignment = {
-      id: this.generateId('assignment'),
-      ...assignment
-    };
+  getRoleById(id: string): Observable<Role | undefined> {
+    return this.roles$.pipe(
+      map(roles => roles.find(r => r.id === id))
+    );
+  }
 
-    const currentAssignments = this.assignmentsSubject.value;
-    this.assignmentsSubject.next([...currentAssignments, newAssignment]);
-    
-    return new BehaviorSubject(newAssignment).asObservable();
+  // 项目查询方法
+  getProjects(): Observable<Project[]> {
+    return this.projects$;
+  }
+
+  getProjectById(id: string): Observable<Project | undefined> {
+    return this.projects$.pipe(
+      map(projects => projects.find(p => p.id === id))
+    );
   }
 
   // 统计分析
   getAttendanceStats(): Observable<AttendanceStats[]> {
     return combineLatest([
       this.members$,
-      this.meetings$,
-      this.assignments$
+      this.meetings$
     ]).pipe(
-      map(([members, meetings, assignments]) => {
+      map(([members, meetings]) => {
+        const completedMeetings = meetings.filter(m => m.status === 'completed');
+        
         return members.map(member => {
-          const memberAssignments = assignments.filter(a => a.memberId === member.id);
-          const attendedMeetings = memberAssignments.filter(a => a.attended).length;
-          const speakingRoles = memberAssignments.filter(a => 
-            this.rolesSubject.value.find(r => r.id === a.roleId)?.category === 'speaking'
-          ).length;
-          const evaluationRoles = memberAssignments.filter(a => 
-            this.rolesSubject.value.find(r => r.id === a.roleId)?.category === 'evaluation'
-          ).length;
-          const leadershipRoles = memberAssignments.filter(a => 
-            this.rolesSubject.value.find(r => r.id === a.roleId)?.category === 'leadership'
-          ).length;
-          const functionalRoles = memberAssignments.filter(a => 
-            this.rolesSubject.value.find(r => r.id === a.roleId)?.category === 'functional'
-          ).length;
+          // 统计该会员在各个会议中的分配情况
+          const memberAssignments = completedMeetings.flatMap(meeting => 
+            meeting.assignments.filter(a => a.memberId === member.id)
+          );
+          
+          // 统计该会员的演讲情况
+          const memberSpeeches = completedMeetings.flatMap(meeting => 
+            meeting.speeches.filter(s => s.memberId === member.id)
+          );
+
+          const attendedMeetings = memberAssignments.length + memberSpeeches.length;
+          const totalMeetings = completedMeetings.length;
 
           return {
             memberId: member.id,
             memberName: `${member.englishName} (${member.chineseName})`,
-            totalMeetings: meetings.filter(m => m.status === 'completed').length,
+            totalMeetings,
             attendedMeetings,
-            attendanceRate: attendedMeetings / Math.max(1, meetings.filter(m => m.status === 'completed').length),
-            speakingRoles,
-            evaluationRoles,
-            leadershipRoles,
-            functionalRoles
+            attendanceRate: totalMeetings > 0 ? attendedMeetings / totalMeetings : 0,
+            speakingRoles: memberSpeeches.length,
+            evaluationRoles: 0, // 可以根据需要进一步统计
+            leadershipRoles: memberAssignments.length,
+            functionalRoles: 0 // 可以根据需要进一步统计
           };
         });
       })
     );
   }
 
-  // 数据导出到JSON格式
-  exportToJson(): string {
-    const data = {
-      members: this.membersSubject.value,
-      meetings: this.meetingsSubject.value,
-      assignments: this.assignmentsSubject.value,
-      roles: this.rolesSubject.value,
-      exportDate: new Date()
-    };
-    return JSON.stringify(data, null, 2);
+  // 获取会员的演讲历史
+  getMemberSpeeches(memberId: string): Observable<Speech[]> {
+    return this.meetings$.pipe(
+      map(meetings => {
+        return meetings.flatMap(meeting => 
+          meeting.speeches.filter(speech => speech.memberId === memberId)
+        );
+      })
+    );
   }
 
-  // 重新加载JSON数据
+  // 获取会员的角色分配历史
+  getMemberAssignments(memberId: string): Observable<Assignment[]> {
+    return this.meetings$.pipe(
+      map(meetings => {
+        return meetings.flatMap(meeting => 
+          meeting.assignments.filter(assignment => assignment.memberId === memberId)
+        );
+      })
+    );
+  }
+
+  // 重新加载数据
   reloadData(): void {
     this.loadDataFromJson();
-  }
-
-  // 保留原有的fallback方法
-  private getInitialMeetings(): Meeting[] {
-    return [
-      {
-        id: 'meeting-1',
-        date: new Date('2024-01-15'),
-        meetingNumber: 1001,
-        theme: '新年新开始',
-        venue: '会议室A',
-        type: 'regular',
-        status: 'completed'
-      }
-    ];
-  }
-
-  private generateId(prefix: string): string {
-    // 生成简洁的数字ID
-    const currentMembers = this.membersSubject.value;
-    const maxId = currentMembers.length > 0 
-      ? Math.max(...currentMembers.map(m => parseInt(m.id) || 0))
-      : 0;
-    return (maxId + 1).toString();
   }
 } 

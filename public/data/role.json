@@ -1,0 +1,72 @@
+[
+  {
+    "id": "RL01",
+    "englishName": "Toastmaster",
+    "chineseName": "主持人"
+  },
+  {
+    "id": "RL02",
+    "englishName": "General Evaluator",
+    "chineseName": "总点评师"
+  },
+  {
+    "id": "RL03",
+    "englishName": "Table Topics Master",
+    "chineseName": "即兴演讲主持人"
+  },
+  {
+    "id": "RL04",
+    "englishName": "Speaker",
+    "chineseName": "演讲者"
+  },
+  {
+    "id": "RL05",
+    "englishName": "Evaluator",
+    "chineseName": "点评师"
+  },
+  {
+    "id": "RL06",
+    "englishName": "Timer",
+    "chineseName": "计时员"
+  },
+  {
+    "id": "RL07",
+    "englishName": "Ah Counter",
+    "chineseName": "语言习惯统计员"
+  },
+  {
+    "id": "RL08",
+    "englishName": "Grammarian",
+    "chineseName": "语法员"
+  },
+  {
+    "id": "RL09",
+    "englishName": "Table Topics Participant",
+    "chineseName": "即兴演讲参与者"
+  },
+  {
+    "id": "RL10",
+    "englishName": "Vote Counter",
+    "chineseName": "计票员"
+  },
+  {
+    "id": "RL11",
+    "englishName": "Guest",
+    "chineseName": "嘉宾"
+  },
+  {
+    "id": "RL12",
+    "englishName": "Word Master",
+    "chineseName": "词汇大师"
+  },
+  {
+    "id": "RL13",
+    "englishName": "Joke Master",
+    "chineseName": "笑话大师"
+  },
+  {
+    "id": "RL14",
+    "englishName": "Sergeant at Arms",
+    "chineseName": "纠察员"
+  }
+]
