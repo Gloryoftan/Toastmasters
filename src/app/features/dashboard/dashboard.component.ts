@@ -12,6 +12,7 @@ interface DashboardMeetingView extends Meeting {
   typeText: string;
   assignmentCount: number;
   visitorCount: number;
+  speechCount: number;
 }
 
 @Component({
@@ -69,7 +70,7 @@ interface DashboardMeetingView extends Meeting {
                   <div class="detail-row">
                     <span class="detail-label">👥</span>
                     <span class="counts">
-                      角色: {{ meeting.assignmentCount }} | 访客: {{ meeting.visitorCount }}
+                      角色: {{ meeting.assignmentCount }} | 备稿: {{ meeting.speechCount }} | 访客: {{ meeting.visitorCount }}
                     </span>
                   </div>
                 </div>
@@ -154,11 +155,7 @@ interface DashboardMeetingView extends Meeting {
       gap: 24px;
     }
 
-    @media (max-width: 768px) {
-      .dashboard-content {
-        grid-template-columns: 1fr;
-      }
-    }
+
 
     .recent-meetings, .quick-actions {
       background: white;
@@ -331,7 +328,7 @@ interface DashboardMeetingView extends Meeting {
     }
 
     .btn-primary, .btn-secondary {
-      padding: 12px 24px;
+      padding: 12px 16px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -339,6 +336,10 @@ interface DashboardMeetingView extends Meeting {
       text-align: center;
       font-weight: 500;
       transition: background-color 0.2s, transform 0.1s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .btn-primary {
@@ -367,6 +368,25 @@ interface DashboardMeetingView extends Meeting {
       padding: 40px 0;
     }
 
+    @media (max-width: 768px) {
+      .dashboard-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .btn-primary, .btn-secondary {
+        padding: 10px 8px;
+        font-size: 13px;
+        line-height: 1.2;
+      }
+    }
+
     @media (max-width: 576px) {
       .meeting-item {
         flex-direction: column;
@@ -385,6 +405,18 @@ interface DashboardMeetingView extends Meeting {
 
       .btn-secondary {
         align-self: flex-start;
+      }
+
+      .action-buttons {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .btn-primary, .btn-secondary {
+        padding: 12px 12px;
+        font-size: 14px;
+        white-space: normal;
+        line-height: 1.3;
       }
     }
   `]
@@ -412,13 +444,14 @@ export class DashboardComponent implements OnInit {
           .slice(0, 5) // 取最近5次
           .map(meeting => {
             const venue = venues.find(v => v.id === meeting.venue);
-            return {
-              ...meeting,
-              venueName: venue ? venue.name : meeting.venue,
-              typeText: this.getTypeText(meeting.type),
-              assignmentCount: meeting.assignments.length,
-              visitorCount: meeting.visitors.length
-            } as DashboardMeetingView;
+                         return {
+               ...meeting,
+               venueName: venue ? venue.name : meeting.venue,
+               typeText: this.getTypeText(meeting.type),
+               assignmentCount: meeting.assignments.length,
+               visitorCount: meeting.visitors.length,
+               speechCount: meeting.speeches.length
+             } as DashboardMeetingView;
           });
       })
     );
