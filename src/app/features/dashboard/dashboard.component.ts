@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, map, combineLatest } from 'rxjs';
 import { DataService } from '../../core/services/data.service';
 import { Member } from '../../core/models/member.model';
 import { Meeting } from '../../core/models/meeting.model';
+import { Venue } from '../../core/models/venue.model';
+
+interface DashboardMeetingView extends Meeting {
+  venueName: string;
+  typeText: string;
+  assignmentCount: number;
+  visitorCount: number;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -39,18 +47,42 @@ import { Meeting } from '../../core/models/meeting.model';
       <div class="dashboard-content">
         <div class="recent-meetings">
           <h2>最近会议</h2>
-          <div class="meeting-list" *ngIf="meetings$ | async as meetings">
-            <div class="meeting-item" *ngFor="let meeting of meetings.slice(-5).reverse()">
+          <div class="meeting-list" *ngIf="recentMeetings$ | async as meetings">
+            <div class="meeting-item" *ngFor="let meeting of meetings">
               <div class="meeting-info">
-                <h4>{{ meeting.theme || '第' + meeting.meetingNumber + '次会议' }}</h4>
-                <p>{{ meeting.date | date:'yyyy年MM月dd日' }} - {{ meeting.venue }}</p>
+                <div class="meeting-header">
+                  <h4>{{ meeting.theme || '第' + meeting.meetingNumber + '次会议' }}</h4>
+                  <span class="type-badge" [class]="meeting.type">{{ meeting.typeText }}</span>
+                </div>
+                <div class="meeting-details">
+                  <div class="detail-row">
+                    <span class="detail-label">📅</span>
+                    <span>{{ meeting.date | date:'yyyy年MM月dd日' }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">📍</span>
+                    <span class="venue-info">
+                      <span class="venue-name">{{ meeting.venueName }}</span>
+                      <span class="venue-id">({{ meeting.venue }})</span>
+                    </span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">👥</span>
+                    <span class="counts">
+                      角色: {{ meeting.assignmentCount }} | 访客: {{ meeting.visitorCount }}
+                    </span>
+                  </div>
+                </div>
                 <span class="meeting-status" [class]="meeting.status">{{ getStatusText(meeting.status) }}</span>
               </div>
               <button class="btn-secondary" [routerLink]="['/meetings', meeting.id]">查看详情</button>
             </div>
           </div>
-          <div *ngIf="(meetings$ | async)?.length === 0" class="empty-state">
+          <div *ngIf="(recentMeetings$ | async)?.length === 0" class="empty-state">
             <p>还没有会议记录</p>
+          </div>
+          <div class="view-all">
+            <button class="btn-link" routerLink="/meetings">查看所有会议 →</button>
           </div>
         </div>
 
@@ -96,6 +128,12 @@ import { Meeting } from '../../core/models/meeting.model';
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .stat-card h3 {
@@ -132,13 +170,102 @@ import { Meeting } from '../../core/models/meeting.model';
     .meeting-item {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
+      align-items: flex-start;
+      padding: 20px 0;
       border-bottom: 1px solid #eee;
+      gap: 16px;
     }
 
     .meeting-item:last-child {
       border-bottom: none;
+    }
+
+    .meeting-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .meeting-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .meeting-header h4 {
+      margin: 0;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .meeting-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .detail-label {
+      font-size: 16px;
+      width: 20px;
+    }
+
+    .venue-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .venue-name {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .venue-id {
+      color: #666;
+      font-size: 12px;
+    }
+
+    .counts {
+      color: #1976d2;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .type-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .type-badge.regular {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .type-badge.special {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .type-badge.contest {
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .type-badge.training {
+      background: #e8f5e8;
+      color: #388e3c;
     }
 
     .meeting-status {
@@ -146,6 +273,7 @@ import { Meeting } from '../../core/models/meeting.model';
       border-radius: 4px;
       font-size: 12px;
       font-weight: bold;
+      white-space: nowrap;
     }
 
     .meeting-status.completed {
@@ -163,6 +291,39 @@ import { Meeting } from '../../core/models/meeting.model';
       color: #721c24;
     }
 
+    .meeting-status.draft {
+      background: #e2e3e5;
+      color: #6c757d;
+    }
+
+    .meeting-status.in-progress {
+      background: #cce5ff;
+      color: #0066cc;
+    }
+
+    .view-all {
+      text-align: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .btn-link {
+      background: none;
+      border: none;
+      color: #1976d2;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 0;
+      transition: color 0.2s;
+    }
+
+    .btn-link:hover {
+      color: #1565c0;
+      text-decoration: underline;
+    }
+
     .action-buttons {
       display: flex;
       flex-direction: column;
@@ -177,7 +338,7 @@ import { Meeting } from '../../core/models/meeting.model';
       text-decoration: none;
       text-align: center;
       font-weight: 500;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, transform 0.1s;
     }
 
     .btn-primary {
@@ -192,10 +353,12 @@ import { Meeting } from '../../core/models/meeting.model';
 
     .btn-primary:hover {
       background: #1565c0;
+      transform: translateY(-1px);
     }
 
     .btn-secondary:hover {
       background: #eeeeee;
+      transform: translateY(-1px);
     }
 
     .empty-state {
@@ -203,11 +366,33 @@ import { Meeting } from '../../core/models/meeting.model';
       color: #666;
       padding: 40px 0;
     }
+
+    @media (max-width: 576px) {
+      .meeting-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .meeting-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .detail-row {
+        font-size: 13px;
+      }
+
+      .btn-secondary {
+        align-self: flex-start;
+      }
+    }
   `]
 })
 export class DashboardComponent implements OnInit {
   members$: Observable<Member[]>;
   meetings$: Observable<Meeting[]>;
+  recentMeetings$: Observable<DashboardMeetingView[]>;
   activeMembers$: Observable<number>;
   completedMeetings$: Observable<number>;
   scheduledMeetings$: Observable<number>;
@@ -215,6 +400,28 @@ export class DashboardComponent implements OnInit {
   constructor(private dataService: DataService) {
     this.members$ = this.dataService.getMembers();
     this.meetings$ = this.dataService.getMeetings();
+    
+    // 最近5次会议的增强视图
+    this.recentMeetings$ = combineLatest([
+      this.dataService.getMeetings(),
+      this.dataService.getVenues()
+    ]).pipe(
+      map(([meetings, venues]) => {
+        return meetings
+          .sort((a, b) => b.date.getTime() - a.date.getTime()) // 按日期倒序
+          .slice(0, 5) // 取最近5次
+          .map(meeting => {
+            const venue = venues.find(v => v.id === meeting.venue);
+            return {
+              ...meeting,
+              venueName: venue ? venue.name : meeting.venue,
+              typeText: this.getTypeText(meeting.type),
+              assignmentCount: meeting.assignments.length,
+              visitorCount: meeting.visitors.length
+            } as DashboardMeetingView;
+          });
+      })
+    );
     
     this.activeMembers$ = this.members$.pipe(
       map(members => members.filter(m => m.membershipType === 'member').length)
@@ -233,10 +440,22 @@ export class DashboardComponent implements OnInit {
 
   getStatusText(status: string): string {
     const statusMap: { [key: string]: string } = {
+      'draft': '草稿',
       'scheduled': '已安排',
+      'in-progress': '进行中',
       'completed': '已完成',
       'cancelled': '已取消'
     };
     return statusMap[status] || status;
+  }
+
+  getTypeText(type: string): string {
+    const typeMap: { [key: string]: string } = {
+      'regular': '常规会议',
+      'special': '特别会议',
+      'contest': '比赛会议',
+      'training': '培训会议'
+    };
+    return typeMap[type] || type;
   }
 } 

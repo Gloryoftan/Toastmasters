@@ -515,21 +515,47 @@ export class MemberDetailComponent implements OnInit {
                 })
             ).sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
 
+            // 获取该会员作为评估员的历史
+            const evaluatorHistory = meetings.flatMap(meeting => 
+              meeting.speeches
+                .filter(speech => speech.evaluatorId === memberId)
+                .map(speech => {
+                  const speaker = allMembers.find(m => m.id === speech.memberId);
+                  const project = projects.find(p => p.id === speech.projectId);
+                  return {
+                    roleId: 'evaluator',
+                    memberId: memberId,
+                    meetingInfo: `${meeting.meetingNumber} - ${meeting.theme || '无主题'}`,
+                    roleName: 'Evaluator (评估员)',
+                    meetingDate: meeting.date,
+                    notes: `评估演讲: ${speech.title} - 演讲者: ${speaker ? `${speaker.englishName} (${speaker.chineseName})` : '未知'}`
+                  } as Assignment & { 
+                    meetingInfo: string; 
+                    roleName: string;
+                    meetingDate: Date;
+                  };
+                })
+            );
+
+            // 合并角色分配历史和评估员历史
+            const allRoleHistory = [...assignmentHistory, ...evaluatorHistory]
+              .sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
+
             // 计算统计数据
             const completedMeetings = meetings.filter(m => m.status === 'completed');
             const totalSpeeches = speechHistory.length;
             const passedSpeeches = speechHistory.filter(s => s.passed === true).length;
-            const totalAssignments = assignmentHistory.length;
+            const totalAssignments = allRoleHistory.length; // 包含评估员角色
             const totalMeetingsAttended = new Set([
               ...speechHistory.map(s => s.meetingInfo),
-              ...assignmentHistory.map(a => a.meetingInfo)
+              ...allRoleHistory.map(a => a.meetingInfo) // 使用合并后的角色历史
             ]).size;
             const attendanceRate = completedMeetings.length > 0 ? totalMeetingsAttended / completedMeetings.length : 0;
 
             return {
               member,
               speechHistory,
-              assignmentHistory,
+              assignmentHistory: allRoleHistory, // 包含评估员角色的完整角色历史
               statistics: {
                 totalSpeeches,
                 passedSpeeches,
