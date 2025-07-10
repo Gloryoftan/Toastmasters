@@ -82,13 +82,68 @@ interface DashboardMeetingView extends Meeting {
           </div>
         </div>
 
-        <div class="quick-actions">
-          <h2>快速操作</h2>
-          <div class="action-buttons">
-            <button class="btn-primary" routerLink="/meetings">管理会议</button>
-            <button class="btn-secondary" routerLink="/members">管理会员</button>
-            <button class="btn-secondary" routerLink="/statistics">查看统计</button>
-            <button class="btn-secondary" routerLink="/reports">生成报告</button>
+        <div class="sidebar">
+          <div class="quick-actions">
+            <h2>快速操作</h2>
+            <div class="action-buttons">
+              <button class="btn-primary" routerLink="/meetings">管理会议</button>
+              <button class="btn-secondary" routerLink="/members">管理会员</button>
+              <button class="btn-secondary" routerLink="/statistics">查看统计</button>
+              <button class="btn-secondary" routerLink="/reports">生成报告</button>
+            </div>
+          </div>
+
+          <div class="contact-info">
+            <h2>联系方式</h2>
+            <div class="contact-card">
+              <div class="contact-header">
+                <div class="avatar">
+                  <div class="avatar-bg">
+                    <span class="avatar-icon">💻</span>
+                    <div class="avatar-badge">👨‍💻</div>
+                  </div>
+                </div>
+                <div class="contact-details">
+                  <h3>Samari</h3>
+                  <p class="title">🚀 系统开发者</p>
+                  <p class="subtitle">Full Stack Developer</p>
+                </div>
+              </div>
+              
+              <div class="contact-methods">
+                <div class="contact-item">
+                  <span class="contact-icon">💬</span>
+                  <div class="contact-text">
+                    <label>微信号</label>
+                    <div class="wechat-container">
+                      <span class="contact-value" [class.revealed]="wechatRevealed">
+                        {{ wechatRevealed ? 'Samari_Tan' : 'Samari_***' }}
+                      </span>
+                      <button 
+                        class="copy-btn" 
+                        (click)="copyWechat()"
+                        [title]="wechatRevealed ? '点击复制微信号' : '点击显示并复制微信号'"
+                      >
+                        <span *ngIf="!copySuccess">📋</span>
+                        <span *ngIf="copySuccess">✅</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <span class="contact-icon">📱</span>
+                  <div class="contact-text">
+                    <label>联系说明</label>
+                    <span class="contact-note">系统使用问题或建议</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="contact-footer">
+                <p class="help-text">如有系统使用问题，请随时联系</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -363,6 +418,187 @@ interface DashboardMeetingView extends Meeting {
       padding: 40px 0;
     }
 
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .contact-info {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+         .avatar {
+       position: relative;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+     }
+
+     .avatar-bg {
+       position: relative;
+       width: 80px;
+       height: 80px;
+       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+       border: 3px solid white;
+     }
+
+     .avatar-icon {
+       font-size: 36px;
+       color: white;
+       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+     }
+
+     .avatar-badge {
+       position: absolute;
+       bottom: -2px;
+       right: -2px;
+       width: 32px;
+       height: 32px;
+       background: #4caf50;
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 18px;
+       border: 3px solid white;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+     }
+
+    .contact-details h3 {
+      margin: 0 0 4px 0;
+      color: #333;
+      font-size: 18px;
+    }
+
+         .title {
+       color: #1976d2;
+       font-size: 16px;
+       font-weight: 600;
+       margin: 0 0 4px 0;
+     }
+
+     .subtitle {
+       color: #666;
+       font-size: 13px;
+       font-style: italic;
+       margin: 0;
+     }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-icon {
+      font-size: 24px;
+      color: #1976d2;
+    }
+
+         .contact-text {
+       display: flex;
+       flex-direction: column;
+       gap: 4px;
+     }
+
+     .contact-text label {
+       font-size: 12px;
+       color: #666;
+       margin-bottom: 4px;
+     }
+
+     .wechat-container {
+       display: flex;
+       align-items: center;
+       gap: 8px;
+     }
+
+     .contact-value {
+       font-weight: 500;
+       color: #333;
+       font-size: 14px;
+       transition: all 0.3s ease;
+       font-family: 'Courier New', monospace;
+     }
+
+     .contact-value:not(.revealed) {
+       color: #999;
+       letter-spacing: 1px;
+     }
+
+     .contact-value.revealed {
+       color: #1976d2;
+       font-weight: 600;
+     }
+
+     .copy-btn {
+       background: #f0f7ff;
+       border: 1px solid #e3f2fd;
+       border-radius: 6px;
+       padding: 6px 8px;
+       cursor: pointer;
+       font-size: 14px;
+       transition: all 0.2s ease;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       min-width: 32px;
+       height: 28px;
+     }
+
+     .copy-btn:hover {
+       background: #e3f2fd;
+       border-color: #bbdefb;
+       transform: translateY(-1px);
+     }
+
+     .copy-btn:active {
+       transform: translateY(0);
+     }
+
+    .contact-note {
+      color: #666;
+      font-size: 13px;
+    }
+
+    .contact-footer {
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .help-text {
+      color: #666;
+      font-size: 13px;
+    }
+
     @media (max-width: 768px) {
       .dashboard-content {
         grid-template-columns: 1fr;
@@ -380,6 +616,46 @@ interface DashboardMeetingView extends Meeting {
         font-size: 13px;
         line-height: 1.2;
       }
+
+      .contact-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+      }
+
+             .avatar-bg {
+         width: 64px;
+         height: 64px;
+       }
+
+       .avatar-icon {
+         font-size: 28px;
+       }
+
+       .avatar-badge {
+         width: 26px;
+         height: 26px;
+         font-size: 14px;
+       }
+
+      .contact-methods {
+        gap: 10px;
+      }
+
+             .contact-item {
+         gap: 10px;
+       }
+
+       .wechat-container {
+         gap: 6px;
+       }
+
+       .copy-btn {
+         min-width: 28px;
+         height: 24px;
+         padding: 4px 6px;
+         font-size: 12px;
+       }
     }
 
     @media (max-width: 576px) {
@@ -413,6 +689,37 @@ interface DashboardMeetingView extends Meeting {
         white-space: normal;
         line-height: 1.3;
       }
+
+      .contact-info {
+        padding: 16px;
+      }
+
+      .contact-header {
+        gap: 8px;
+      }
+
+             .avatar-bg {
+         width: 56px;
+         height: 56px;
+       }
+
+       .avatar-icon {
+         font-size: 24px;
+       }
+
+       .avatar-badge {
+         width: 22px;
+         height: 22px;
+         font-size: 12px;
+       }
+
+      .contact-details h3 {
+        font-size: 16px;
+      }
+
+      .contact-icon {
+        font-size: 20px;
+      }
     }
   `]
 })
@@ -423,6 +730,10 @@ export class DashboardComponent implements OnInit {
   activeMembers$: Observable<number>;
   completedMeetings$: Observable<number>;
   scheduledMeetings$: Observable<number>;
+  
+  // 微信号显示和复制状态
+  wechatRevealed = false;
+  copySuccess = false;
 
   constructor(private dataService: DataService) {
     this.members$ = this.dataService.getMembers();
@@ -485,5 +796,51 @@ export class DashboardComponent implements OnInit {
       'training': '培训会议'
     };
     return typeMap[type] || type;
+  }
+
+  copyWechat() {
+    const wechatId = 'Samari_Tan';
+    
+    // 显示完整微信号
+    this.wechatRevealed = true;
+    
+    // 复制到剪贴板
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(wechatId).then(() => {
+        this.showCopySuccess();
+      }).catch(() => {
+        this.fallbackCopy(wechatId);
+      });
+    } else {
+      this.fallbackCopy(wechatId);
+    }
+  }
+
+  private fallbackCopy(text: string) {
+    // 降级方案：创建临时文本区域
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      this.showCopySuccess();
+    } catch (err) {
+      console.warn('复制失败，请手动复制:', text);
+    }
+    
+    document.body.removeChild(textArea);
+  }
+
+  private showCopySuccess() {
+    this.copySuccess = true;
+    setTimeout(() => {
+      this.copySuccess = false;
+    }, 2000);
   }
 } 
