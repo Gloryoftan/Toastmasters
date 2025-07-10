@@ -11,6 +11,64 @@
   margin-bottom: 32px;
 }
 
+// 搜索框样式
+.search-container {
+  margin-bottom: 24px;
+}
+
+.search-box {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-right: 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.clear-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+}
+
 .members-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -62,6 +120,11 @@
   color: #c62828;
 }
 
+.status-badge.guest {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
 .member-actions {
   margin-top: 16px;
   display: flex;
@@ -92,4 +155,19 @@
   text-align: center;
   padding: 60px 20px;
   color: #666;
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .search-box {
+    max-width: 100%;
+  }
+  
+  .search-input {
+    font-size: 16px; // 防止iOS放大
+  }
+  
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
 } 

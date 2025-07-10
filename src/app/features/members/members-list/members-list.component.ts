@@ -1,22 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { Observable, map, startWith, combineLatest } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { Member } from '../../../core/models/member.model';
 
 @Component({
   selector: 'app-members-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './members-list.component.html',
   styleUrls: ['./members-list.component.scss']
 })
 export class MembersListComponent implements OnInit {
   members$: Observable<Member[]>;
+  filteredMembers$: Observable<Member[]>;
+  searchControl = new FormControl('');
 
   constructor(private dataService: DataService) {
     this.members$ = this.dataService.getMembers();
+    
+    // 创建过滤后的会员列表
+    this.filteredMembers$ = combineLatest([
+      this.members$,
+      this.searchControl.valueChanges.pipe(startWith(''))
+    ]).pipe(
+      map(([members, searchTerm]) => {
+        if (!searchTerm || searchTerm.trim() === '') {
+          return members;
+        }
+        
+        const searchLower = searchTerm.toLowerCase().trim();
+        return members.filter(member => 
+          member.englishName.toLowerCase().includes(searchLower) ||
+          (member.chineseName && member.chineseName.toLowerCase().includes(searchLower)) ||
+          (member.toastmastersId && member.toastmastersId.toLowerCase().includes(searchLower)) ||
+          this.getMemberStatusText(member.membershipType).toLowerCase().includes(searchLower)
+        );
+      })
+    );
   }
 
   ngOnInit() {}
@@ -45,5 +68,9 @@ export class MembersListComponent implements OnInit {
       'other': 'inactive'
     };
     return classMap[membershipType] || 'inactive';
+  }
+
+  clearSearch() {
+    this.searchControl.setValue('');
   }
 } 

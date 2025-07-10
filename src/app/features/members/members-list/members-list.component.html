@@ -3,7 +3,27 @@
     <h1>会员管理</h1>
   </div>
 
-  <div class="members-grid" *ngIf="members$ | async as members">
+  <!-- 搜索框 -->
+  <div class="search-container">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [formControl]="searchControl" 
+        placeholder="搜索会员姓名、TM ID 或身份类型..."
+        class="search-input"
+      >
+      <button 
+        *ngIf="searchControl.value" 
+        class="clear-button" 
+        (click)="clearSearch()"
+        title="清除搜索"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <div class="members-grid" *ngIf="filteredMembers$ | async as members">
     <div class="member-card" *ngFor="let member of members">
       <div class="member-info">
         <h3>{{ member.englishName }}<span *ngIf="member.chineseName"> ({{ member.chineseName }})</span></h3>
@@ -20,7 +40,7 @@
     </div>
   </div>
 
-  <div *ngIf="(members$ | async)?.length === 0" class="empty-state">
-    <p>还没有会员记录</p>
+  <div *ngIf="(filteredMembers$ | async)?.length === 0" class="empty-state">
+    <p>没有找到匹配的会员</p>
   </div>
 </div> 
