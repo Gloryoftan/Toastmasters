@@ -21,11 +21,6 @@ interface DashboardMeetingView extends Meeting {
   imports: [CommonModule, RouterModule],
   template: `
     <div class="dashboard">
-      <header class="dashboard-header">
-        <h1>南京ET俱乐部管理系统</h1>
-        <p>Nanjing Student Elite Toastmasters Club</p>
-      </header>
-
       <div class="dashboard-stats">
         <div class="stat-card">
           <h3>总会员数</h3>
