@@ -257,18 +257,21 @@
   {
     "id": "MB0023",
     "englishName": "Julie",
+    "chineseName": "暂缺",
     "membershipType": "other_club_member",
     "gender": "female"
   },
   {
     "id": "MB0024",
     "englishName": "Ting",
+    "chineseName": "暂缺",
     "membershipType": "visitor",
     "gender": "female"
   },
   {
     "id": "MB0025",
     "englishName": "Anna",
+    "chineseName": "暂缺",
     "membershipType": "visitor",
     "gender": "female"
   }
