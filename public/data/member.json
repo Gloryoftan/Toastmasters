@@ -1,15 +1,5 @@
 [
   {
-    "id": "MB0999",
-    "englishName": "TEST",
-    "chineseName": "测试条目",
-    "toastmastersId": "PN-TEST",
-    "membershipType": "guest",
-    "joinDate": "2000-01-01",
-    "status": "active",
-    "pathways": ["Testing"]
-  },
-  {
     "id": "MB0001",
     "englishName": "Milo",
     "chineseName": "徐成杰",
