@@ -1,5 +1,5 @@
 // ID 类型定义
-export type EntityType = 'MEMBER' | 'ROLE' | 'MEETING' | 'OFFICER' | 'PROJECT' | 'PATHWAY';
+export type EntityType = 'MEMBER' | 'ROLE' | 'MEETING' | 'OFFICER' | 'PROJECT' | 'PATHWAY' | 'VENUE';
 
 // ID 格式示例
 export const ID_EXAMPLES = {
@@ -9,6 +9,7 @@ export const ID_EXAMPLES = {
   OFFICER: 'OF01',     // OF01-OF99
   PROJECT: 'PJ01',     // PJ01-PJ99
   PATHWAY: 'PW01',     // PW01-PW99
+  VENUE: 'VN01',      // VN01-VN99
 } as const;
 
 // ID 前缀
@@ -19,4 +20,5 @@ export const ID_PREFIXES = {
   OFFICER: 'OF',
   PROJECT: 'PJ',
   PATHWAY: 'PW',
+  VENUE: 'VN',
 } as const;

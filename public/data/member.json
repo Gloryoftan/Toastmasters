@@ -239,5 +239,37 @@
     "joinDate": "2025-06-01",
     "status": "active",
     "pathways": ["Engaging Humor"]
+  },
+  {
+    "id": "MB0021",
+    "englishName": "Carrie",
+    "chineseName": "王泽颖",
+    "membershipType": "former_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0022",
+    "englishName": "Steven",
+    "chineseName": "刘永",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0023",
+    "englishName": "Julie",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0024",
+    "englishName": "Ting",
+    "membershipType": "visitor",
+    "gender": "female"
+  },
+  {
+    "id": "MB0025",
+    "englishName": "Anna",
+    "membershipType": "visitor",
+    "gender": "female"
   }
 ]

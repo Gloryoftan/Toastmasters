@@ -217,7 +217,7 @@ export class DashboardComponent implements OnInit {
     this.meetings$ = this.dataService.getMeetings();
     
     this.activeMembers$ = this.members$.pipe(
-      map(members => members.filter(m => m.status === 'active').length)
+      map(members => members.filter(m => m.membershipType === 'member').length)
     );
     
     this.completedMeetings$ = this.meetings$.pipe(

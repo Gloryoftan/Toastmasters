@@ -5,6 +5,7 @@ import { Member } from '../models/member.model';
 import { Meeting, Assignment, Speech } from '../models/meeting.model';
 import { Role } from '../models/role.model';
 import { Project } from '../models/project.model';
+import { Venue } from '../models/venue.model';
 import { AttendanceStats } from '../models/statistics.model';
 
 @Injectable({
@@ -15,11 +16,13 @@ export class DataService {
   private meetingsSubject = new BehaviorSubject<Meeting[]>([]);
   private rolesSubject = new BehaviorSubject<Role[]>([]);
   private projectsSubject = new BehaviorSubject<Project[]>([]);
+  private venuesSubject = new BehaviorSubject<Venue[]>([]);
 
   public members$ = this.membersSubject.asObservable();
   public meetings$ = this.meetingsSubject.asObservable();
   public roles$ = this.rolesSubject.asObservable();
   public projects$ = this.projectsSubject.asObservable();
+  public venues$ = this.venuesSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadDataFromJson();
@@ -32,7 +35,7 @@ export class DataService {
       next: (members) => {
         const processedMembers = members.map(member => ({
           ...member,
-          joinDate: new Date(member.joinDate)
+          joinDate: member.joinDate ? new Date(member.joinDate) : undefined
         }));
         this.membersSubject.next(processedMembers);
       },
@@ -78,6 +81,18 @@ export class DataService {
         this.projectsSubject.next([]);
       }
     });
+
+    // 加载场地数据
+    this.http.get<Venue>('data/venue.json').subscribe({
+      next: (venue) => {
+        // venue.json 是单个对象，转换为数组
+        this.venuesSubject.next([venue]);
+      },
+      error: (error) => {
+        console.warn('Failed to load venues from JSON:', error);
+        this.venuesSubject.next([]);
+      }
+    });
   }
 
   // 会员查询方法
@@ -121,6 +136,17 @@ export class DataService {
   getProjectById(id: string): Observable<Project | undefined> {
     return this.projects$.pipe(
       map(projects => projects.find(p => p.id === id))
+    );
+  }
+
+  // 场地查询方法
+  getVenues(): Observable<Venue[]> {
+    return this.venues$;
+  }
+
+  getVenueById(id: string): Observable<Venue | undefined> {
+    return this.venues$.pipe(
+      map(venues => venues.find(v => v.id === id))
     );
   }
 

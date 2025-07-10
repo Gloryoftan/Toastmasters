@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest, map, switchMap } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
-import { Meeting, Assignment, Speech } from '../../../core/models/meeting.model';
+import { Meeting, Assignment, Speech, Visitor } from '../../../core/models/meeting.model';
 import { Member } from '../../../core/models/member.model';
 import { Role } from '../../../core/models/role.model';
 import { Project } from '../../../core/models/project.model';
+import { Venue } from '../../../core/models/venue.model';
 
 interface MeetingDetailView {
   meeting: Meeting;
   assignmentDetails: Array<Assignment & { memberName: string; roleName: string }>;
   speechDetails: Array<Speech & { memberName: string; evaluatorName: string; projectName: string }>;
+  visitorDetails: Array<Visitor & { visitorName: string; contactName: string }>;
+  venueName: string;
 }
 
 @Component({
@@ -43,7 +46,7 @@ interface MeetingDetailView {
           </div>
           <div class="info-item">
             <label>地点:</label>
-            <span>{{ detail.meeting.venue }}</span>
+            <span>{{ detail.venueName }}</span>
           </div>
           <div class="info-item">
             <label>类型:</label>
@@ -110,6 +113,29 @@ interface MeetingDetailView {
         <ng-template #noSpeeches>
           <p class="empty-state">暂无备稿演讲</p>
         </ng-template>
+      </div>
+
+      <!-- 访客信息 -->
+      <div class="visitors card" *ngIf="detail.meeting.visitors && detail.meeting.visitors.length > 0">
+        <h2>访客信息</h2>
+        <div class="visitors-list">
+          <div class="visitor-item" *ngFor="let visitor of detail.visitorDetails">
+            <div class="visitor-info">
+              <div class="visitor-name">
+                <strong>{{ visitor.visitorName }}</strong>
+              </div>
+              <div class="contact-info">
+                <span><strong>对接人:</strong> {{ visitor.contactName }}</span>
+              </div>
+              <div class="visitor-source" *ngIf="visitor.source">
+                <span><strong>来源:</strong> {{ visitor.source }}</span>
+              </div>
+              <div class="visitor-notes" *ngIf="visitor.notes">
+                <strong>备注:</strong> {{ visitor.notes }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -330,6 +356,45 @@ interface MeetingDetailView {
       line-height: 1.5;
     }
 
+    .visitors-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .visitor-item {
+      padding: 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      background: #f8f9fa;
+    }
+
+    .visitor-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .visitor-name {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .contact-info,
+    .visitor-source {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .visitor-notes {
+      padding-top: 8px;
+      border-top: 1px solid #ddd;
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+    }
+
     .empty-state {
       text-align: center;
       color: #666;
@@ -394,9 +459,10 @@ export class MeetingDetailComponent implements OnInit {
           this.dataService.getMeetingById(meetingId),
           this.dataService.getMembers(),
           this.dataService.getRoles(),
-          this.dataService.getProjects()
+          this.dataService.getProjects(),
+          this.dataService.getVenues()
         ]).pipe(
-          map(([meeting, members, roles, projects]) => {
+          map(([meeting, members, roles, projects, venues]) => {
             if (!meeting) return null;
 
             const assignmentDetails = meeting.assignments.map(assignment => {
@@ -421,10 +487,25 @@ export class MeetingDetailComponent implements OnInit {
               } as Speech & { memberName: string; evaluatorName: string; projectName: string };
             });
 
+            const visitorDetails = (meeting.visitors || []).map(visitor => {
+              const visitorMember = members.find(m => m.id === visitor.memberId);
+              const contactMember = members.find(m => m.id === visitor.contactId);
+              return {
+                ...visitor,
+                visitorName: visitorMember ? `${visitorMember.englishName} (${visitorMember.chineseName})` : '未知访客',
+                contactName: contactMember ? `${contactMember.englishName} (${contactMember.chineseName})` : '未知对接人'
+              } as Visitor & { visitorName: string; contactName: string };
+            });
+
+            const venue = venues.find(v => v.id === meeting.venue);
+            const venueName = venue ? `${venue.name} (${venue.address})` : meeting.venue;
+
             return {
               meeting,
               assignmentDetails,
-              speechDetails
+              speechDetails,
+              visitorDetails,
+              venueName
             };
           })
         );

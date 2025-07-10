@@ -7,7 +7,7 @@
   {
     "id": "RL02",
     "englishName": "General Evaluator",
-    "chineseName": "总点评师"
+    "chineseName": "总评官"
   },
   {
     "id": "RL03",
@@ -22,51 +22,31 @@
   {
     "id": "RL05",
     "englishName": "Evaluator",
-    "chineseName": "点评师"
+    "chineseName": "个评"
   },
   {
     "id": "RL06",
     "englishName": "Timer",
-    "chineseName": "计时员"
+    "chineseName": "时间官"
   },
   {
     "id": "RL07",
     "englishName": "Ah Counter",
-    "chineseName": "语言习惯统计员"
+    "chineseName": "哼哈官"
   },
   {
     "id": "RL08",
     "englishName": "Grammarian",
-    "chineseName": "语法员"
+    "chineseName": "语法官"
   },
   {
     "id": "RL09",
-    "englishName": "Table Topics Participant",
-    "chineseName": "即兴演讲参与者"
+    "englishName": "SAA",
+    "chineseName": "接待官"
   },
   {
     "id": "RL10",
-    "englishName": "Vote Counter",
-    "chineseName": "计票员"
-  },
-  {
-    "id": "RL11",
-    "englishName": "Guest",
-    "chineseName": "嘉宾"
-  },
-  {
-    "id": "RL12",
-    "englishName": "Word Master",
-    "chineseName": "词汇大师"
-  },
-  {
-    "id": "RL13",
-    "englishName": "Joke Master",
-    "chineseName": "笑话大师"
-  },
-  {
-    "id": "RL14",
-    "englishName": "Sergeant at Arms",
-    "chineseName": "纠察员"
+    "englishName": "Photographer",
+    "chineseName": "摄影师"
   }
 ]
