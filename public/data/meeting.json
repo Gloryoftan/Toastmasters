@@ -70,5 +70,89 @@
       }
     ],
     "notes": "23届官员第一次会议"
+  },
+  {
+    "id": "MT0002",
+    "date": "2025-07-13 14:30",
+    "meetingNumber": 431,
+    "theme": "Must we hold integrity in every aspect of life?",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0020"
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0003"
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0013"
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0026"
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0027"
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0004"
+      },
+      {
+        "roleId": "RL09",
+        "memberId": "MB0014"
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0005",
+        "title": "Head First into Toastmasters",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0001",
+        "passed": false
+      },
+      {
+        "memberId": "MB0017",
+        "title": "I'm Happy to Be Myself",
+        "level": "Level 1",
+        "projectId": "PJ02",
+        "evaluatorId": "MB0028",
+        "passed": true
+      }
+    ],
+    "visitors": [
+      {
+        "memberId": "MB0024",
+        "contactId": "MB0017"
+      },
+      {
+        "memberId": "MB0029",
+        "contactId": "MB0017"
+      },
+      {
+        "memberId": "MB0030",
+        "contactId": "MB0017"
+      },
+      {
+        "memberId": "MB0031",
+        "contactId": "MB0017"
+      },
+      {
+        "memberId": "MB0032",
+        "contactId": "MB0017"
+      },
+      {
+        "memberId": "MB0033",
+        "contactId": "MB0017"
+      }
+    ],
+    "notes": ""
   }
 ] 

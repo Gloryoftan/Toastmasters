@@ -264,5 +264,61 @@
     "chineseName": "暂缺",
     "membershipType": "visitor",
     "gender": "female"
+  },
+  {
+    "id": "MB0026",
+    "englishName": "Lian",
+    "chineseName": "马莲",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0027",
+    "englishName": "Vanessa",
+    "chineseName": "徐美文",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0028",
+    "englishName": "Wencan",
+    "chineseName": "代文灿",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0029",
+    "englishName": "Joan",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0030",
+    "englishName": "Marisa",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "female"
+  },
+  {
+    "id": "MB0031",
+    "englishName": "Allen",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0032",
+    "englishName": "Vincent",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "male"
+  },
+  {
+    "id": "MB0033",
+    "englishName": "Rebecca",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "female"
   }
 ]
