@@ -4,7 +4,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest, map, switchMap } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { Member } from '../../../core/models/member.model';
-import { Meeting, Assignment, Speech } from '../../../core/models/meeting.model';
+import { Meeting, Assignment, Speech, Attendee } from '../../../core/models/meeting.model';
 import { Role } from '../../../core/models/role.model';
 import { Project } from '../../../core/models/project.model';
 
@@ -19,6 +19,10 @@ interface MemberDetailView {
   assignmentHistory: Array<Assignment & { 
     meetingInfo: string; 
     roleName: string;
+    meetingDate: Date;
+  }>;
+  attendanceHistory: Array<Attendee & { 
+    meetingInfo: string; 
     meetingDate: Date;
   }>;
   statistics: {
@@ -173,6 +177,25 @@ interface MemberDetailView {
         </div>
         <ng-template #noAssignments>
           <p class="empty-state">暂无角色分配记录</p>
+        </ng-template>
+      </div>
+
+      <!-- 参会历史 -->
+      <div class="attendance-history card">
+        <h2>参会历史</h2>
+        <div class="history-list" *ngIf="detail.attendanceHistory.length > 0; else noAttendance">
+          <div class="history-item" *ngFor="let attendance of detail.attendanceHistory">
+            <div class="item-header">
+              <h3>{{ attendance.meetingInfo }}</h3>
+              <span class="item-date">{{ attendance.meetingDate | date:'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="item-notes" *ngIf="attendance.notes">
+              <strong>备注:</strong> {{ attendance.notes }}
+            </div>
+          </div>
+        </div>
+        <ng-template #noAttendance>
+          <p class="empty-state">暂无参会记录</p>
         </ng-template>
       </div>
     </div>
@@ -537,6 +560,22 @@ export class MemberDetailComponent implements OnInit {
                 })
             );
 
+            // 获取该会员的参会历史
+            const attendanceHistory = meetings.flatMap(meeting =>
+              (meeting.attendees || [])
+                .filter(attendee => attendee.memberId === memberId)
+                .map(attendee => {
+                  return {
+                    ...attendee,
+                    meetingInfo: `${meeting.meetingNumber} - ${meeting.theme || '无主题'}`,
+                    meetingDate: meeting.date
+                  } as Attendee & { 
+                    meetingInfo: string; 
+                    meetingDate: Date;
+                  };
+                })
+            ).sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
+
             // 合并角色分配历史和评估员历史
             const allRoleHistory = [...assignmentHistory, ...evaluatorHistory]
               .sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
@@ -548,7 +587,8 @@ export class MemberDetailComponent implements OnInit {
             const totalAssignments = allRoleHistory.length; // 包含评估员角色
             const totalMeetingsAttended = new Set([
               ...speechHistory.map(s => s.meetingInfo),
-              ...allRoleHistory.map(a => a.meetingInfo) // 使用合并后的角色历史
+              ...allRoleHistory.map(a => a.meetingInfo), // 使用合并后的角色历史
+              ...attendanceHistory.map(a => a.meetingInfo)
             ]).size;
             const attendanceRate = completedMeetings.length > 0 ? totalMeetingsAttended / completedMeetings.length : 0;
 
@@ -556,6 +596,7 @@ export class MemberDetailComponent implements OnInit {
               member,
               speechHistory,
               assignmentHistory: allRoleHistory, // 包含评估员角色的完整角色历史
+              attendanceHistory,
               statistics: {
                 totalSpeeches,
                 passedSpeeches,
@@ -608,4 +649,3 @@ export class MemberDetailComponent implements OnInit {
     return classMap[membershipType] || 'inactive';
   }
 }
- 

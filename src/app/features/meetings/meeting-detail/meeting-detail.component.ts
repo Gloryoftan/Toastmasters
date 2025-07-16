@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest, map, switchMap } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
-import { Meeting, Assignment, Speech, Visitor } from '../../../core/models/meeting.model';
+import { Meeting, Assignment, Speech, Visitor, Attendee } from '../../../core/models/meeting.model';
 import { Member } from '../../../core/models/member.model';
 import { Role } from '../../../core/models/role.model';
 import { Project } from '../../../core/models/project.model';
@@ -14,6 +14,7 @@ interface MeetingDetailView {
   assignmentDetails: Array<Assignment & { memberName: string; roleName: string }>;
   speechDetails: Array<Speech & { memberName: string; evaluatorName: string; projectName: string }>;
   visitorDetails: Array<Visitor & { visitorName: string; contactName: string }>;
+  attendeeDetails: Array<Attendee & { memberName: string }>;
   venueName: string;
 }
 
@@ -137,6 +138,23 @@ interface MeetingDetailView {
           </div>
         </div>
       </div>
+
+      <!-- 参会人员 -->
+      <div class="attendees card" *ngIf="detail.attendeeDetails && detail.attendeeDetails.length > 0">
+        <h2>参会人员</h2>
+        <div class="attendees-list">
+          <div class="attendee-item" *ngFor="let attendee of detail.attendeeDetails">
+            <div class="attendee-info">
+              <div class="attendee-name">
+                <strong>{{ attendee.memberName }}</strong>
+              </div>
+              <div class="attendee-notes" *ngIf="attendee.notes">
+                <strong>备注:</strong> {{ attendee.notes }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="loading" *ngIf="!(meetingDetail$ | async)">
@@ -250,13 +268,13 @@ interface MeetingDetailView {
       line-height: 1.6;
     }
 
-    .assignments-list, .speeches-list {
+    .assignments-list, .speeches-list, .attendees-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    .assignment-item {
+    .assignment-item, .attendee-item {
       padding: 16px;
       border: 1px solid #e0e0e0;
       border-radius: 6px;
@@ -275,7 +293,7 @@ interface MeetingDetailView {
       margin-bottom: 4px;
     }
 
-    .assignment-notes {
+    .assignment-notes, .attendee-notes {
       color: #666;
       font-style: italic;
     }
@@ -369,13 +387,13 @@ interface MeetingDetailView {
       background: #f8f9fa;
     }
 
-    .visitor-info {
+    .visitor-info, .attendee-info {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .visitor-name {
+    .visitor-name, .attendee-name {
       font-size: 16px;
       color: #333;
     }
@@ -497,14 +515,23 @@ export class MeetingDetailComponent implements OnInit {
               } as Visitor & { visitorName: string; contactName: string };
             });
 
+            const attendeeDetails = (meeting.attendees || []).map(attendee => {
+              const member = members.find(m => m.id === attendee.memberId);
+              return {
+                ...attendee,
+                memberName: member ? `${member.englishName} (${member.chineseName})` : '未知会员'
+              };
+            });
+
             const venue = venues.find(v => v.id === meeting.venue);
-            const venueName = venue ? `${venue.name} (${venue.address})` : meeting.venue;
+            const venueName = venue ? venue.name : meeting.venue;
 
             return {
               meeting,
               assignmentDetails,
               speechDetails,
               visitorDetails,
+              attendeeDetails,
               venueName
             };
           })

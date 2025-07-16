@@ -9,6 +9,12 @@ export interface Meeting {
   assignments: Assignment[]; // 所有角色分配
   speeches: Speech[]; // 备稿演讲
   visitors: Visitor[]; // 访客
+  attendees: Attendee[]; // 参会人员（非角色）
+  notes?: string;
+}
+
+export interface Attendee {
+  memberId: string; // 参会人员ID (MB0001, MB0002...)
   notes?: string;
 }
 

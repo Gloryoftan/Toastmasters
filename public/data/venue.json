@@ -1,7 +1,16 @@
-{
-    "id": "VN01",
-    "name": "长发中心A座908室",
-    "address": "南京市秦淮区长发中心A座908室",
-    "status": "available",
-    "owner": "Rafael"
-}
+[
+    {
+        "id": "VN01",
+        "name": "长发中心A座908室",
+        "address": "南京市秦淮区长发中心A座908室",
+        "status": "available",
+        "owner": "Rafael"
+    },
+    {
+        "id": "VN02",
+        "name": "南京德锐企业管理咨询有限公司",
+        "address": "安德门大街43号雨花客厅2栋15层1501室",
+        "status": "unknown",
+        "owner": "暂无"
+    }
+]

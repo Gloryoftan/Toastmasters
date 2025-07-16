@@ -153,6 +153,50 @@
         "contactId": "MB0017"
       }
     ],
+    "attendees": [
+      {
+        "memberId": "MB0011"
+      },
+      {
+        "memberId": "MB0034"
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0003",
+    "date": "2025-07-20 14:30",
+    "meetingNumber": 432,
+    "theme": "Club Officer Training",
+    "venue": "VN02",
+    "type": "training",
+    "status": "scheduled",
+    "assignments": [
+    ],
+    "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0004",
+    "date": "2025-07-27 14:30",
+    "meetingNumber": 433,
+    "theme": "待定",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "draft",
+    "assignments": [
+    ],
+    "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
     "notes": ""
   }
 ] 

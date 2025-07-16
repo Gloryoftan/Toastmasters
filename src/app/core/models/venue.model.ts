@@ -3,6 +3,6 @@ export interface Venue {
   id: string;
   name: string;
   address: string;
-  state: string;
+  state: 'available' | 'unavailable' | 'unknown';
   owner: string;
 }

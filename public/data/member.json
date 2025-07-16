@@ -288,7 +288,7 @@
   },
   {
     "id": "MB0029",
-    "englishName": "Joan",
+    "englishName": "Joanne",
     "chineseName": "暂缺",
     "membershipType": "other_club_member",
     "gender": "female"
@@ -319,6 +319,13 @@
     "englishName": "Rebecca",
     "chineseName": "暂缺",
     "membershipType": "visitor",
+    "gender": "female"
+  },
+  {
+    "id": "MB0034",
+    "englishName": "Phoenix",
+    "chineseName": "许凤",
+    "membershipType": "member",
     "gender": "female"
   }
 ]
