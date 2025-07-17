@@ -83,10 +83,9 @@ export class DataService {
     });
 
     // 加载场地数据
-    this.http.get<Venue>('data/venue.json').subscribe({
-      next: (venue) => {
-        // venue.json 是单个对象，转换为数组
-        this.venuesSubject.next([venue]);
+    this.http.get<Venue[]>('data/venue.json').subscribe({
+      next: (venues) => {
+        this.venuesSubject.next(venues);
       },
       error: (error) => {
         console.warn('Failed to load venues from JSON:', error);
