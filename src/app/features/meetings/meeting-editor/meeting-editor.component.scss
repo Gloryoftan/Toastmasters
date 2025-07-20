@@ -66,19 +66,22 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
+  align-items: start;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 80px; // 确保统一高度
 
   label {
     font-weight: 500;
     color: #495057;
     font-size: 14px;
+    margin-bottom: 4px;
   }
 
   .form-control {
@@ -88,6 +91,8 @@
     font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s;
     background: white;
+    width: 100%;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
@@ -110,6 +115,7 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
+    min-height: auto;
 
     label {
       display: flex;
@@ -141,6 +147,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -194,6 +201,7 @@
   width: 32px;
   height: 32px;
   min-width: 32px;
+  flex-shrink: 0;
 
   &:hover {
     background: #c82333;
@@ -218,6 +226,7 @@
   border-radius: 8px;
   border: 1px solid #e9ecef;
   transition: all 0.2s;
+  position: relative;
 
   &:hover {
     border-color: #007bff;
@@ -230,6 +239,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+  align-items: start;
 }
 
 // 加载状态
@@ -243,6 +253,16 @@
 }
 
 // 响应式设计
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .assignment-content, .speech-content, .visitor-content, .attendee-content {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .meeting-editor {
     padding: 16px;
@@ -252,26 +272,37 @@
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
+    padding: 20px;
 
     .header-actions {
       justify-content: center;
     }
   }
 
+  .form-section {
+    padding: 20px;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .assignment-content, .speech-content, .visitor-content, .attendee-content {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .assignment-item, .speech-item, .visitor-item, .attendee-item {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
 
     .btn-remove {
       align-self: flex-end;
+      position: absolute;
+      top: 12px;
+      right: 12px;
     }
   }
 
@@ -283,6 +314,28 @@
     .btn-add {
       align-self: flex-start;
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .meeting-editor {
+    padding: 12px;
+  }
+
+  .page-header {
+    padding: 16px;
+    
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .form-section {
+    padding: 16px;
+  }
+
+  .form-group {
+    min-height: 70px;
   }
 }
 
@@ -326,4 +379,33 @@
   background: #f8f9fa;
   border-radius: 8px;
   border: 2px dashed #dee2e6;
+}
+
+// 改进的表单对齐
+.form-group select.form-control,
+.form-group input.form-control {
+  height: 44px; // 统一高度
+}
+
+.form-group textarea.form-control {
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+// 改进的网格对齐
+.form-grid > .form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+// 改进的列表项对齐
+.assignment-item .form-group,
+.speech-item .form-group,
+.visitor-item .form-group,
+.attendee-item .form-group {
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 } 

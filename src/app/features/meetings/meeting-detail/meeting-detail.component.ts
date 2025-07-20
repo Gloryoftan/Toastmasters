@@ -24,12 +24,12 @@ interface MeetingDetailView {
   imports: [CommonModule, RouterModule],
   template: `
     <!-- 调试信息 -->
-    <div style="background: #f0f0f0; padding: 10px; margin: 10px; border-radius: 5px; font-family: monospace;">
+    <!-- <div style="background: #f0f0f0; padding: 10px; margin: 10px; border-radius: 5px; font-family: monospace;">
       <p>Debug: meetingDetail$ = {{ (meetingDetail$ | async) | json }}</p>
       <p>Debug: meetingDetail$ === null: {{ (meetingDetail$ | async) === null }}</p>
       <p>Debug: !(meetingDetail$ | async): {{ !(meetingDetail$ | async) }}</p>
       <p>Debug: meetingDetail$ type: {{ typeof (meetingDetail$ | async) }}</p>
-    </div>
+    </div> -->
     
     <ng-container *ngIf="(meetingDetail$ | async) as detail; else loading">
       <div class="meeting-detail">
