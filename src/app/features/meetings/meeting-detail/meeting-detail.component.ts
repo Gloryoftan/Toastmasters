@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { Observable, combineLatest, map, switchMap } from 'rxjs';
+import { Observable, combineLatest, map, switchMap, tap, of, catchError, startWith } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { Meeting, Assignment, Speech, Visitor, Attendee } from '../../../core/models/meeting.model';
 import { Member } from '../../../core/models/member.model';
@@ -23,143 +23,162 @@ interface MeetingDetailView {
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="meeting-detail" *ngIf="meetingDetail$ | async as detail">
-      <div class="page-header">
-        <h1>会议详情</h1>
-        <button class="btn-secondary" routerLink="/meetings">返回会议列表</button>
-      </div>
-
-      <!-- 基本信息 -->
-      <div class="meeting-info card">
-        <h2>基本信息</h2>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>会议编号:</label>
-            <span>{{ detail.meeting.meetingNumber }}</span>
-          </div>
-          <div class="info-item">
-            <label>日期:</label>
-            <span>{{ detail.meeting.date | date:'yyyy年MM月dd日 HH:mm' }}</span>
-          </div>
-          <div class="info-item">
-            <label>主题:</label>
-            <span>{{ detail.meeting.theme || '无主题' }}</span>
-          </div>
-          <div class="info-item">
-            <label>地点:</label>
-            <span>{{ detail.venueName }}</span>
-          </div>
-          <div class="info-item">
-            <label>类型:</label>
-            <span class="meeting-type">{{ getMeetingTypeText(detail.meeting.type) }}</span>
-          </div>
-          <div class="info-item">
-            <label>状态:</label>
-            <span class="status-badge" [class]="detail.meeting.status">
-              {{ getStatusText(detail.meeting.status) }}
-            </span>
+    <!-- 调试信息 -->
+    <div style="background: #f0f0f0; padding: 10px; margin: 10px; border-radius: 5px; font-family: monospace;">
+      <p>Debug: meetingDetail$ = {{ (meetingDetail$ | async) | json }}</p>
+      <p>Debug: meetingDetail$ === null: {{ (meetingDetail$ | async) === null }}</p>
+      <p>Debug: !(meetingDetail$ | async): {{ !(meetingDetail$ | async) }}</p>
+      <p>Debug: meetingDetail$ type: {{ typeof (meetingDetail$ | async) }}</p>
+    </div>
+    
+    <ng-container *ngIf="(meetingDetail$ | async) as detail; else loading">
+      <div class="meeting-detail">
+        <div class="page-header">
+          <h1>会议详情</h1>
+          <div class="header-actions">
+            <button class="btn-primary" [routerLink]="['/meetings', detail.meeting.id, 'edit']">
+              编辑会议
+            </button>
+            <button class="btn-secondary" routerLink="/meetings">返回会议列表</button>
           </div>
         </div>
-        <div class="notes" *ngIf="detail.meeting.notes">
-          <label>备注:</label>
-          <p>{{ detail.meeting.notes }}</p>
-        </div>
-      </div>
 
-      <!-- 角色分配 -->
-      <div class="assignments card">
-        <h2>角色分配</h2>
-        <div class="assignments-list" *ngIf="detail.assignmentDetails.length > 0; else noAssignments">
-          <div class="assignment-item" *ngFor="let assignment of detail.assignmentDetails">
-            <div class="assignment-role">
-              <strong>{{ assignment.roleName }}</strong>
+        <!-- 基本信息 -->
+        <div class="meeting-info card">
+          <h2>基本信息</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>会议编号:</label>
+              <span>{{ detail.meeting.meetingNumber }}</span>
             </div>
-            <div class="assignment-member">
-              {{ assignment.memberName }}
+            <div class="info-item">
+              <label>日期:</label>
+              <span>{{ detail.meeting.date | date:'yyyy年MM月dd日 HH:mm' }}</span>
             </div>
-            <div class="assignment-notes" *ngIf="assignment.notes">
-              <small>{{ assignment.notes }}</small>
+            <div class="info-item">
+              <label>主题:</label>
+              <span>{{ detail.meeting.theme || '无主题' }}</span>
             </div>
-          </div>
-        </div>
-        <ng-template #noAssignments>
-          <p class="empty-state">暂无角色分配</p>
-        </ng-template>
-      </div>
-
-      <!-- 备稿演讲 -->
-      <div class="speeches card">
-        <h2>备稿演讲</h2>
-        <div class="speeches-list" *ngIf="detail.speechDetails.length > 0; else noSpeeches">
-          <div class="speech-item" *ngFor="let speech of detail.speechDetails">
-            <div class="speech-header">
-              <h3>{{ speech.title }}</h3>
-              <span class="speech-level">{{ speech.level }}</span>
-              <span class="speech-status" [class]="speech.passed === true ? 'passed' : speech.passed === false ? 'failed' : 'pending'">
-                {{ speech.passed === true ? '通过' : speech.passed === false ? '未通过' : '待评估' }}
+            <div class="info-item">
+              <label>地点:</label>
+              <span>{{ detail.venueName }}</span>
+            </div>
+            <div class="info-item">
+              <label>类型:</label>
+              <span class="meeting-type">{{ getMeetingTypeText(detail.meeting.type) }}</span>
+            </div>
+            <div class="info-item">
+              <label>状态:</label>
+              <span class="status-badge" [class]="detail.meeting.status">
+                {{ getStatusText(detail.meeting.status) }}
               </span>
             </div>
-            <div class="speech-details">
-              <div class="speech-info">
-                <span><strong>演讲者:</strong> {{ speech.memberName }}</span>
-                <span><strong>评估员:</strong> {{ speech.evaluatorName }}</span>
-                <span><strong>项目:</strong> {{ speech.projectName }}</span>
+          </div>
+          <div class="notes" *ngIf="detail.meeting.notes">
+            <label>备注:</label>
+            <p>{{ detail.meeting.notes }}</p>
+          </div>
+        </div>
+
+        <!-- 角色分配 -->
+        <div class="assignments card">
+          <h2>角色分配</h2>
+          <div class="assignments-list" *ngIf="detail.assignmentDetails.length > 0; else noAssignments">
+            <div class="assignment-item" *ngFor="let assignment of detail.assignmentDetails">
+              <div class="assignment-role">
+                <strong>{{ assignment.roleName }}</strong>
               </div>
-              <div class="speech-notes" *ngIf="speech.notes">
-                <strong>备注:</strong> {{ speech.notes }}
+              <div class="assignment-member">
+                {{ assignment.memberName }}
+              </div>
+              <div class="assignment-notes" *ngIf="assignment.notes">
+                <small>{{ assignment.notes }}</small>
+              </div>
+            </div>
+          </div>
+          <ng-template #noAssignments>
+            <p class="empty-state">暂无角色分配</p>
+          </ng-template>
+        </div>
+
+        <!-- 备稿演讲 -->
+        <div class="speeches card">
+          <h2>备稿演讲</h2>
+          <div class="speeches-list" *ngIf="detail.speechDetails.length > 0; else noSpeeches">
+            <div class="speech-item" *ngFor="let speech of detail.speechDetails">
+              <div class="speech-header">
+                <h3>{{ speech.title }}</h3>
+                <span class="speech-level">{{ speech.level }}</span>
+                <span class="speech-status" [class]="speech.passed === true ? 'passed' : speech.passed === false ? 'failed' : 'pending'">
+                  {{ speech.passed === true ? '通过' : speech.passed === false ? '未通过' : '待评估' }}
+                </span>
+              </div>
+              <div class="speech-details">
+                <div class="speech-info">
+                  <span><strong>演讲者:</strong> {{ speech.memberName }}</span>
+                  <span><strong>评估员:</strong> {{ speech.evaluatorName }}</span>
+                  <span><strong>项目:</strong> {{ speech.projectName }}</span>
+                </div>
+                <div class="speech-notes" *ngIf="speech.notes">
+                  <strong>备注:</strong> {{ speech.notes }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noSpeeches>
+            <p class="empty-state">暂无备稿演讲</p>
+          </ng-template>
+        </div>
+
+        <!-- 访客信息 -->
+        <div class="visitors card" *ngIf="detail.meeting.visitors && detail.meeting.visitors.length > 0">
+          <h2>访客信息</h2>
+          <div class="visitors-list">
+            <div class="visitor-item" *ngFor="let visitor of detail.visitorDetails">
+              <div class="visitor-info">
+                <div class="visitor-name">
+                  <strong>{{ visitor.visitorName }}</strong>
+                </div>
+                <div class="contact-info">
+                  <span><strong>对接人:</strong> {{ visitor.contactName }}</span>
+                </div>
+                <div class="visitor-source" *ngIf="visitor.source">
+                  <span><strong>来源:</strong> {{ visitor.source }}</span>
+                </div>
+                <div class="visitor-notes" *ngIf="visitor.notes">
+                  <strong>备注:</strong> {{ visitor.notes }}
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <ng-template #noSpeeches>
-          <p class="empty-state">暂无备稿演讲</p>
-        </ng-template>
-      </div>
 
-      <!-- 访客信息 -->
-      <div class="visitors card" *ngIf="detail.meeting.visitors && detail.meeting.visitors.length > 0">
-        <h2>访客信息</h2>
-        <div class="visitors-list">
-          <div class="visitor-item" *ngFor="let visitor of detail.visitorDetails">
-            <div class="visitor-info">
-              <div class="visitor-name">
-                <strong>{{ visitor.visitorName }}</strong>
-              </div>
-              <div class="contact-info">
-                <span><strong>对接人:</strong> {{ visitor.contactName }}</span>
-              </div>
-              <div class="visitor-source" *ngIf="visitor.source">
-                <span><strong>来源:</strong> {{ visitor.source }}</span>
-              </div>
-              <div class="visitor-notes" *ngIf="visitor.notes">
-                <strong>备注:</strong> {{ visitor.notes }}
+        <!-- 参会人员 -->
+        <div class="attendees card" *ngIf="detail.attendeeDetails && detail.attendeeDetails.length > 0">
+          <h2>参会人员</h2>
+          <div class="attendees-list">
+            <div class="attendee-item" *ngFor="let attendee of detail.attendeeDetails">
+              <div class="attendee-info">
+                <div class="attendee-name">
+                  <strong>{{ attendee.memberName }}</strong>
+                </div>
+                <div class="attendee-notes" *ngIf="attendee.notes">
+                  <strong>备注:</strong> {{ attendee.notes }}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </ng-container>
 
-      <!-- 参会人员 -->
-      <div class="attendees card" *ngIf="detail.attendeeDetails && detail.attendeeDetails.length > 0">
-        <h2>参会人员</h2>
-        <div class="attendees-list">
-          <div class="attendee-item" *ngFor="let attendee of detail.attendeeDetails">
-            <div class="attendee-info">
-              <div class="attendee-name">
-                <strong>{{ attendee.memberName }}</strong>
-              </div>
-              <div class="attendee-notes" *ngIf="attendee.notes">
-                <strong>备注:</strong> {{ attendee.notes }}
-              </div>
-            </div>
-          </div>
-        </div>
+    <ng-template #loading>
+      <div class="loading">
+        <p>加载中...</p>
+        <p style="font-size: 12px; color: #999;">请检查浏览器控制台获取详细信息</p>
+        <button class="btn-secondary" routerLink="/meetings">返回会议列表</button>
       </div>
-    </div>
-
-    <div class="loading" *ngIf="!(meetingDetail$ | async)">
-      <p>加载中...</p>
-    </div>
+    </ng-template>
   `,
   styles: [`
     .meeting-detail {
@@ -173,6 +192,11 @@ interface MeetingDetailView {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 32px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
     }
 
     .card {
@@ -420,6 +444,21 @@ interface MeetingDetailView {
       padding: 40px 20px;
     }
 
+    .btn-primary {
+      padding: 12px 24px;
+      background: #1976d2;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #1565c0;
+    }
+
     .btn-secondary {
       padding: 12px 24px;
       background: #f5f5f5;
@@ -428,6 +467,7 @@ interface MeetingDetailView {
       text-decoration: none;
       color: #333;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
 
     .btn-secondary:hover {
@@ -440,11 +480,26 @@ interface MeetingDetailView {
       color: #666;
     }
 
+    .error {
+      text-align: center;
+      padding: 60px 20px;
+      color: #dc3545;
+    }
+
+    .error p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
     @media (max-width: 768px) {
       .page-header {
         flex-direction: column;
         gap: 16px;
         align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: center;
       }
 
       .info-grid {
@@ -464,15 +519,24 @@ interface MeetingDetailView {
   `]
 })
 export class MeetingDetailComponent implements OnInit {
-  meetingDetail$: Observable<MeetingDetailView | null>;
+  meetingDetail$!: Observable<MeetingDetailView | null>;
 
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService
   ) {
+    console.log('🔧 MeetingDetailComponent constructor called');
+    
     this.meetingDetail$ = this.route.params.pipe(
       switchMap(params => {
         const meetingId = params['id'];
+        console.log('🎯 Loading meeting with ID:', meetingId);
+        
+        if (!meetingId) {
+          console.warn('❌ No meeting ID provided');
+          return of(null);
+        }
+        
         return combineLatest([
           this.dataService.getMeetingById(meetingId),
           this.dataService.getMembers(),
@@ -480,8 +544,13 @@ export class MeetingDetailComponent implements OnInit {
           this.dataService.getProjects(),
           this.dataService.getVenues()
         ]).pipe(
-          map(([meeting, members, roles, projects, venues]) => {
-            if (!meeting) return null;
+          map(([meeting, members, roles, projects, venues]): MeetingDetailView | null => {
+            console.log('🔄 Processing data for meeting:', meetingId);
+            
+            if (!meeting) {
+              console.warn('❌ Meeting not found:', meetingId);
+              return null;
+            }
 
             const assignmentDetails = meeting.assignments.map(assignment => {
               const member = members.find(m => m.id === assignment.memberId);
@@ -540,7 +609,30 @@ export class MeetingDetailComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // 添加一个简单的测试来确保数据服务正常工作
+    console.log('MeetingDetailComponent initialized');
+    
+    // 测试基本数据加载
+    this.dataService.getMeetings().subscribe({
+      next: (meetings) => {
+        console.log('✅ Meetings loaded successfully:', meetings.length, 'meetings');
+        console.log('Available meeting IDs:', meetings.map(m => m.id));
+      },
+      error: (error) => {
+        console.error('❌ Failed to load meetings:', error);
+      }
+    });
+    
+    this.dataService.getMembers().subscribe({
+      next: (members) => {
+        console.log('✅ Members loaded successfully:', members.length, 'members');
+      },
+      error: (error) => {
+        console.error('❌ Failed to load members:', error);
+      }
+    });
+  }
 
   getStatusText(status: string): string {
     const statusMap: { [key: string]: string } = {

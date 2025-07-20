@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, map, combineLatest, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Member } from '../models/member.model';
 import { Meeting, Assignment, Speech } from '../models/meeting.model';
@@ -30,6 +30,8 @@ export class DataService {
 
   // 从JSON文件加载数据
   private loadDataFromJson() {
+    console.log('🔄 Starting to load data from JSON files...');
+    
     // 加载会员数据
     this.http.get<Member[]>('data/member.json').subscribe({
       next: (members) => {
@@ -38,9 +40,10 @@ export class DataService {
           joinDate: member.joinDate ? new Date(member.joinDate) : undefined
         }));
         this.membersSubject.next(processedMembers);
+        console.log('✅ Members loaded:', processedMembers.length);
       },
       error: (error) => {
-        console.warn('Failed to load members from JSON:', error);
+        console.error('❌ Failed to load members from JSON:', error);
         this.membersSubject.next([]);
       }
     });
@@ -53,9 +56,10 @@ export class DataService {
           date: new Date(meeting.date)
         }));
         this.meetingsSubject.next(processedMeetings);
+        console.log('✅ Meetings loaded:', processedMeetings.length);
       },
       error: (error) => {
-        console.warn('Failed to load meetings from JSON:', error);
+        console.error('❌ Failed to load meetings from JSON:', error);
         this.meetingsSubject.next([]);
       }
     });
@@ -64,9 +68,10 @@ export class DataService {
     this.http.get<Role[]>('data/role.json').subscribe({
       next: (roles) => {
         this.rolesSubject.next(roles);
+        console.log('✅ Roles loaded:', roles.length);
       },
       error: (error) => {
-        console.warn('Failed to load roles from JSON:', error);
+        console.error('❌ Failed to load roles from JSON:', error);
         this.rolesSubject.next([]);
       }
     });
@@ -75,9 +80,10 @@ export class DataService {
     this.http.get<Project[]>('data/project.json').subscribe({
       next: (projects) => {
         this.projectsSubject.next(projects);
+        console.log('✅ Projects loaded:', projects.length);
       },
       error: (error) => {
-        console.warn('Failed to load projects from JSON:', error);
+        console.error('❌ Failed to load projects from JSON:', error);
         this.projectsSubject.next([]);
       }
     });
@@ -86,9 +92,10 @@ export class DataService {
     this.http.get<Venue[]>('data/venue.json').subscribe({
       next: (venues) => {
         this.venuesSubject.next(venues);
+        console.log('✅ Venues loaded:', venues.length);
       },
       error: (error) => {
-        console.warn('Failed to load venues from JSON:', error);
+        console.error('❌ Failed to load venues from JSON:', error);
         this.venuesSubject.next([]);
       }
     });
@@ -112,7 +119,20 @@ export class DataService {
 
   getMeetingById(id: string): Observable<Meeting | undefined> {
     return this.meetings$.pipe(
-      map(meetings => meetings.find(m => m.id === id))
+      map(meetings => {
+        console.log('🔍 Searching for meeting with ID:', id);
+        console.log('📋 Available meetings:', meetings.map(m => m.id));
+        const meeting = meetings.find(m => m.id === id);
+        console.log('✅ Found meeting:', meeting ? { id: meeting.id, number: meeting.meetingNumber } : null);
+        return meeting;
+      }),
+      tap(result => {
+        if (!result) {
+          console.warn(`❌ Meeting with ID ${id} not found in current meetings list`);
+        } else {
+          console.log(`✅ Meeting ${id} found successfully`);
+        }
+      })
     );
   }
 

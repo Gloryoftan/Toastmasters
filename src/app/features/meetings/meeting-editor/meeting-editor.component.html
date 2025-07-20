@@ -1,0 +1,383 @@
+<div class="meeting-editor" *ngIf="!isLoading">
+  <div class="page-header">
+    <h1>{{ isNewMeeting ? '创建新会议' : '编辑会议' }}</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cancel()">取消</button>
+      <button class="btn-primary" (click)="saveMeeting()" [disabled]="!meetingForm.valid">保存</button>
+    </div>
+  </div>
+
+  <form [formGroup]="meetingForm" class="meeting-form">
+    <!-- 基本信息 -->
+    <div class="form-section">
+      <h2>基本信息</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="id">会议ID</label>
+          <input 
+            id="id" 
+            type="text" 
+            formControlName="id" 
+            class="form-control"
+            [readonly]="!isNewMeeting"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="date">会议日期</label>
+          <input 
+            id="date" 
+            type="datetime-local" 
+            formControlName="date" 
+            class="form-control"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="meetingNumber">会议编号</label>
+          <input 
+            id="meetingNumber" 
+            type="number" 
+            formControlName="meetingNumber" 
+            class="form-control"
+            min="1"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="theme">会议主题</label>
+          <input 
+            id="theme" 
+            type="text" 
+            formControlName="theme" 
+            class="form-control"
+            placeholder="输入会议主题..."
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="venue">会议场地</label>
+          <select id="venue" formControlName="venue" class="form-control">
+            <option value="">选择场地</option>
+            <option 
+              *ngFor="let venue of venues$ | async" 
+              [value]="venue.id"
+            >
+              {{ venue.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="type">会议类型</label>
+          <select id="type" formControlName="type" class="form-control">
+            <option 
+              *ngFor="let type of meetingTypes" 
+              [value]="type.value"
+            >
+              {{ type.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status">会议状态</label>
+          <select id="status" formControlName="status" class="form-control">
+            <option 
+              *ngFor="let status of meetingStatuses" 
+              [value]="status.value"
+            >
+              {{ status.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 角色分配 -->
+    <div class="form-section">
+      <div class="section-header">
+        <h2>角色分配</h2>
+        <button type="button" class="btn-add" (click)="addAssignment()">
+          + 添加角色
+        </button>
+      </div>
+      
+      <div class="assignments-list" formArrayName="assignments">
+        <div 
+          *ngFor="let assignment of assignmentsArray.controls; let i = index" 
+          [formGroupName]="i"
+          class="assignment-item"
+        >
+          <div class="assignment-content">
+            <div class="form-group">
+              <label>角色</label>
+              <select formControlName="roleId" class="form-control">
+                <option value="">选择角色</option>
+                <option 
+                  *ngFor="let role of roles$ | async" 
+                  [value]="role.id"
+                >
+                  {{ role.englishName }} ({{ role.chineseName }})
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>会员</label>
+              <select formControlName="memberId" class="form-control">
+                <option value="">选择会员</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>备注</label>
+              <input type="text" formControlName="notes" class="form-control" placeholder="备注...">
+            </div>
+          </div>
+          
+          <button 
+            type="button" 
+            class="btn-remove" 
+            (click)="removeAssignment(i)"
+            title="删除角色分配"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 演讲安排 -->
+    <div class="form-section">
+      <div class="section-header">
+        <h2>演讲安排</h2>
+        <button type="button" class="btn-add" (click)="addSpeech()">
+          + 添加演讲
+        </button>
+      </div>
+      
+      <div class="speeches-list" formArrayName="speeches">
+        <div 
+          *ngFor="let speech of speechesArray.controls; let i = index" 
+          [formGroupName]="i"
+          class="speech-item"
+        >
+          <div class="speech-content">
+            <div class="form-group">
+              <label>演讲者</label>
+              <select formControlName="memberId" class="form-control">
+                <option value="">选择演讲者</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>演讲题目</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="演讲题目...">
+            </div>
+
+            <div class="form-group">
+              <label>演讲级别</label>
+              <select formControlName="level" class="form-control">
+                <option 
+                  *ngFor="let level of speechLevels" 
+                  [value]="level"
+                >
+                  {{ level }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>项目</label>
+              <select formControlName="projectId" class="form-control">
+                <option value="">选择项目</option>
+                <option 
+                  *ngFor="let project of projects$ | async" 
+                  [value]="project.id"
+                >
+                  {{ project.englishName }} ({{ project.chineseName }})
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>评估员</label>
+              <select formControlName="evaluatorId" class="form-control">
+                <option value="">选择评估员</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label>
+                <input type="checkbox" formControlName="passed">
+                通过评估
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>备注</label>
+              <input type="text" formControlName="notes" class="form-control" placeholder="备注...">
+            </div>
+          </div>
+          
+          <button 
+            type="button" 
+            class="btn-remove" 
+            (click)="removeSpeech(i)"
+            title="删除演讲"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 访客信息 -->
+    <div class="form-section">
+      <div class="section-header">
+        <h2>访客信息</h2>
+        <button type="button" class="btn-add" (click)="addVisitor()">
+          + 添加访客
+        </button>
+      </div>
+      
+      <div class="visitors-list" formArrayName="visitors">
+        <div 
+          *ngFor="let visitor of visitorsArray.controls; let i = index" 
+          [formGroupName]="i"
+          class="visitor-item"
+        >
+          <div class="visitor-content">
+            <div class="form-group">
+              <label>访客</label>
+              <select formControlName="memberId" class="form-control">
+                <option value="">选择访客</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>对接人</label>
+              <select formControlName="contactId" class="form-control">
+                <option value="">选择对接人</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>来源渠道</label>
+              <input type="text" formControlName="source" class="form-control" placeholder="来源渠道...">
+            </div>
+
+            <div class="form-group">
+              <label>备注</label>
+              <input type="text" formControlName="notes" class="form-control" placeholder="备注...">
+            </div>
+          </div>
+          
+          <button 
+            type="button" 
+            class="btn-remove" 
+            (click)="removeVisitor(i)"
+            title="删除访客"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 参会人员 -->
+    <div class="form-section">
+      <div class="section-header">
+        <h2>参会人员</h2>
+        <button type="button" class="btn-add" (click)="addAttendee()">
+          + 添加参会人员
+        </button>
+      </div>
+      
+      <div class="attendees-list" formArrayName="attendees">
+        <div 
+          *ngFor="let attendee of attendeesArray.controls; let i = index" 
+          [formGroupName]="i"
+          class="attendee-item"
+        >
+          <div class="attendee-content">
+            <div class="form-group">
+              <label>参会人员</label>
+              <select formControlName="memberId" class="form-control">
+                <option value="">选择参会人员</option>
+                <option 
+                  *ngFor="let member of members$ | async" 
+                  [value]="member.id"
+                >
+                  {{ member.englishName }}{{ member.chineseName ? ' (' + member.chineseName + ')' : '' }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>备注</label>
+              <input type="text" formControlName="notes" class="form-control" placeholder="备注...">
+            </div>
+          </div>
+          
+          <button 
+            type="button" 
+            class="btn-remove" 
+            (click)="removeAttendee(i)"
+            title="删除参会人员"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 备注 -->
+    <div class="form-section">
+      <h2>备注</h2>
+      <div class="form-group">
+        <textarea 
+          formControlName="notes" 
+          class="form-control textarea"
+          placeholder="输入会议备注..."
+          rows="4"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="loading" *ngIf="isLoading">
+  <p>加载中...</p>
+</div> 

@@ -7,7 +7,11 @@ export const MEETINGS_ROUTES: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./meeting-form/meeting-form.component').then(m => m.MeetingFormComponent)
+    loadComponent: () => import('./meeting-editor/meeting-editor.component').then(m => m.MeetingEditorComponent)
+  },
+  {
+    path: ':id/edit',
+    loadComponent: () => import('./meeting-editor/meeting-editor.component').then(m => m.MeetingEditorComponent)
   },
   {
     path: ':id',
