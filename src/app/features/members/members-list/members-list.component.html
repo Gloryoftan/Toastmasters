@@ -3,22 +3,60 @@
     <h1>会员管理</h1>
   </div>
 
-  <!-- 搜索框 -->
-  <div class="search-container">
-    <div class="search-box">
-      <input 
-        type="text" 
-        [formControl]="searchControl" 
-        placeholder="搜索会员姓名、TM ID 或身份类型..."
-        class="search-input"
+  <!-- 搜索和筛选区域 -->
+  <div class="filters-container">
+    <!-- 搜索框 -->
+    <div class="search-container">
+      <div class="search-box">
+        <input 
+          type="text" 
+          [formControl]="searchControl" 
+          placeholder="搜索会员姓名、TM ID 或身份类型..."
+          class="search-input"
+        >
+        <button 
+          *ngIf="searchControl.value" 
+          class="clear-button" 
+          (click)="clearSearch()"
+          title="清除搜索"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- 会员类型筛选器 -->
+    <div class="filter-container">
+      <select 
+        [formControl]="filterControl" 
+        class="filter-select"
+        title="按会员类型筛选"
       >
+        <option 
+          *ngFor="let option of membershipTypeOptions" 
+          [value]="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
       <button 
-        *ngIf="searchControl.value" 
-        class="clear-button" 
-        (click)="clearSearch()"
-        title="清除搜索"
+        *ngIf="filterControl.value" 
+        class="clear-filter-button" 
+        (click)="clearFilter()"
+        title="清除筛选"
       >
         ✕
+      </button>
+    </div>
+
+    <!-- 清除所有筛选按钮 -->
+    <div class="clear-all-container" *ngIf="searchControl.value || filterControl.value">
+      <button 
+        class="clear-all-button" 
+        (click)="clearAllFilters()"
+        title="清除所有筛选"
+      >
+        清除所有筛选
       </button>
     </div>
   </div>

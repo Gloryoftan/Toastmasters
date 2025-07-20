@@ -11,15 +11,26 @@
   margin-bottom: 32px;
 }
 
+// 筛选器容器样式
+.filters-container {
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
 // 搜索框样式
 .search-container {
-  margin-bottom: 24px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
 }
 
 .search-box {
   position: relative;
-  max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .search-input {
@@ -65,6 +76,86 @@
 
   &:hover {
     background-color: #f5f5f5;
+    color: #333;
+  }
+}
+
+// 筛选器样式
+.filter-container {
+  position: relative;
+  min-width: 200px;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 12px 16px;
+  padding-right: 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+  }
+
+  &:hover {
+    border-color: #bdbdbd;
+  }
+}
+
+.clear-filter-button {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+}
+
+// 清除所有筛选按钮样式
+.clear-all-container {
+  flex-shrink: 0;
+}
+
+.clear-all-button {
+  padding: 10px 16px;
+  background: #f5f5f5;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #e0e0e0;
+    border-color: #bdbdbd;
     color: #333;
   }
 }
@@ -159,11 +250,19 @@
 
 // 响应式设计
 @media (max-width: 768px) {
-  .search-box {
-    max-width: 100%;
+  .filters-container {
+    flex-direction: column;
+    align-items: stretch;
   }
   
-  .search-input {
+  .search-container,
+  .filter-container {
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .search-input,
+  .filter-select {
     font-size: 16px; // 防止iOS放大
   }
   

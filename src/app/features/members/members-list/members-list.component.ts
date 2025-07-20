@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Observable, map, startWith, combineLatest } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
-import { Member } from '../../../core/models/member.model';
+import { Member, MembershipType } from '../../../core/models/member.model';
 
 @Component({
   selector: 'app-members-list',
@@ -17,6 +17,19 @@ export class MembersListComponent implements OnInit {
   members$: Observable<Member[]>;
   filteredMembers$: Observable<Member[]>;
   searchControl = new FormControl('');
+  filterControl = new FormControl<MembershipType | ''>('');
+
+  // 会员类型选项
+  membershipTypeOptions = [
+    { value: '', label: '所有会员' },
+    { value: 'member', label: '活跃会员' },
+    { value: 'former_member', label: '前会员' },
+    { value: 'honorary_member', label: '荣誉会员' },
+    { value: 'other_club_member', label: '其他俱乐部会员' },
+    { value: 'visitor', label: '访客' },
+    { value: 'guest', label: '嘉宾' },
+    { value: 'other', label: '其他' }
+  ];
 
   constructor(private dataService: DataService) {
     this.members$ = this.dataService.getMembers();
@@ -24,20 +37,29 @@ export class MembersListComponent implements OnInit {
     // 创建过滤后的会员列表
     this.filteredMembers$ = combineLatest([
       this.members$,
-      this.searchControl.valueChanges.pipe(startWith(''))
+      this.searchControl.valueChanges.pipe(startWith('')),
+      this.filterControl.valueChanges.pipe(startWith(''))
     ]).pipe(
-      map(([members, searchTerm]) => {
-        if (!searchTerm || searchTerm.trim() === '') {
-          return members;
+      map(([members, searchTerm, filterType]) => {
+        let filteredMembers = members;
+        
+        // 按会员类型筛选
+        if (filterType && filterType !== '') {
+          filteredMembers = filteredMembers.filter(member => member.membershipType === filterType);
         }
         
-        const searchLower = searchTerm.toLowerCase().trim();
-        return members.filter(member => 
-          member.englishName.toLowerCase().includes(searchLower) ||
-          (member.chineseName && member.chineseName.toLowerCase().includes(searchLower)) ||
-          (member.toastmastersId && member.toastmastersId.toLowerCase().includes(searchLower)) ||
-          this.getMemberStatusText(member.membershipType).toLowerCase().includes(searchLower)
-        );
+        // 按搜索词筛选
+        if (searchTerm && searchTerm.trim() !== '') {
+          const searchLower = searchTerm.toLowerCase().trim();
+          filteredMembers = filteredMembers.filter(member => 
+            member.englishName.toLowerCase().includes(searchLower) ||
+            (member.chineseName && member.chineseName.toLowerCase().includes(searchLower)) ||
+            (member.toastmastersId && member.toastmastersId.toLowerCase().includes(searchLower)) ||
+            this.getMemberStatusText(member.membershipType).toLowerCase().includes(searchLower)
+          );
+        }
+        
+        return filteredMembers;
       })
     );
   }
@@ -72,5 +94,14 @@ export class MembersListComponent implements OnInit {
 
   clearSearch() {
     this.searchControl.setValue('');
+  }
+
+  clearFilter() {
+    this.filterControl.setValue('');
+  }
+
+  clearAllFilters() {
+    this.searchControl.setValue('');
+    this.filterControl.setValue('');
   }
 } 

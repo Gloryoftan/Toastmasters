@@ -190,8 +190,62 @@
     "type": "regular",
     "status": "draft",
     "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "TBD"
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "TBD"
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0013"
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "TBD"
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "TBD"
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "TBD"
+      },
+      {
+        "roleId": "RL09",
+        "memberId": "TBD"
+      }
     ],
     "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0005",
+    "date": "2025-08-03 14:30",
+    "meetingNumber": 434,
+    "theme": "待定",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "draft",
+    "assignments": [
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0029",
+        "title": "TBD",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "TBD",
+        "passed": false
+      }
     ],
     "visitors": [
     ],
