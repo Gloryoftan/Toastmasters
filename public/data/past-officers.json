@@ -1,0 +1,53 @@
+[
+  {
+    "id": "PO22",
+    "term": "22",
+    "termYear": "2025",
+    "startDate": "2025-01-01",
+    "endDate": "2025-06-30",
+    "officers": [
+
+    ]
+  },
+  {
+    "id": "PO23",
+    "term": "23",
+    "termYear": "2025",
+    "startDate": "2025-07-01",
+    "endDate": "2025-12-31",
+    "officers": [
+      {
+        "officeId": "OF01",
+        "memberId": "MB0003"
+      },
+      {
+        "officeId": "OF02",
+        "memberId": "MB0004"
+      },
+      {
+        "officeId": "OF03",
+        "memberId": "MB0017"
+      },
+      {
+        "officeId": "OF04",
+        "memberId": "MB0035"
+      },
+      {
+        "officeId": "OF05",
+        "memberId": "MB0020"
+      },
+      {
+        "officeId": "OF06",
+        "memberId": "MB0013"
+      },
+      {
+        "officeId": "OF07",
+        "memberId": "MB0014"
+      },
+      {
+        "officeId": "OF08",
+        "memberId": "MB0004"
+      }
+    ]
+  }
+]

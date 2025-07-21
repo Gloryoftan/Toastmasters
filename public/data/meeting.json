@@ -165,30 +165,72 @@
   },
   {
     "id": "MT0003",
-    "date": "2025-07-20 14:30",
-    "meetingNumber": 432,
+    "date": "2025-07-20T01:00:00.000Z",
+    "meetingNumber": 1,
     "theme": "Club Officer Training",
     "venue": "VN02",
     "type": "training",
-    "status": "scheduled",
+    "status": "completed",
     "assignments": [
+        {
+            "roleId": "RL10",
+            "memberId": "MB0002",
+            "notes": ""
+        },
+        {
+            "roleId": "RL11",
+            "memberId": "MB0004",
+            "notes": ""
+        },
+        {
+            "roleId": "RL11",
+            "memberId": "MB0005",
+            "notes": ""
+        },
+        {
+            "roleId": "RL11",
+            "memberId": "MB0035",
+            "notes": ""
+        }
     ],
-    "speeches": [
-    ],
-    "visitors": [
-    ],
+    "speeches": [],
+    "visitors": [],
     "attendees": [
+        {
+            "memberId": "MB0003",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0014",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0017",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0020",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0021",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0022",
+            "notes": ""
+        }
     ],
     "notes": ""
   },
   {
     "id": "MT0004",
     "date": "2025-07-27 14:30",
-    "meetingNumber": 433,
+    "meetingNumber": 432,
     "theme": "待定",
     "venue": "VN01",
     "type": "regular",
-    "status": "draft",
+    "status": "scheduled",
     "assignments": [
       {
         "roleId": "RL01",
@@ -230,7 +272,7 @@
   {
     "id": "MT0005",
     "date": "2025-08-03 14:30",
-    "meetingNumber": 434,
+    "meetingNumber": 433,
     "theme": "待定",
     "venue": "VN01",
     "type": "regular",

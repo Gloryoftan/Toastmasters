@@ -7,6 +7,8 @@ import { Role } from '../models/role.model';
 import { Project } from '../models/project.model';
 import { Venue } from '../models/venue.model';
 import { AttendanceStats } from '../models/statistics.model';
+import { Officer, PastOfficer } from '../models/past-officers.model';
+import { Officer as OfficerPosition } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -177,31 +179,43 @@ export class DataService {
     ]).pipe(
       map(([members, meetings]) => {
         const completedMeetings = meetings.filter(m => m.status === 'completed');
-        
         return members.map(member => {
           // 统计该会员在各个会议中的分配情况
-          const memberAssignments = completedMeetings.flatMap(meeting => 
-            meeting.assignments.filter(a => a.memberId === member.id)
-          );
-          
-          // 统计该会员的演讲情况
-          const memberSpeeches = completedMeetings.flatMap(meeting => 
-            meeting.speeches.filter(s => s.memberId === member.id)
-          );
-
-          const attendedMeetings = memberAssignments.length + memberSpeeches.length;
+          // 只要该会员在某场会议中担任过任意角色或演讲，则计为一次出勤
+          const attendedMeetingIds = new Set<string>();
+          let speakingRoles = 0;
+          let leadershipRoles = 0;
+          let evaluationRoles = 0;
+          let functionalRoles = 0;
+          completedMeetings.forEach(meeting => {
+            let attended = false;
+            // 演讲
+            const speeches = meeting.speeches.filter(s => s.memberId === member.id);
+            if (speeches.length > 0) {
+              attended = true;
+              speakingRoles += speeches.length;
+            }
+            // 角色
+            const assignments = meeting.assignments.filter(a => a.memberId === member.id);
+            if (assignments.length > 0) {
+              attended = true;
+              // 这里可根据角色类型进一步细分
+              leadershipRoles += assignments.length;
+            }
+            if (attended) attendedMeetingIds.add(meeting.id);
+          });
           const totalMeetings = completedMeetings.length;
-
+          const attendedMeetings = attendedMeetingIds.size;
           return {
             memberId: member.id,
-            memberName: `${member.englishName} (${member.chineseName})`,
+            memberName: member.englishName,
             totalMeetings,
             attendedMeetings,
             attendanceRate: totalMeetings > 0 ? attendedMeetings / totalMeetings : 0,
-            speakingRoles: memberSpeeches.length,
-            evaluationRoles: 0, // 可以根据需要进一步统计
-            leadershipRoles: memberAssignments.length,
-            functionalRoles: 0 // 可以根据需要进一步统计
+            speakingRoles,
+            evaluationRoles,
+            leadershipRoles,
+            functionalRoles
           };
         });
       })
@@ -228,6 +242,23 @@ export class DataService {
         );
       })
     );
+  }
+
+  // 获取当前官员（即past-officers.json中term最大那一届的officers）
+  getCurrentOfficers(): Observable<Officer[]> {
+    return this.http.get<PastOfficer[]>('data/past-officers.json').pipe(
+      map((terms) => {
+        if (!terms || terms.length === 0) return [];
+        // 找到term最大的那一届
+        const sorted = [...terms].sort((a, b) => Number(b.term) - Number(a.term));
+        return sorted[0]?.officers || [];
+      })
+    );
+  }
+
+  // 获取官员职务（officer.json）
+  getOfficerPositions(): Observable<OfficerPosition[]> {
+    return this.http.get<OfficerPosition[]>('data/officer.json');
   }
 
   // 重新加载数据

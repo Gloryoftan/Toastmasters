@@ -66,7 +66,7 @@
       <div class="member-info">
         <h3>{{ member.englishName }}<span *ngIf="member.chineseName"> ({{ member.chineseName }})</span></h3>
         <p *ngIf="member.toastmastersId">TM ID: {{ member.toastmastersId }}</p>
-        <p>身份类型: {{ member.membershipType }}</p>
+        <p>身份类型: {{ MembershipTypeLabels[member.membershipType] }}</p>
         <p class="join-date">加入日期: {{ member.joinDate | date:'yyyy-MM-dd' }}</p>
         <p *ngIf="member.credentials">头衔: {{ member.credentials }}</p>
         <p *ngIf="member.pathways && member.pathways.length > 0">Pathways: {{ member.pathways.join(', ') }}</p>

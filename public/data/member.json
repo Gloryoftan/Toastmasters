@@ -327,5 +327,12 @@
     "chineseName": "许凤",
     "membershipType": "member",
     "gender": "female"
+  },
+  {
+    "id": "MB0035",
+    "englishName": "Susan",
+    "chineseName": "费淑贞",
+    "membershipType": "other_club_member",
+    "gender": "female"
   }
 ]

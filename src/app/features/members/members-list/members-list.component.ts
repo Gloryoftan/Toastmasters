@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Observable, map, startWith, combineLatest } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
-import { Member, MembershipType } from '../../../core/models/member.model';
+import { Member, MembershipType, MembershipTypeLabels } from '../../../core/models/member.model';
 
 @Component({
   selector: 'app-members-list',
@@ -18,17 +18,12 @@ export class MembersListComponent implements OnInit {
   filteredMembers$: Observable<Member[]>;
   searchControl = new FormControl('');
   filterControl = new FormControl<MembershipType | ''>('');
+  public MembershipTypeLabels = MembershipTypeLabels;
 
   // 会员类型选项
   membershipTypeOptions = [
     { value: '', label: '所有会员' },
-    { value: 'member', label: '活跃会员' },
-    { value: 'former_member', label: '前会员' },
-    { value: 'honorary_member', label: '荣誉会员' },
-    { value: 'other_club_member', label: '其他俱乐部会员' },
-    { value: 'visitor', label: '访客' },
-    { value: 'guest', label: '嘉宾' },
-    { value: 'other', label: '其他' }
+    ...Object.entries(MembershipTypeLabels).map(([value, label]) => ({ value, label }))
   ];
 
   constructor(private dataService: DataService) {

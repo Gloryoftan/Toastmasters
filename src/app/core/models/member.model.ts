@@ -11,12 +11,23 @@ export type MembershipType =
   | 'guest' // 嘉宾
   | 'other'; // 其他会员
 
+export const MembershipTypeLabels: Record<MembershipType, string> = {
+  member: '活跃会员',
+  former_member: '前会员',
+  honorary_member: '荣誉会员',
+  other_club_member: '其他俱乐部会员',
+  visitor: '访客',
+  guest: '嘉宾',
+  other: '其他'
+};
+
 export type MembershipStatus = 'active' | 'inactive';
 
 export interface Member {
   id: string; // 会员唯一标识符
   englishName: string; // 英文姓名
   membershipType: MembershipType; // 会员类型
+  additionalMembershipTypes?: MembershipType[]; // 附加身份（可选）
   chineseName?: string; // 中文姓名（可选）
   toastmastersId?: string; // 演讲会会员ID（可选）
   joinDate?: Date; // 加入日期（可选）

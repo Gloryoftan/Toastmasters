@@ -6,6 +6,7 @@ import { DataService } from '../../core/services/data.service';
 import { Member } from '../../core/models/member.model';
 import { Meeting } from '../../core/models/meeting.model';
 import { Venue } from '../../core/models/venue.model';
+import { Officer } from '../../core/models/past-officers.model';
 
 interface DashboardMeetingView extends Meeting {
   venueName: string;
@@ -91,6 +92,21 @@ interface DashboardMeetingView extends Meeting {
               <button class="btn-secondary" routerLink="/statistics">查看统计</button>
               <button class="btn-secondary" routerLink="/reports">生成报告</button>
             </div>
+          </div>
+
+          <div class="current-officers">
+            <h2>官员团队</h2>
+            <ul *ngIf="currentOfficersView$ | async as officers; else loadingOfficers">
+              <li *ngFor="let officer of officers">
+                <span class="officer-role">{{ officer.officeName }}</span>
+                <span>：</span>
+                <span class="officer-member">{{ officer.memberName }}</span>
+              </li>
+              <li *ngIf="officers.length === 0">暂无官员数据</li>
+            </ul>
+            <ng-template #loadingOfficers>
+              <span>加载中...</span>
+            </ng-template>
           </div>
 
           <div class="contact-info">
@@ -424,6 +440,68 @@ interface DashboardMeetingView extends Meeting {
       gap: 24px;
     }
 
+    .current-officers {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .current-officers h2 {
+      margin-bottom: 16px;
+      color: #333;
+      text-align: center;
+    }
+
+    .current-officers ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .current-officers li {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 320px;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 10px 0;
+    }
+
+    .current-officers li:last-child {
+      border-bottom: none;
+    }
+
+    .current-officers .officer-role {
+      font-weight: 600;
+      color: #1976d2;
+      flex: 1;
+      text-align: right;
+      margin-right: 12px;
+      min-width: 120px;
+    }
+
+    .current-officers .officer-member {
+      color: #333;
+      flex: 1;
+      text-align: left;
+      margin-left: 12px;
+      min-width: 100px;
+    }
+
+    .current-officers span {
+      font-size: 15px;
+    }
+
     .contact-info {
       background: white;
       padding: 24px;
@@ -730,6 +808,8 @@ export class DashboardComponent implements OnInit {
   activeMembers$: Observable<number>;
   completedMeetings$: Observable<number>;
   scheduledMeetings$: Observable<number>;
+  currentOfficers$: Observable<Officer[]>;
+  currentOfficersView$: Observable<{ officeName: string; memberName: string }[]>;
   
   // 微信号显示和复制状态
   wechatRevealed = false;
@@ -738,38 +818,51 @@ export class DashboardComponent implements OnInit {
   constructor(private dataService: DataService) {
     this.members$ = this.dataService.getMembers();
     this.meetings$ = this.dataService.getMeetings();
-    
-    // 最近5次会议的增强视图
+    this.currentOfficers$ = this.dataService.getCurrentOfficers();
+    this.currentOfficersView$ = combineLatest([
+      this.currentOfficers$,
+      this.dataService.getOfficerPositions(),
+      this.members$
+    ]).pipe(
+      map(([officers, officerPositions, members]) => {
+        return officers.map(officer => {
+          const position = officerPositions.find(p => p.id === officer.officeId);
+          const member = members.find(m => m.id === officer.memberId);
+          return {
+            officeName: position?.chineseName || position?.englishName || officer.officeId,
+            memberName: member?.englishName || member?.chineseName || officer.memberId
+          };
+        });
+      })
+    );
+    // 恢复recentMeetings$初始化
     this.recentMeetings$ = combineLatest([
       this.dataService.getMeetings(),
       this.dataService.getVenues()
     ]).pipe(
       map(([meetings, venues]) => {
         return meetings
-          .sort((a, b) => b.date.getTime() - a.date.getTime()) // 按日期倒序
-          .slice(0, 5) // 取最近5次
+          .sort((a, b) => b.date.getTime() - a.date.getTime())
+          .slice(0, 5)
           .map(meeting => {
             const venue = venues.find(v => v.id === meeting.venue);
-                         return {
-               ...meeting,
-               venueName: venue ? venue.name : meeting.venue,
-               typeText: this.getTypeText(meeting.type),
-               assignmentCount: meeting.assignments.length,
-               visitorCount: meeting.visitors.length,
-               speechCount: meeting.speeches.length
-             } as DashboardMeetingView;
+            return {
+              ...meeting,
+              venueName: venue ? venue.name : meeting.venue,
+              typeText: this.getTypeText(meeting.type),
+              assignmentCount: meeting.assignments.length,
+              visitorCount: meeting.visitors.length,
+              speechCount: meeting.speeches.length
+            } as DashboardMeetingView;
           });
       })
     );
-    
     this.activeMembers$ = this.members$.pipe(
       map(members => members.filter(m => m.membershipType === 'member').length)
     );
-    
     this.completedMeetings$ = this.meetings$.pipe(
       map(meetings => meetings.filter(m => m.status === 'completed').length)
     );
-    
     this.scheduledMeetings$ = this.meetings$.pipe(
       map(meetings => meetings.filter(m => m.status === 'scheduled').length)
     );

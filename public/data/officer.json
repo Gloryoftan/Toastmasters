@@ -2,41 +2,41 @@
   {
     "id": "OF01",
     "englishName": "President",
-    "chineseName": "会长"
+    "chineseName": "主席"
   },
   {
     "id": "OF02",
     "englishName": "Vice President Education",
-    "chineseName": "教育副会长"
+    "chineseName": "教育副主席"
   },
   {
     "id": "OF03",
     "englishName": "Vice President Membership",
-    "chineseName": "会员副会长"
+    "chineseName": "会员副主席"
   },
   {
     "id": "OF04",
     "englishName": "Vice President Public Relations",
-    "chineseName": "公关副会长"
+    "chineseName": "公关副主席"
   },
   {
     "id": "OF05",
     "englishName": "Secretary",
-    "chineseName": "秘书"
+    "chineseName": "秘书长"
   },
   {
     "id": "OF06",
     "englishName": "Treasurer",
-    "chineseName": "财务"
+    "chineseName": "财务官"
   },
   {
     "id": "OF07",
     "englishName": "Sergeant at Arms",
-    "chineseName": "纠察员"
+    "chineseName": "SAA"
   },
   {
     "id": "OF08",
     "englishName": "Immediate Past President",
-    "chineseName": "前任会长"
+    "chineseName": "前主席"
   }
 ]

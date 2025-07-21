@@ -48,5 +48,10 @@
     "id": "RL10",
     "englishName": "Photographer",
     "chineseName": "摄影师"
+  },
+  {
+    "id": "RL11",
+    "englishName": "Volunteer",
+    "chineseName": "志愿者"
   }
 ]

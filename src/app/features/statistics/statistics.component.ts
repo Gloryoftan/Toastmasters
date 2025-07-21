@@ -7,6 +7,7 @@ import { AttendanceStats } from '../../core/models/statistics.model';
 import { Member } from '../../core/models/member.model';
 import { Role } from '../../core/models/role.model';
 import { Project } from '../../core/models/project.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-statistics',
@@ -339,7 +340,12 @@ export class StatisticsComponent implements OnInit {
   activeTab = 'members';
 
   constructor(private dataService: DataService) {
-    this.attendanceStats$ = this.dataService.getAttendanceStats();
+    this.attendanceStats$ = this.dataService.getAttendanceStats().pipe(
+      map(stats => stats
+        .sort((a, b) => b.attendanceRate - a.attendanceRate)
+        .slice(0, 10)
+      )
+    );
     this.members$ = this.dataService.getMembers();
     this.roles$ = this.dataService.getRoles();
     this.projects$ = this.dataService.getProjects();
