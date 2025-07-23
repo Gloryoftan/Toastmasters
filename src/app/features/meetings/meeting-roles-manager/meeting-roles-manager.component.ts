@@ -44,13 +44,14 @@ export class MeetingRolesManagerComponent implements OnInit {
           }
         });
         
-        // 添加两组备稿
+        // 添加两组备稿和个评，交替排列
         const speakerRole = roles.find(r => r.id === 'RL04');
-        if (speakerRole) {
+        const evaluatorRole = roles.find(r => r.id === 'RL05');
+        if (speakerRole && evaluatorRole) {
           filteredRoles.push({ ...speakerRole, id: 'RL04_1', chineseName: '备稿演讲1', englishName: 'Speaker 1' });
-          filteredRoles.push({ ...speakerRole, id: 'RL05_1', chineseName: '个评1', englishName: 'Evaluator 1' });
+          filteredRoles.push({ ...evaluatorRole, id: 'RL05_1', chineseName: '个评1', englishName: 'Evaluator 1' });
           filteredRoles.push({ ...speakerRole, id: 'RL04_2', chineseName: '备稿演讲2', englishName: 'Speaker 2' });
-          filteredRoles.push({ ...speakerRole, id: 'RL05_2', chineseName: '个评2', englishName: 'Evaluator 2' });
+          filteredRoles.push({ ...evaluatorRole, id: 'RL05_2', chineseName: '个评2', englishName: 'Evaluator 2' });
         }
         
         return filteredRoles;
@@ -77,13 +78,19 @@ export class MeetingRolesManagerComponent implements OnInit {
       this.roleAssignments[meeting.id] = {};
       this.filteredRoles$.subscribe(roles => {
         roles.forEach(role => {
-          // 处理扩展角色ID的初始化
-          let assignment;
-          if (role.id.startsWith('RL04_')) {
-            assignment = meeting.assignments.find(a => a.roleId === 'RL04');
-          } else if (role.id.startsWith('RL05_')) {
-            assignment = meeting.assignments.find(a => a.roleId === 'RL05');
+          let assignment = undefined;
+          // 会议角色（非备稿/个评）
+          if (role.id.startsWith('RL04_') || role.id.startsWith('RL05_')) {
+            // 备稿和个评，使用 speeches
+            const speechIndex = role.id.endsWith('_1') ? 0 : 1;
+            const speech = meeting.speeches[speechIndex];
+            if (role.id.startsWith('RL04_')) {
+              assignment = speech ? { memberId: speech.memberId } : undefined;
+            } else if (role.id.startsWith('RL05_')) {
+              assignment = speech && speech.evaluatorId ? { memberId: speech.evaluatorId } : undefined;
+            }
           } else {
+            // 其他角色，仍用assignments
             assignment = meeting.assignments.find(a => a.roleId === role.id);
           }
           this.roleAssignments[meeting.id][role.id] = assignment ? assignment.memberId : '';
@@ -100,30 +107,43 @@ export class MeetingRolesManagerComponent implements OnInit {
     this.upcomingMeetings$.subscribe(meetings => {
       meetings.forEach(meeting => {
         const updatedAssignments: Assignment[] = [];
+        const updatedSpeeches = [...(meeting.speeches || [])];
         const roleIds = Object.keys(this.roleAssignments[meeting.id]);
 
         roleIds.forEach(roleId => {
           const memberId = this.roleAssignments[meeting.id][roleId];
           if (memberId) {
-            // 将扩展的角色ID映射回原始角色ID
-            let originalRoleId = roleId;
-            if (roleId.startsWith('RL04_')) {
-              originalRoleId = 'RL04';
-            } else if (roleId.startsWith('RL05_')) {
-              originalRoleId = 'RL05';
-            }
-            
-            // 检查是否已存在相同角色的分配，避免重复
-            const existingAssignment = updatedAssignments.find(a => a.roleId === originalRoleId);
-            if (!existingAssignment) {
-              updatedAssignments.push({ roleId: originalRoleId, memberId });
+            if (roleId.startsWith('RL04_') || roleId.startsWith('RL05_')) {
+              // 备稿和个评，更新 speeches
+              const speechIndex = roleId.endsWith('_1') ? 0 : 1;
+              if (!updatedSpeeches[speechIndex]) {
+                updatedSpeeches[speechIndex] = {
+                  memberId: '',
+                  title: '',
+                  level: 'Level 1',
+                  projectId: ''
+                };
+              }
+              if (roleId.startsWith('RL04_')) {
+                updatedSpeeches[speechIndex].memberId = memberId;
+              } else if (roleId.startsWith('RL05_')) {
+                updatedSpeeches[speechIndex].evaluatorId = memberId;
+              }
+            } else {
+              // 其他角色，更新assignments
+              let originalRoleId = roleId;
+              const existingAssignment = updatedAssignments.find(a => a.roleId === originalRoleId);
+              if (!existingAssignment) {
+                updatedAssignments.push({ roleId: originalRoleId, memberId });
+              }
             }
           }
         });
 
         const updatedMeeting: Meeting = {
           ...meeting,
-          assignments: updatedAssignments
+          assignments: updatedAssignments,
+          speeches: updatedSpeeches
         };
 
         this.dataService.updateMeeting(updatedMeeting);

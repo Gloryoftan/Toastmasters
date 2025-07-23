@@ -230,7 +230,7 @@ export class MeetingEditorComponent implements OnInit {
       title: [speech?.title || '', Validators.required],
       level: [speech?.level || 'Level 1', Validators.required],
       projectId: [speech?.projectId || '', Validators.required],
-      evaluatorId: [speech?.evaluatorId || '', Validators.required],
+      evaluatorId: [speech?.evaluatorId || ''],
       passed: [speech?.passed || false],
       notes: [speech?.notes || '']
     });

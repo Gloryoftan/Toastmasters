@@ -21,7 +21,11 @@
             class="form-control"
             [readonly]="!isNewMeeting"
             placeholder="会议ID"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('id')?.invalid && meetingForm.get('id')?.touched, 'ng-valid ng-touched': meetingForm.get('id')?.valid && meetingForm.get('id')?.touched}"
           >
+          <div class="invalid-feedback" *ngIf="meetingForm.get('id')?.invalid && meetingForm.get('id')?.touched">
+            会议ID为必填项
+          </div>
         </div>
 
         <div class="form-group">
@@ -31,7 +35,11 @@
             type="datetime-local" 
             formControlName="date" 
             class="form-control"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('date')?.invalid && meetingForm.get('date')?.touched, 'ng-valid ng-touched': meetingForm.get('date')?.valid && meetingForm.get('date')?.touched}"
           >
+          <div class="invalid-feedback" *ngIf="meetingForm.get('date')?.invalid && meetingForm.get('date')?.touched">
+            会议日期为必填项
+          </div>
         </div>
 
         <div class="form-group">
@@ -43,7 +51,11 @@
             class="form-control"
             min="1"
             placeholder="会议编号"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('meetingNumber')?.invalid && meetingForm.get('meetingNumber')?.touched, 'ng-valid ng-touched': meetingForm.get('meetingNumber')?.valid && meetingForm.get('meetingNumber')?.touched}"
           >
+          <div class="invalid-feedback" *ngIf="meetingForm.get('meetingNumber')?.invalid && meetingForm.get('meetingNumber')?.touched">
+            会议编号为必填项且必须大于0
+          </div>
         </div>
 
         <div class="form-group">
@@ -59,7 +71,9 @@
 
         <div class="form-group">
           <label for="venue">会议场地</label>
-          <select id="venue" formControlName="venue" class="form-control">
+          <select id="venue" formControlName="venue" class="form-control"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('venue')?.invalid && meetingForm.get('venue')?.touched, 'ng-valid ng-touched': meetingForm.get('venue')?.valid && meetingForm.get('venue')?.touched}"
+          >
             <option value="">选择场地</option>
             <option 
               *ngFor="let venue of venues$ | async" 
@@ -68,11 +82,16 @@
               {{ venue.name }}
             </option>
           </select>
+          <div class="invalid-feedback" *ngIf="meetingForm.get('venue')?.invalid && meetingForm.get('venue')?.touched">
+            会议场地为必选项
+          </div>
         </div>
 
         <div class="form-group">
           <label for="type">会议类型</label>
-          <select id="type" formControlName="type" class="form-control">
+          <select id="type" formControlName="type" class="form-control"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('type')?.invalid && meetingForm.get('type')?.touched, 'ng-valid ng-touched': meetingForm.get('type')?.valid && meetingForm.get('type')?.touched}"
+          >
             <option 
               *ngFor="let type of meetingTypes" 
               [value]="type.value"
@@ -80,11 +99,16 @@
               {{ type.label }}
             </option>
           </select>
+          <div class="invalid-feedback" *ngIf="meetingForm.get('type')?.invalid && meetingForm.get('type')?.touched">
+            会议类型为必选项
+          </div>
         </div>
 
         <div class="form-group">
           <label for="status">会议状态</label>
-          <select id="status" formControlName="status" class="form-control">
+          <select id="status" formControlName="status" class="form-control"
+            [ngClass]="{'ng-invalid ng-touched': meetingForm.get('status')?.invalid && meetingForm.get('status')?.touched, 'ng-valid ng-touched': meetingForm.get('status')?.valid && meetingForm.get('status')?.touched}"
+          >
             <option 
               *ngFor="let status of meetingStatuses" 
               [value]="status.value"
@@ -92,6 +116,9 @@
               {{ status.label }}
             </option>
           </select>
+          <div class="invalid-feedback" *ngIf="meetingForm.get('status')?.invalid && meetingForm.get('status')?.touched">
+            会议状态为必选项
+          </div>
         </div>
       </div>
     </div>

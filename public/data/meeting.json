@@ -225,48 +225,71 @@
   },
   {
     "id": "MT0004",
-    "date": "2025-07-27 14:30",
+    "date": "2025-07-26T14:30:00.000Z",
     "meetingNumber": 432,
     "theme": "待定",
     "venue": "VN01",
     "type": "regular",
     "status": "scheduled",
     "assignments": [
-      {
-        "roleId": "RL01",
-        "memberId": "TBD"
-      },
-      {
-        "roleId": "RL02",
-        "memberId": "TBD"
-      },
-      {
-        "roleId": "RL03",
-        "memberId": "MB0013"
-      },
-      {
-        "roleId": "RL06",
-        "memberId": "TBD"
-      },
-      {
-        "roleId": "RL07",
-        "memberId": "TBD"
-      },
-      {
-        "roleId": "RL08",
-        "memberId": "TBD"
-      },
-      {
-        "roleId": "RL09",
-        "memberId": "TBD"
-      }
+        {
+            "roleId": "RL01",
+            "memberId": "MB0020",
+            "notes": ""
+        },
+        {
+            "roleId": "RL02",
+            "memberId": "TBD",
+            "notes": ""
+        },
+        {
+            "roleId": "RL03",
+            "memberId": "MB0013",
+            "notes": ""
+        },
+        {
+            "roleId": "RL06",
+            "memberId": "MB0005",
+            "notes": ""
+        },
+        {
+            "roleId": "RL07",
+            "memberId": "MB0021",
+            "notes": ""
+        },
+        {
+            "roleId": "RL08",
+            "memberId": "TBD",
+            "notes": ""
+        },
+        {
+            "roleId": "RL09",
+            "memberId": "MB0014",
+            "notes": ""
+        }
     ],
     "speeches": [
+        {
+            "memberId": "MB0017",
+            "title": "TBD",
+            "level": "Level 2",
+            "projectId": "PJ17",
+            "evaluatorId": "MB0009",
+            "passed": false,
+            "notes": ""
+        },
+        {
+            "memberId": "MB0013",
+            "title": "The Be Project",
+            "level": "Level 1",
+            "projectId": "PJ02",
+            "evaluatorId": "",
+            "passed": false,
+            "notes": ""
+        }
     ],
-    "visitors": [
-    ],
-    "attendees": [
-    ],
+    "visitors": [],
+    "attendees": [],
     "notes": ""
   },
   {

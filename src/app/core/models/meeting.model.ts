@@ -29,7 +29,7 @@ export interface Speech {
   title: string; // 演讲题目
   level: Level; // 演讲级别
   projectId: string; // 项目ID
-  evaluatorId: string; // 评估员ID (MB0003, MB0004...)
+  evaluatorId?: string; // 评估员ID (MB0003, MB0004...)
   passed?: boolean; // 是否通过
   notes?: string;
 }
