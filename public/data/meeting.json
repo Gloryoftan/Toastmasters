@@ -276,7 +276,7 @@
     "theme": "待定",
     "venue": "VN01",
     "type": "regular",
-    "status": "draft",
+    "status": "scheduled",
     "assignments": [
     ],
     "speeches": [
@@ -294,5 +294,59 @@
     "attendees": [
     ],
     "notes": ""
-  }
+  },
+  {
+    "id": "MT0006",
+    "date": "2025-08-10 14:30",
+    "meetingNumber": 434,
+    "theme": "待定",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "scheduled",
+    "assignments": [
+    ],
+    "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0007",
+    "date": "2025-08-17 14:30",
+    "meetingNumber": 435,
+    "theme": "待定",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "scheduled",
+    "assignments": [
+    ],
+    "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0008",
+    "date": "2025-08-24 14:30",
+    "meetingNumber": 436,
+    "theme": "待定",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "scheduled",
+    "assignments": [
+    ],
+    "speeches": [
+    ],
+    "visitors": [
+    ],
+    "attendees": [
+    ],
+    "notes": ""
+  } 
 ] 

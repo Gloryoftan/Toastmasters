@@ -25,6 +25,12 @@ interface MemberDetailView {
     meetingInfo: string; 
     meetingDate: Date;
   }>;
+  allAttendanceHistory: Array<{
+    meetingInfo: string;
+    meetingDate: Date;
+    types: string[];
+    notes?: string;
+  }>;
   statistics: {
     totalSpeeches: number;
     passedSpeeches: number;
@@ -183,8 +189,8 @@ interface MemberDetailView {
       <!-- 参会历史 -->
       <div class="attendance-history card">
         <h2>参会历史</h2>
-        <div class="history-list" *ngIf="detail.attendanceHistory.length > 0; else noAttendance">
-          <div class="history-item" *ngFor="let attendance of detail.attendanceHistory">
+        <div class="history-list" *ngIf="detail.allAttendanceHistory.length > 0; else noAttendance">
+          <div class="history-item" *ngFor="let attendance of detail.allAttendanceHistory">
             <div class="item-header">
               <h3>{{ attendance.meetingInfo }}</h3>
               <span class="item-date">{{ attendance.meetingDate | date:'yyyy-MM-dd' }}</span>
@@ -580,16 +586,45 @@ export class MemberDetailComponent implements OnInit {
             const allRoleHistory = [...assignmentHistory, ...evaluatorHistory]
               .sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
 
+            // 新增：合并所有参会相关历史，去重
+            const meetingMap = new Map<string, { meetingInfo: string; meetingDate: Date; types: string[]; notes?: string }>();
+            // 1. 有演讲
+            speechHistory.forEach(s => {
+              const key = `${s.meetingInfo}|${s.meetingDate}`;
+              if (!meetingMap.has(key)) {
+                meetingMap.set(key, { meetingInfo: s.meetingInfo, meetingDate: s.meetingDate, types: ['演讲'] });
+              } else {
+                meetingMap.get(key)!.types.push('演讲');
+              }
+            });
+            // 2. 有角色
+            allRoleHistory.forEach(a => {
+              const key = `${a.meetingInfo}|${a.meetingDate}`;
+              if (!meetingMap.has(key)) {
+                meetingMap.set(key, { meetingInfo: a.meetingInfo, meetingDate: a.meetingDate, types: ['角色'], notes: a.notes });
+              } else {
+                meetingMap.get(key)!.types.push('角色');
+                if (a.notes) meetingMap.get(key)!.notes = a.notes;
+              }
+            });
+            // 3. 有签到
+            attendanceHistory.forEach(at => {
+              const key = `${at.meetingInfo}|${at.meetingDate}`;
+              if (!meetingMap.has(key)) {
+                meetingMap.set(key, { meetingInfo: at.meetingInfo, meetingDate: at.meetingDate, types: ['签到'], notes: at.notes });
+              } else {
+                meetingMap.get(key)!.types.push('签到');
+                if (at.notes) meetingMap.get(key)!.notes = at.notes;
+              }
+            });
+            const allAttendanceHistory = Array.from(meetingMap.values()).sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
+
             // 计算统计数据
             const completedMeetings = meetings.filter(m => m.status === 'completed');
             const totalSpeeches = speechHistory.length;
             const passedSpeeches = speechHistory.filter(s => s.passed === true).length;
             const totalAssignments = allRoleHistory.length; // 包含评估员角色
-            const totalMeetingsAttended = new Set([
-              ...speechHistory.map(s => s.meetingInfo),
-              ...allRoleHistory.map(a => a.meetingInfo), // 使用合并后的角色历史
-              ...attendanceHistory.map(a => a.meetingInfo)
-            ]).size;
+            const totalMeetingsAttended = allAttendanceHistory.length;
             const attendanceRate = completedMeetings.length > 0 ? totalMeetingsAttended / completedMeetings.length : 0;
 
             return {
@@ -597,6 +632,7 @@ export class MemberDetailComponent implements OnInit {
               speechHistory,
               assignmentHistory: allRoleHistory, // 包含评估员角色的完整角色历史
               attendanceHistory,
+              allAttendanceHistory,
               statistics: {
                 totalSpeeches,
                 passedSpeeches,

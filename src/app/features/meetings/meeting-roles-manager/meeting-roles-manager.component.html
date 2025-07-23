@@ -1,0 +1,53 @@
+<div class="roles-manager-container">
+  <div class="header">
+    <h1>未来会议角色管理</h1>
+    <button (click)="saveChanges()" class="save-btn">保存更改</button>
+  </div>
+  <ng-container *ngIf="{ meetings: upcomingMeetings$ | async, members: members$ | async, roles: filteredRoles$ | async } as data">
+    <div *ngIf="data.meetings && data.members && data.roles" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>角色</th>
+            <th *ngFor="let meeting of data.meetings">
+              {{ meeting.date | date: 'yyyy-MM-dd' }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 会议角色组 -->
+          <tr class="group-header">
+            <td [attr.colspan]="data.meetings.length + 1" class="group-title">会议角色</td>
+          </tr>
+          <tr *ngFor="let role of data.roles.slice(0, 6)">
+            <td>{{ role.englishName }} ({{ role.chineseName }})</td>
+            <td *ngFor="let meeting of data.meetings">
+              <select [(ngModel)]="roleAssignments[meeting.id][role.id]" (ngModelChange)="onRoleChange(meeting, role.id, $event)">
+                <option value="">未分配</option>
+                <option *ngFor="let member of data.members" [value]="member.id">
+                  {{ member.englishName }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          
+          <!-- 备稿演讲组 -->
+          <tr class="group-header">
+            <td [attr.colspan]="data.meetings.length + 1" class="group-title">备稿演讲</td>
+          </tr>
+          <tr *ngFor="let role of data.roles.slice(6)">
+            <td>{{ role.englishName }} ({{ role.chineseName }})</td>
+            <td *ngFor="let meeting of data.meetings">
+              <select [(ngModel)]="roleAssignments[meeting.id][role.id]" (ngModelChange)="onRoleChange(meeting, role.id, $event)">
+                <option value="">未分配</option>
+                <option *ngFor="let member of data.members" [value]="member.id">
+                  {{ member.englishName }}
+                </option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>

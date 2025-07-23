@@ -842,6 +842,7 @@ export class DashboardComponent implements OnInit {
     ]).pipe(
       map(([meetings, venues]) => {
         return meetings
+          .filter(m => m.status === 'completed')
           .sort((a, b) => b.date.getTime() - a.date.getTime())
           .slice(0, 5)
           .map(meeting => {

@@ -10,6 +10,10 @@ export const MEETINGS_ROUTES: Routes = [
     loadComponent: () => import('./meeting-editor/meeting-editor.component').then(m => m.MeetingEditorComponent)
   },
   {
+    path: 'roles-manager',
+    loadComponent: () => import('./meeting-roles-manager/meeting-roles-manager.component').then(m => m.MeetingRolesManagerComponent)
+  },
+  {
     path: ':id/edit',
     loadComponent: () => import('./meeting-editor/meeting-editor.component').then(m => m.MeetingEditorComponent)
   },

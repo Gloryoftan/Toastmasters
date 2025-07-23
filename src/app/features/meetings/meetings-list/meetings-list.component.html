@@ -1,0 +1,108 @@
+<div class="meetings-list">
+  <div class="page-header">
+    <h1 style="margin: 0;">会议管理</h1>
+    <div style="flex:1"></div>
+    <button class="btn-primary" [routerLink]="['/meetings/roles-manager']">管理未来会议角色</button>
+  </div>
+
+  <!-- 桌面端表格视图 -->
+  <div class="desktop-view" *ngIf="meetingsView$ | async as meetings">
+    <div class="meetings-table">
+      <table>
+        <thead>
+          <tr>
+            <th>会议编号</th>
+            <th>日期</th>
+            <th>主题</th>
+            <th>地点</th>
+            <th>形式</th>
+            <th>角色数</th>
+            <th>访客数</th>
+            <th>备稿数</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let meeting of meetings" [class.completed]="meeting.status === 'completed'">
+            <td>{{ meeting.meetingNumber }}</td>
+            <td>{{ meeting.date | date:'yyyy年MM月dd日' }}</td>
+            <td>{{ meeting.theme || '-' }}</td>
+            <td class="venue-cell">
+              <div class="venue-name">{{ meeting.venueName }}</div>
+              <div class="venue-id">{{ meeting.venue }}</div>
+            </td>
+            <td>
+              <span class="type-badge" [class]="meeting.type">
+                {{ meeting.typeText }}
+              </span>
+            </td>
+            <td class="count-cell">{{ meeting.assignmentCount }}</td>
+            <td class="count-cell">{{ meeting.visitorCount }}</td>
+            <td class="count-cell">{{ meeting.speechCount }}</td>
+            <td>
+              <span class="status-badge" [class]="meeting.status">
+                {{ getStatusText(meeting.status) }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-small" [routerLink]="['/meetings', meeting.id]">查看</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 移动端卡片视图 -->
+  <div class="mobile-view" *ngIf="meetingsView$ | async as meetings">
+    <div class="meeting-cards">
+      <div class="meeting-card" *ngFor="let meeting of meetings" [class.completed]="meeting.status === 'completed'">
+        <div class="card-header">
+          <div class="meeting-title">
+            <h3>第{{ meeting.meetingNumber }}次会议</h3>
+            <span class="type-badge" [class]="meeting.type">{{ meeting.typeText }}</span>
+          </div>
+          <span class="status-badge" [class]="meeting.status">{{ getStatusText(meeting.status) }}</span>
+        </div>
+        
+        <div class="card-content">
+          <div class="meeting-info">
+            <div class="info-row">
+              <span class="info-label">📅</span>
+              <span class="info-value">{{ meeting.date | date:'yyyy年MM月dd日' }}</span>
+            </div>
+            
+            <div class="info-row" *ngIf="meeting.theme">
+              <span class="info-label">🎯</span>
+              <span class="info-value">{{ meeting.theme }}</span>
+            </div>
+            
+            <div class="info-row">
+              <span class="info-label">📍</span>
+              <div class="venue-info">
+                <span class="venue-name">{{ meeting.venueName }}</span>
+                <span class="venue-id">({{ meeting.venue }})</span>
+              </div>
+            </div>
+            
+            <div class="info-row">
+              <span class="info-label">👥</span>
+              <span class="counts">
+                角色: {{ meeting.assignmentCount }} | 访客: {{ meeting.visitorCount }} | 备稿: {{ meeting.speechCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-actions">
+          <button class="btn-primary" [routerLink]="['/meetings', meeting.id]">查看详情</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="(meetingsView$ | async)?.length === 0" class="empty-state">
+    <p>还没有会议记录</p>
+  </div>
+</div> 

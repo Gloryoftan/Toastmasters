@@ -138,6 +138,24 @@ export class DataService {
     );
   }
 
+  // 更新单场会议信息
+  updateMeeting(updatedMeeting: Meeting): void {
+    const currentMeetings = this.meetingsSubject.getValue();
+    const meetingIndex = currentMeetings.findIndex(m => m.id === updatedMeeting.id);
+
+    if (meetingIndex > -1) {
+      // 创建一个新的数组，以确保变更检测能够触发
+      const newMeetings = [...currentMeetings];
+      newMeetings[meetingIndex] = updatedMeeting;
+      
+      console.log(`🔄 Updating meeting ${updatedMeeting.id}...`);
+      this.meetingsSubject.next(newMeetings);
+      console.log(`✅ Meeting ${updatedMeeting.id} updated successfully.`);
+    } else {
+      console.error(`❌ Failed to update: Meeting with ID ${updatedMeeting.id} not found.`);
+    }
+  }
+
   // 角色查询方法
   getRoles(): Observable<Role[]> {
     return this.roles$;
