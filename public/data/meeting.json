@@ -225,12 +225,12 @@
   },
   {
     "id": "MT0004",
-    "date": "2025-07-26T14:30:00.000Z",
+    "date": "2025-07-25T06:30:00.000Z",
     "meetingNumber": 432,
-    "theme": "待定",
+    "theme": "Is Al the Great Equalizer?",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
+    "status": "completed",
     "assignments": [
         {
             "roleId": "RL01",
@@ -239,7 +239,7 @@
         },
         {
             "roleId": "RL02",
-            "memberId": "TBD",
+            "memberId": "MB0004",
             "notes": ""
         },
         {
@@ -254,12 +254,12 @@
         },
         {
             "roleId": "RL07",
-            "memberId": "MB0021",
+            "memberId": "MB0023",
             "notes": ""
         },
         {
             "roleId": "RL08",
-            "memberId": "TBD",
+            "memberId": "MB0036",
             "notes": ""
         },
         {
@@ -271,7 +271,7 @@
     "speeches": [
         {
             "memberId": "MB0017",
-            "title": "TBD",
+            "title": "My Leadership Style: Balancing Warmth and Efficiency",
             "level": "Level 2",
             "projectId": "PJ17",
             "evaluatorId": "MB0009",
@@ -280,42 +280,85 @@
         },
         {
             "memberId": "MB0013",
-            "title": "The Be Project",
+            "title": "From Factory to Fido: The Journey of Pet Supplements in China",
             "level": "Level 1",
             "projectId": "PJ02",
-            "evaluatorId": "",
+            "evaluatorId": "MB0022",
+            "passed": true,
+            "notes": ""
+        }
+    ],
+    "visitors": [
+        {
+            "memberId": "MB0038",
+            "contactId": "MB0008",
+            "source": "",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0040",
+            "contactId": "MB0023",
+            "source": "",
+            "notes": ""
+        },
+        {
+            "memberId": "MB0030",
+            "contactId": "MB0017",
+            "source": "",
+            "notes": ""
+        }
+    ],
+    "attendees": [],
+    "notes": ""
+  },
+  {
+    "id": "MT0005",
+    "date": "2025-08-02T22:30:00.000Z",
+    "meetingNumber": 433,
+    "theme": " Speech Marathon",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "scheduled",
+    "assignments": [
+        {
+            "roleId": "RL01",
+            "memberId": "MB0013",
+            "notes": ""
+        },
+        {
+            "roleId": "RL02",
+            "memberId": "MB0004",
+            "notes": ""
+        },
+        {
+            "roleId": "RL06",
+            "memberId": "MB0041",
+            "notes": ""
+        },
+        {
+            "roleId": "RL07",
+            "memberId": "MB0027",
+            "notes": ""
+        },
+        {
+            "roleId": "RL08",
+            "memberId": "MB0038",
+            "notes": ""
+        }
+    ],
+    "speeches": [
+        {
+            "memberId": "MB0029",
+            "title": "TBD",
+            "level": "Level 1",
+            "projectId": "PJ01",
+            "evaluatorId": "MB0004",
             "passed": false,
             "notes": ""
         }
     ],
     "visitors": [],
     "attendees": [],
-    "notes": ""
-  },
-  {
-    "id": "MT0005",
-    "date": "2025-08-03 14:30",
-    "meetingNumber": 433,
-    "theme": "待定",
-    "venue": "VN01",
-    "type": "regular",
-    "status": "scheduled",
-    "assignments": [
-    ],
-    "speeches": [
-      {
-        "memberId": "MB0029",
-        "title": "TBD",
-        "level": "Level 1",
-        "projectId": "PJ01",
-        "evaluatorId": "TBD",
-        "passed": false
-      }
-    ],
-    "visitors": [
-    ],
-    "attendees": [
-    ],
     "notes": ""
   },
   {

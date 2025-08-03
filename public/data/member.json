@@ -334,5 +334,103 @@
     "chineseName": "费淑贞",
     "membershipType": "other_club_member",
     "gender": "female"
+  },
+  {
+    "id": "MB0036",
+    "englishName": "Chris",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "male"
+  },
+  {
+    "id": "MB0037",
+    "englishName": "Andy",
+    "chineseName": "刘海波",
+    "membershipType": "former_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0038",
+    "englishName": "Young",
+    "chineseName": "暂缺",
+    "membershipType": "member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0039",
+    "englishName": "Shushu",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0040",
+    "englishName": "Lesley",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "male"
+  },
+  {
+    "id": "MB0041",
+    "englishName": "Summer",
+    "chineseName": "水镜",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0042",
+    "englishName": "Michelle",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0043",
+    "englishName": "Qianqian",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0044",
+    "englishName": "Dainel",
+    "chineseName": "杨茗杰",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0045",
+    "englishName": "",
+    "chineseName": "慢慢",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0046",
+    "englishName": "Alice",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "female"
+  },
+  {
+    "id": "MB0047",
+    "englishName": "Amy",
+    "chineseName": "暂缺",
+    "membershipType": "visitor",
+    "gender": "female"
+  },
+  {
+    "id": "MB0048",
+    "englishName": "",
+    "chineseName": "大白",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0049",
+    "englishName": "",
+    "chineseName": "小凡",
+    "membershipType": "other_club_member",
+    "gender": "male"
   }
 ]
