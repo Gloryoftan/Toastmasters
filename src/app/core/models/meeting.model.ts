@@ -4,7 +4,7 @@ export interface Meeting {
   meetingNumber: number;
   theme?: string;
   venue: string;
-  type: 'regular' | 'special' | 'contest' | 'training';
+  type: 'regular' | 'special' | 'contest' | 'training' | 'joint';
   status: 'draft' | 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
   assignments: Assignment[]; // 所有角色分配
   speeches: Speech[]; // 备稿演讲

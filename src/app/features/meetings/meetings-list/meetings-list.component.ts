@@ -63,7 +63,8 @@ export class MeetingsListComponent implements OnInit {
       'regular': '常规会议',
       'special': '特别会议',
       'contest': '比赛会议',
-      'training': '培训会议'
+      'training': '培训会议',
+      'joint': '联合会议'
     };
     return typeMap[type] || type;
   }

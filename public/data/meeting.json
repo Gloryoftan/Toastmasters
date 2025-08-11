@@ -172,54 +172,54 @@
     "type": "training",
     "status": "completed",
     "assignments": [
-        {
-            "roleId": "RL10",
-            "memberId": "MB0002",
-            "notes": ""
-        },
-        {
-            "roleId": "RL11",
-            "memberId": "MB0004",
-            "notes": ""
-        },
-        {
-            "roleId": "RL11",
-            "memberId": "MB0005",
-            "notes": ""
-        },
-        {
-            "roleId": "RL11",
-            "memberId": "MB0035",
-            "notes": ""
-        }
+      {
+        "roleId": "RL10",
+        "memberId": "MB0002",
+        "notes": ""
+      },
+      {
+        "roleId": "RL11",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL11",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL11",
+        "memberId": "MB0035",
+        "notes": ""
+      }
     ],
     "speeches": [],
     "visitors": [],
     "attendees": [
-        {
-            "memberId": "MB0003",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0014",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0017",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0020",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0021",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0022",
-            "notes": ""
-        }
+      {
+        "memberId": "MB0003",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0014",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0017",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0020",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0021",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0022",
+        "notes": ""
+      }
     ],
     "notes": ""
   },
@@ -232,81 +232,81 @@
     "type": "regular",
     "status": "completed",
     "assignments": [
-        {
-            "roleId": "RL01",
-            "memberId": "MB0020",
-            "notes": ""
-        },
-        {
-            "roleId": "RL02",
-            "memberId": "MB0004",
-            "notes": ""
-        },
-        {
-            "roleId": "RL03",
-            "memberId": "MB0013",
-            "notes": ""
-        },
-        {
-            "roleId": "RL06",
-            "memberId": "MB0005",
-            "notes": ""
-        },
-        {
-            "roleId": "RL07",
-            "memberId": "MB0023",
-            "notes": ""
-        },
-        {
-            "roleId": "RL08",
-            "memberId": "MB0036",
-            "notes": ""
-        },
-        {
-            "roleId": "RL09",
-            "memberId": "MB0014",
-            "notes": ""
-        }
+      {
+        "roleId": "RL01",
+        "memberId": "MB0020",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0013",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0023",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0036",
+        "notes": ""
+      },
+      {
+        "roleId": "RL09",
+        "memberId": "MB0014",
+        "notes": ""
+      }
     ],
     "speeches": [
-        {
-            "memberId": "MB0017",
-            "title": "My Leadership Style: Balancing Warmth and Efficiency",
-            "level": "Level 2",
-            "projectId": "PJ17",
-            "evaluatorId": "MB0009",
-            "passed": false,
-            "notes": ""
-        },
-        {
-            "memberId": "MB0013",
-            "title": "From Factory to Fido: The Journey of Pet Supplements in China",
-            "level": "Level 1",
-            "projectId": "PJ02",
-            "evaluatorId": "MB0022",
-            "passed": true,
-            "notes": ""
-        }
+      {
+        "memberId": "MB0017",
+        "title": "My Leadership Style: Balancing Warmth and Efficiency",
+        "level": "Level 2",
+        "projectId": "PJ17",
+        "evaluatorId": "MB0009",
+        "passed": false,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0013",
+        "title": "From Factory to Fido: The Journey of Pet Supplements in China",
+        "level": "Level 1",
+        "projectId": "PJ02",
+        "evaluatorId": "MB0022",
+        "passed": true,
+        "notes": ""
+      }
     ],
     "visitors": [
-        {
-            "memberId": "MB0038",
-            "contactId": "MB0008",
-            "source": "",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0040",
-            "contactId": "MB0023",
-            "source": "",
-            "notes": ""
-        },
-        {
-            "memberId": "MB0030",
-            "contactId": "MB0017",
-            "source": "",
-            "notes": ""
-        }
+      {
+        "memberId": "MB0038",
+        "contactId": "MB0008",
+        "source": "",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0040",
+        "contactId": "MB0023",
+        "source": "",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0030",
+        "contactId": "MB0017",
+        "source": "",
+        "notes": ""
+      }
     ],
     "attendees": [],
     "notes": ""
@@ -318,44 +318,44 @@
     "theme": " Speech Marathon",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
+    "status": "completed",
     "assignments": [
-        {
-            "roleId": "RL01",
-            "memberId": "MB0013",
-            "notes": ""
-        },
-        {
-            "roleId": "RL02",
-            "memberId": "MB0004",
-            "notes": ""
-        },
-        {
-            "roleId": "RL06",
-            "memberId": "MB0041",
-            "notes": ""
-        },
-        {
-            "roleId": "RL07",
-            "memberId": "MB0027",
-            "notes": ""
-        },
-        {
-            "roleId": "RL08",
-            "memberId": "MB0038",
-            "notes": ""
-        }
+      {
+        "roleId": "RL01",
+        "memberId": "MB0013",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0041",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0027",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0038",
+        "notes": ""
+      }
     ],
     "speeches": [
-        {
-            "memberId": "MB0029",
-            "title": "TBD",
-            "level": "Level 1",
-            "projectId": "PJ01",
-            "evaluatorId": "MB0004",
-            "passed": false,
-            "notes": ""
-        }
+      {
+        "memberId": "MB0029",
+        "title": "TBD",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "MB0004",
+        "passed": false,
+        "notes": ""
+      }
     ],
     "visitors": [],
     "attendees": [],
@@ -363,20 +363,16 @@
   },
   {
     "id": "MT0006",
-    "date": "2025-08-10 14:30",
+    "date": "2025-08-09T14:30:00.000Z",
     "meetingNumber": 434,
-    "theme": "待定",
+    "theme": "Hobbies",
     "venue": "VN01",
-    "type": "regular",
-    "status": "scheduled",
-    "assignments": [
-    ],
-    "speeches": [
-    ],
-    "visitors": [
-    ],
-    "attendees": [
-    ],
+    "type": "joint",
+    "status": "completed",
+    "assignments": [],
+    "speeches": [],
+    "visitors": [],
+    "attendees": [],
     "notes": ""
   },
   {
@@ -387,14 +383,10 @@
     "venue": "VN01",
     "type": "regular",
     "status": "scheduled",
-    "assignments": [
-    ],
-    "speeches": [
-    ],
-    "visitors": [
-    ],
-    "attendees": [
-    ],
+    "assignments": [],
+    "speeches": [],
+    "visitors": [],
+    "attendees": [],
     "notes": ""
   },
   {
@@ -405,14 +397,24 @@
     "venue": "VN01",
     "type": "regular",
     "status": "scheduled",
-    "assignments": [
-    ],
-    "speeches": [
-    ],
-    "visitors": [
-    ],
-    "attendees": [
-    ],
+    "assignments": [],
+    "speeches": [],
+    "visitors": [],
+    "attendees": [],
     "notes": ""
-  } 
-] 
+  },
+  {
+    "id": "test",
+    "date": "2025-08-11",
+    "meetingNumber": 999,
+    "theme": "Test",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "draft",
+    "assignments": [],
+    "speeches": [],
+    "visitors": [],
+    "attendees": [],
+    "notes": ""
+  }
+]

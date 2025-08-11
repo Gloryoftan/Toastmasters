@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, combineLatest, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, combineLatest, tap, catchError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Member } from '../models/member.model';
 import { Meeting, Assignment, Speech } from '../models/meeting.model';
@@ -30,12 +30,12 @@ export class DataService {
     this.loadDataFromJson();
   }
 
-  // 从JSON文件加载数据
+  // 从API加载数据
   private loadDataFromJson() {
-    console.log('🔄 Starting to load data from JSON files...');
+    console.log('🔄 Starting to load data from API...');
     
     // 加载会员数据
-    this.http.get<Member[]>('data/member.json').subscribe({
+    this.http.get<Member[]>('/api/members').subscribe({
       next: (members) => {
         const processedMembers = members.map(member => ({
           ...member,
@@ -45,7 +45,85 @@ export class DataService {
         console.log('✅ Members loaded:', processedMembers.length);
       },
       error: (error) => {
-        console.error('❌ Failed to load members from JSON:', error);
+        console.error('❌ Failed to load members from API:', error);
+        // 如果API失败，尝试从本地文件加载
+        this.loadFromLocalFiles();
+      }
+    });
+
+    // 加载会议数据
+    this.http.get<Meeting[]>('/api/meetings').subscribe({
+      next: (meetings) => {
+        const processedMeetings = meetings.map(meeting => ({
+          ...meeting,
+          date: new Date(meeting.date)
+        }));
+        this.meetingsSubject.next(processedMeetings);
+        console.log('✅ Meetings loaded:', processedMeetings.length);
+      },
+      error: (error) => {
+        console.error('❌ Failed to load meetings from API:', error);
+        // 如果API失败，尝试从本地文件加载
+        this.loadFromLocalFiles();
+      }
+    });
+
+    // 加载角色数据
+    this.http.get<Role[]>('/api/roles').subscribe({
+      next: (roles) => {
+        this.rolesSubject.next(roles);
+        console.log('✅ Roles loaded:', roles.length);
+      },
+      error: (error) => {
+        console.error('❌ Failed to load roles from API:', error);
+        // 如果API失败，尝试从本地文件加载
+        this.loadFromLocalFiles();
+      }
+    });
+
+    // 加载项目数据
+    this.http.get<Project[]>('/api/projects').subscribe({
+      next: (projects) => {
+        this.projectsSubject.next(projects);
+        console.log('✅ Projects loaded:', projects.length);
+      },
+      error: (error) => {
+        console.error('❌ Failed to load projects from API:', error);
+        // 如果API失败，尝试从本地文件加载
+        this.loadFromLocalFiles();
+      }
+    });
+
+    // 加载场地数据
+    this.http.get<Venue[]>('/api/venues').subscribe({
+      next: (venues) => {
+        this.venuesSubject.next(venues);
+        console.log('✅ Venues loaded:', venues.length);
+      },
+      error: (error) => {
+        console.error('❌ Failed to load venues from API:', error);
+        // 如果API失败，尝试从本地文件加载
+        this.loadFromLocalFiles();
+      }
+    });
+  }
+
+  // 从本地文件加载数据（作为备用方案）
+  private loadFromLocalFiles() {
+    console.log('🔄 尝试从本地文件加载数据...');
+    
+    // 加载会员数据
+    this.http.get<Member[]>('data/member.json').subscribe({
+      next: (members) => {
+        const processedMembers = members.map(member => ({
+          ...member,
+          joinDate: member.joinDate ? new Date(member.joinDate) : undefined
+        }));
+        this.membersSubject.next(processedMembers);
+        console.log('✅ Members loaded from local files:', processedMembers.length);
+      },
+      error: (error) => {
+        console.error('❌ Failed to load members from local files:', error);
         this.membersSubject.next([]);
       }
     });
@@ -58,10 +136,10 @@ export class DataService {
           date: new Date(meeting.date)
         }));
         this.meetingsSubject.next(processedMeetings);
-        console.log('✅ Meetings loaded:', processedMeetings.length);
+        console.log('✅ Meetings loaded from local files:', processedMeetings.length);
       },
       error: (error) => {
-        console.error('❌ Failed to load meetings from JSON:', error);
+        console.error('❌ Failed to load meetings from local files:', error);
         this.meetingsSubject.next([]);
       }
     });
@@ -70,10 +148,10 @@ export class DataService {
     this.http.get<Role[]>('data/role.json').subscribe({
       next: (roles) => {
         this.rolesSubject.next(roles);
-        console.log('✅ Roles loaded:', roles.length);
+        console.log('✅ Roles loaded from local files:', roles.length);
       },
       error: (error) => {
-        console.error('❌ Failed to load roles from JSON:', error);
+        console.error('❌ Failed to load roles from local files:', error);
         this.rolesSubject.next([]);
       }
     });
@@ -82,11 +160,11 @@ export class DataService {
     this.http.get<Project[]>('data/project.json').subscribe({
       next: (projects) => {
         this.projectsSubject.next(projects);
-        console.log('✅ Projects loaded:', projects.length);
+        console.log('✅ Projects loaded from local files:', projects.length);
       },
       error: (error) => {
-        console.error('❌ Failed to load projects from JSON:', error);
-        this.projectsSubject.next([]);
+        console.error('❌ Failed to load projects from local files:', error);
+        this.venuesSubject.next([]);
       }
     });
 
@@ -94,10 +172,10 @@ export class DataService {
     this.http.get<Venue[]>('data/venue.json').subscribe({
       next: (venues) => {
         this.venuesSubject.next(venues);
-        console.log('✅ Venues loaded:', venues.length);
+        console.log('✅ Venues loaded from local files:', venues.length);
       },
       error: (error) => {
-        console.error('❌ Failed to load venues from JSON:', error);
+        console.error('❌ Failed to load venues from local files:', error);
         this.venuesSubject.next([]);
       }
     });
@@ -154,6 +232,54 @@ export class DataService {
     } else {
       console.error(`❌ Failed to update: Meeting with ID ${updatedMeeting.id} not found.`);
     }
+  }
+
+  // 保存会议到JSON文件
+  saveMeeting(meeting: Meeting): Observable<{ message: string; meeting: Meeting }> {
+    return this.http.post<{ message: string; meeting: Meeting }>('/api/meetings', meeting).pipe(
+      tap(response => {
+        console.log('✅ 会议保存成功:', response.message);
+        // 更新本地数据
+        this.updateMeeting(meeting);
+      }),
+      catchError(error => {
+        console.error('❌ 保存会议失败:', error);
+        throw error;
+      })
+    );
+  }
+
+  // 创建新会议
+  createMeeting(meeting: Meeting): Observable<{ message: string; meeting: Meeting }> {
+    return this.http.post<{ message: string; meeting: Meeting }>('/api/meetings', meeting).pipe(
+      tap(response => {
+        console.log('✅ 新会议创建成功:', response.message);
+        // 添加到本地数据
+        const currentMeetings = this.meetingsSubject.getValue();
+        this.meetingsSubject.next([...currentMeetings, meeting]);
+      }),
+      catchError(error => {
+        console.error('❌ 创建会议失败:', error);
+        throw error;
+      })
+    );
+  }
+
+  // 删除会议
+  deleteMeeting(meetingId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`/api/meetings/${meetingId}`).pipe(
+      tap(response => {
+        console.log('✅ 会议删除成功:', response.message);
+        // 从本地数据中移除
+        const currentMeetings = this.meetingsSubject.getValue();
+        const filteredMeetings = currentMeetings.filter(m => m.id !== meetingId);
+        this.meetingsSubject.next(filteredMeetings);
+      }),
+      catchError(error => {
+        console.error('❌ 删除会议失败:', error);
+        throw error;
+      })
+    );
   }
 
   // 角色查询方法

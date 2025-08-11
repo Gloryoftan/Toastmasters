@@ -331,6 +331,11 @@ interface DashboardMeetingView extends Meeting {
       color: #388e3c;
     }
 
+    .type-badge.joint {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+
     .meeting-status {
       padding: 4px 8px;
       border-radius: 4px;
@@ -887,7 +892,8 @@ export class DashboardComponent implements OnInit {
       'regular': '常规会议',
       'special': '特别会议',
       'contest': '比赛会议',
-      'training': '培训会议'
+      'training': '培训会议',
+      'joint': '联合会议'
     };
     return typeMap[type] || type;
   }

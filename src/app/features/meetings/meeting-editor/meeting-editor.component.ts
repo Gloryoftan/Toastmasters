@@ -38,7 +38,8 @@ export class MeetingEditorComponent implements OnInit {
     { value: 'regular', label: '常规会议' },
     { value: 'special', label: '特别会议' },
     { value: 'contest', label: '比赛' },
-    { value: 'training', label: '培训' }
+    { value: 'training', label: '培训' },
+    { value: 'joint', label: '联合会议' }
   ];
 
   // 会议状态选项
@@ -283,15 +284,44 @@ export class MeetingEditorComponent implements OnInit {
       };
 
       try {
-        // 注意：这里需要实现实际的保存逻辑
-        // 由于当前DataService没有createMeeting和updateMeeting方法
-        // 这里只是导航到会议详情页面
-        console.log('保存会议:', meeting);
-        this.router.navigate(['/meetings', meeting.id]);
+        console.log('🔄 正在保存会议:', meeting);
+        
+        if (this.isNewMeeting) {
+          // 创建新会议
+          this.dataService.createMeeting(meeting).subscribe({
+            next: (response) => {
+              console.log('✅ 新会议创建成功:', response.message);
+              // 导航到会议详情页面
+              this.router.navigate(['/meetings', meeting.id]);
+            },
+            error: (error) => {
+              console.error('❌ 创建会议失败:', error);
+              // 这里可以添加错误提示UI
+              alert('创建会议失败，请重试');
+            }
+          });
+        } else {
+          // 更新现有会议
+          this.dataService.saveMeeting(meeting).subscribe({
+            next: (response) => {
+              console.log('✅ 会议更新成功:', response.message);
+              // 导航到会议详情页面
+              this.router.navigate(['/meetings', meeting.id]);
+            },
+            error: (error) => {
+              console.error('❌ 更新会议失败:', error);
+              // 这里可以添加错误提示UI
+              alert('更新会议失败，请重试');
+            }
+          });
+        }
       } catch (error) {
-        console.error('保存会议失败:', error);
-        // 这里可以添加错误提示
+        console.error('❌ 保存会议失败:', error);
+        alert('保存会议失败，请重试');
       }
+    } else {
+      console.warn('⚠️ 表单验证失败，请检查输入');
+      alert('请检查表单输入，确保所有必填字段都已填写');
     }
   }
 
