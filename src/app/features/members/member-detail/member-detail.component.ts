@@ -48,7 +48,10 @@ interface MemberDetailView {
     <div class="member-detail" *ngIf="memberDetail$ | async as detail">
       <div class="page-header">
         <h1>会员详情</h1>
-        <button class="btn-secondary" routerLink="/members">返回会员列表</button>
+        <div class="header-actions">
+          <button class="btn-primary" [routerLink]="['/members', detail.member.id, 'edit']">编辑会员</button>
+          <button class="btn-secondary" routerLink="/members">返回会员列表</button>
+        </div>
       </div>
 
       <!-- 基本信息 -->
@@ -222,6 +225,11 @@ interface MemberDetailView {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 32px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
     }
 
     .card {
@@ -448,6 +456,21 @@ interface MemberDetailView {
 
     .btn-secondary:hover {
       background: #e0e0e0;
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background: #1976d2;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: #1565c0;
     }
 
     .loading {

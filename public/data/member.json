@@ -8,7 +8,9 @@
     "gender": "male",
     "joinDate": "2015-09-01",
     "status": "active",
-    "pathways": ["Visionary Communication"],
+    "pathways": [
+      "Visionary Communication"
+    ],
     "credentials": "VC2"
   },
   {
@@ -20,7 +22,9 @@
     "gender": "male",
     "joinDate": "2016-08-01",
     "status": "active",
-    "pathways": ["Dynamic Leadership"],
+    "pathways": [
+      "Dynamic Leadership"
+    ],
     "credentials": "DL3"
   },
   {
@@ -32,7 +36,9 @@
     "gender": "female",
     "joinDate": "2018-11-01",
     "status": "active",
-    "pathways": ["Motivational Strategies"],
+    "pathways": [
+      "Motivational Strategies"
+    ],
     "credentials": "MS1"
   },
   {
@@ -44,7 +50,9 @@
     "gender": "male",
     "joinDate": "2019-04-01",
     "status": "active",
-    "pathways": ["Visionary Communication"],
+    "pathways": [
+      "Visionary Communication"
+    ],
     "credentials": "VC2"
   },
   {
@@ -56,7 +64,9 @@
     "gender": "female",
     "joinDate": "2021-11-01",
     "status": "active",
-    "pathways": ["Team Collaboration"],
+    "pathways": [
+      "Team Collaboration"
+    ],
     "credentials": "TC4"
   },
   {
@@ -68,7 +78,9 @@
     "gender": "female",
     "joinDate": "2021-12-01",
     "status": "active",
-    "pathways": ["Presentation Mastery"],
+    "pathways": [
+      "Presentation Mastery"
+    ],
     "credentials": "PMI"
   },
   {
@@ -80,7 +92,9 @@
     "gender": "female",
     "joinDate": "2022-08-01",
     "status": "active",
-    "pathways": ["Presentation Mastery"],
+    "pathways": [
+      "Presentation Mastery"
+    ],
     "credentials": "PM2"
   },
   {
@@ -92,7 +106,9 @@
     "gender": "female",
     "joinDate": "2023-11-01",
     "status": "active",
-    "pathways": ["Dynamic Leadership"],
+    "pathways": [
+      "Dynamic Leadership"
+    ],
     "credentials": "DL2"
   },
   {
@@ -104,7 +120,9 @@
     "gender": "male",
     "joinDate": "2023-11-01",
     "status": "active",
-    "pathways": ["Presentation Mastery"],
+    "pathways": [
+      "Presentation Mastery"
+    ],
     "credentials": "PMI"
   },
   {
@@ -116,7 +134,9 @@
     "gender": "female",
     "joinDate": "2024-12-01",
     "status": "active",
-    "pathways": ["Presentation Mastery"],
+    "pathways": [
+      "Presentation Mastery"
+    ],
     "credentials": "PMI"
   },
   {
@@ -128,7 +148,9 @@
     "gender": "male",
     "joinDate": "2025-02-01",
     "status": "active",
-    "pathways": ["Innovative Planning"]
+    "pathways": [
+      "Innovative Planning"
+    ]
   },
   {
     "id": "MB0012",
@@ -139,7 +161,9 @@
     "gender": "male",
     "joinDate": "2025-03-01",
     "status": "active",
-    "pathways": ["Dynamic Leadership"]
+    "pathways": [
+      "Dynamic Leadership"
+    ]
   },
   {
     "id": "MB0013",
@@ -150,7 +174,9 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Presentation Mastery"]
+    "pathways": [
+      "Presentation Mastery"
+    ]
   },
   {
     "id": "MB0014",
@@ -161,7 +187,9 @@
     "gender": "male",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Engaging Humor"]
+    "pathways": [
+      "Engaging Humor"
+    ]
   },
   {
     "id": "MB0015",
@@ -172,7 +200,9 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Strategic Relationships"]
+    "pathways": [
+      "Strategic Relationships"
+    ]
   },
   {
     "id": "MB0016",
@@ -183,7 +213,9 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Innovative Planning"]
+    "pathways": [
+      "Innovative Planning"
+    ]
   },
   {
     "id": "MB0017",
@@ -194,7 +226,9 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Visionary Communication"],
+    "pathways": [
+      "Visionary Communication"
+    ],
     "credentials": "VC1"
   },
   {
@@ -206,7 +240,9 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": ["Effective Coaching"]
+    "pathways": [
+      "Effective Coaching"
+    ]
   },
   {
     "id": "MB0019",
@@ -217,7 +253,9 @@
     "gender": "male",
     "joinDate": "2025-05-01",
     "status": "active",
-    "pathways": ["Strategic Relationships"]
+    "pathways": [
+      "Strategic Relationships"
+    ]
   },
   {
     "id": "MB0020",
@@ -228,7 +266,9 @@
     "gender": "female",
     "joinDate": "2025-06-01",
     "status": "active",
-    "pathways": ["Engaging Humor"]
+    "pathways": [
+      "Engaging Humor"
+    ]
   },
   {
     "id": "MB0021",
@@ -386,8 +426,8 @@
   },
   {
     "id": "MB0043",
-    "englishName": "Qianqian",
-    "chineseName": "暂缺",
+    "englishName": "Q",
+    "chineseName": "陆倩倩",
     "membershipType": "other_club_member",
     "gender": "female"
   },
@@ -428,8 +468,43 @@
   },
   {
     "id": "MB0049",
-    "englishName": "",
+    "englishName": "XiaoFan",
     "chineseName": "小凡",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0050",
+    "englishName": "Julia",
+    "chineseName": "",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0051",
+    "englishName": "Eric",
+    "chineseName": "方志强",
+    "membershipType": "former_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0052",
+    "englishName": "Eric",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "male"
+  },
+  {
+    "id": "MB0053",
+    "englishName": "Willow",
+    "chineseName": "暂缺",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0054",
+    "englishName": "Askning",
+    "chineseName": "赵宁",
     "membershipType": "other_club_member",
     "gender": "male"
   }

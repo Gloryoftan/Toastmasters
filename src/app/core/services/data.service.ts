@@ -54,10 +54,25 @@ export class DataService {
     // 加载会议数据
     this.http.get<Meeting[]>('/api/meetings').subscribe({
       next: (meetings) => {
-        const processedMeetings = meetings.map(meeting => ({
-          ...meeting,
-          date: new Date(meeting.date)
-        }));
+        const processedMeetings = meetings.map(meeting => {
+          // 修复日期处理：确保时区一致性
+          let processedDate: Date;
+          if (typeof meeting.date === 'string') {
+            // 如果是字符串格式，直接创建 Date 对象（假设已经是本地时间）
+            processedDate = new Date(meeting.date);
+          } else if (meeting.date instanceof Date) {
+            // 如果已经是 Date 对象，直接使用
+            processedDate = meeting.date;
+          } else {
+            // 其他情况，使用当前时间
+            processedDate = new Date();
+          }
+          
+          return {
+            ...meeting,
+            date: processedDate
+          };
+        });
         this.meetingsSubject.next(processedMeetings);
         console.log('✅ Meetings loaded:', processedMeetings.length);
       },
@@ -408,5 +423,60 @@ export class DataService {
   // 重新加载数据
   reloadData(): void {
     this.loadDataFromJson();
+  }
+
+  // 创建新会员
+  createMember(member: Member): Observable<{ message: string; member: Member }> {
+    return this.http.post<{ message: string; member: Member }>('/api/members', member).pipe(
+      tap(response => {
+        console.log('✅ 新会员创建成功:', response.message);
+        // 添加到本地数据
+        const currentMembers = this.membersSubject.getValue();
+        this.membersSubject.next([...currentMembers, member]);
+      }),
+      catchError(error => {
+        console.error('❌ 创建会员失败:', error);
+        throw error;
+      })
+    );
+  }
+
+  // 更新会员信息
+  updateMember(updatedMember: Member): Observable<{ message: string; member: Member }> {
+    return this.http.put<{ message: string; member: Member }>(`/api/members/${updatedMember.id}`, updatedMember).pipe(
+      tap(response => {
+        console.log('✅ 会员更新成功:', response.message);
+        // 更新本地数据
+        const currentMembers = this.membersSubject.getValue();
+        const memberIndex = currentMembers.findIndex(m => m.id === updatedMember.id);
+        
+        if (memberIndex > -1) {
+          const newMembers = [...currentMembers];
+          newMembers[memberIndex] = updatedMember;
+          this.membersSubject.next(newMembers);
+        }
+      }),
+      catchError(error => {
+        console.error('❌ 更新会员失败:', error);
+        throw error;
+      })
+    );
+  }
+
+  // 删除会员
+  deleteMember(memberId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`/api/members/${memberId}`).pipe(
+      tap(response => {
+        console.log('✅ 会员删除成功:', response.message);
+        // 从本地数据中移除
+        const currentMembers = this.membersSubject.getValue();
+        const filteredMembers = currentMembers.filter(m => m.id !== memberId);
+        this.membersSubject.next(filteredMembers);
+      }),
+      catchError(error => {
+        console.error('❌ 删除会员失败:', error);
+        throw error;
+      })
+    );
   }
 } 

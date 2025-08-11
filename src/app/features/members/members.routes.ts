@@ -7,7 +7,8 @@ export const MEMBERS_ROUTES: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./member-form/member-form.component').then(m => m.MemberFormComponent)
+    redirectTo: '',
+    pathMatch: 'full'
   },
   {
     path: ':id',
@@ -15,7 +16,7 @@ export const MEMBERS_ROUTES: Routes = [
   },
   {
     path: ':id/edit',
-    loadComponent: () => import('./member-form/member-form.component').then(m => m.MemberFormComponent)
+    loadComponent: () => import('./member-editor/member-editor.component').then(m => m.MemberEditorComponent)
   }
 ];
  

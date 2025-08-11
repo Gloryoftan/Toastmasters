@@ -363,16 +363,71 @@
   },
   {
     "id": "MT0006",
-    "date": "2025-08-09T14:30:00.000Z",
+    "date": "2025-08-08 14:30",
     "meetingNumber": 434,
     "theme": "Hobbies",
     "venue": "VN01",
     "type": "joint",
     "status": "completed",
-    "assignments": [],
-    "speeches": [],
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0050",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0013",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0049",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0043",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0052",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0053",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0038",
+        "title": "Ice Breaker",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "MB0017",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0054",
+        "title": "How to sell this pen",
+        "level": "Level 3",
+        "projectId": "PJ50",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0051",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {

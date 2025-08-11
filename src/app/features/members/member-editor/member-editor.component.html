@@ -1,0 +1,231 @@
+<div class="member-editor" *ngIf="!isLoading">
+  <div class="page-header">
+    <h1>{{ isNewMember ? '创建新会员' : '编辑会员' }}</h1>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cancel()">取消</button>
+      <button class="btn-primary" (click)="saveMember()" [disabled]="!memberForm.valid">保存</button>
+    </div>
+  </div>
+
+  <form [formGroup]="memberForm" class="member-form">
+    <!-- 基本信息 -->
+    <div class="form-section">
+      <h2>基本信息</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="id">会员ID</label>
+          <input 
+            id="id" 
+            type="text" 
+            formControlName="id" 
+            class="form-control"
+            [readonly]="!isNewMember"
+            placeholder="会员ID"
+            [ngClass]="{'ng-invalid ng-touched': memberForm.get('id')?.invalid && memberForm.get('id')?.touched, 'ng-valid ng-touched': memberForm.get('id')?.valid && memberForm.get('id')?.touched}"
+          >
+          <div class="invalid-feedback" *ngIf="memberForm.get('id')?.invalid && memberForm.get('id')?.touched">
+            会员ID为必填项
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="englishName">英文姓名 *</label>
+          <input 
+            id="englishName" 
+            type="text" 
+            formControlName="englishName" 
+            class="form-control"
+            placeholder="输入英文姓名"
+            [ngClass]="{'ng-invalid ng-touched': memberForm.get('englishName')?.invalid && memberForm.get('englishName')?.touched, 'ng-valid ng-touched': memberForm.get('englishName')?.valid && memberForm.get('englishName')?.touched}"
+          >
+          <div class="invalid-feedback" *ngIf="memberForm.get('englishName')?.invalid && memberForm.get('englishName')?.touched">
+            <span *ngIf="memberForm.get('englishName')?.errors?.['required']">英文姓名为必填项</span>
+            <span *ngIf="memberForm.get('englishName')?.errors?.['minlength']">英文姓名至少需要2个字符</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="chineseName">中文姓名</label>
+          <input 
+            id="chineseName" 
+            type="text" 
+            formControlName="chineseName" 
+            class="form-control"
+            placeholder="输入中文姓名"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="membershipType">会员类型 *</label>
+          <select id="membershipType" formControlName="membershipType" class="form-control"
+            [ngClass]="{'ng-invalid ng-touched': memberForm.get('membershipType')?.invalid && memberForm.get('membershipType')?.touched, 'ng-valid ng-touched': memberForm.get('membershipType')?.valid && memberForm.get('membershipType')?.touched}"
+          >
+            <option 
+              *ngFor="let type of membershipTypes" 
+              [value]="type.value"
+            >
+              {{ type.label }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="memberForm.get('membershipType')?.invalid && memberForm.get('membershipType')?.touched">
+            会员类型为必选项
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="toastmastersId">Toastmasters ID</label>
+          <input 
+            id="toastmastersId" 
+            type="text" 
+            formControlName="toastmastersId" 
+            class="form-control"
+            placeholder="输入Toastmasters ID"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="joinDate">加入日期</label>
+          <input 
+            id="joinDate" 
+            type="date" 
+            formControlName="joinDate" 
+            class="form-control"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="gender">性别</label>
+          <select id="gender" formControlName="gender" class="form-control">
+            <option value="">选择性别</option>
+            <option 
+              *ngFor="let option of genderOptions" 
+              [value]="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="birthDate">出生日期</label>
+          <input 
+            id="birthDate" 
+            type="date" 
+            formControlName="birthDate" 
+            class="form-control"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="credentials">头衔/资历</label>
+          <input 
+            id="credentials" 
+            type="text" 
+            formControlName="credentials" 
+            class="form-control"
+            placeholder="输入头衔或资历"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">电子邮箱</label>
+          <input 
+            id="email" 
+            type="email" 
+            formControlName="email" 
+            class="form-control"
+            placeholder="输入电子邮箱"
+            [ngClass]="{'ng-invalid ng-touched': memberForm.get('email')?.invalid && memberForm.get('email')?.touched, 'ng-valid ng-touched': memberForm.get('email')?.valid && memberForm.get('email')?.touched}"
+          >
+          <div class="invalid-feedback" *ngIf="memberForm.get('email')?.invalid && memberForm.get('email')?.touched">
+            <span *ngIf="memberForm.get('email')?.errors?.['email']">请输入有效的邮箱地址</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">电话号码</label>
+          <input 
+            id="phone" 
+            type="tel" 
+            formControlName="phone" 
+            class="form-control"
+            placeholder="输入电话号码"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- 附加会员类型 -->
+    <div class="form-section">
+      <h2>附加身份</h2>
+      <div class="form-array-controls">
+        <button type="button" class="btn-add" (click)="addAdditionalMembershipType()">
+          + 添加附加身份
+        </button>
+      </div>
+      <div class="form-array-items" formArrayName="additionalMembershipTypes">
+        <div class="form-array-item" *ngFor="let control of additionalMembershipTypesArray.controls; let i = index">
+          <div class="form-group">
+            <select [formControlName]="i" class="form-control">
+              <option 
+                *ngFor="let type of membershipTypes" 
+                [value]="type.value"
+              >
+                {{ type.label }}
+              </option>
+            </select>
+          </div>
+          <button type="button" class="btn-remove" (click)="removeAdditionalMembershipType(i)">
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pathways -->
+    <div class="form-section">
+      <h2>Pathways学习路径</h2>
+      <div class="form-array-controls">
+        <button type="button" class="btn-add" (click)="addPathway()">
+          + 添加Pathway
+        </button>
+      </div>
+      <div class="form-array-items" formArrayName="pathways">
+        <div class="form-array-item" *ngFor="let control of pathwaysArray.controls; let i = index">
+          <div class="form-group">
+            <select [formControlName]="i" class="form-control">
+              <option 
+                *ngFor="let pathway of pathwaysOptions" 
+                [value]="pathway"
+              >
+                {{ getPathwayDisplayName(pathway) }}
+              </option>
+            </select>
+          </div>
+          <button type="button" class="btn-remove" (click)="removePathway(i)">
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 备注 -->
+    <div class="form-section">
+      <h2>备注</h2>
+      <div class="form-group">
+        <label for="notes">备注信息</label>
+        <textarea 
+          id="notes" 
+          formControlName="notes" 
+          class="form-control"
+          rows="4"
+          placeholder="输入备注信息..."
+        ></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="loading" *ngIf="isLoading">
+  <p>加载中...</p>
+</div>

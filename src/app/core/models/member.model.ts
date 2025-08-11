@@ -37,6 +37,7 @@ export interface Member {
   email?: string; // 电子邮箱（可选）
   phone?: string; // 电话号码（可选）
   birthDate?: Date; // 出生日期（可选）
+  notes?: string; // 备注（可选）
 }
 
 export type ActivityStatus = 'active' | 'inactive' | 'occasional';
