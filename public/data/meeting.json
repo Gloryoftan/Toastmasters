@@ -313,7 +313,7 @@
   },
   {
     "id": "MT0005",
-    "date": "2025-08-02T22:30:00.000Z",
+    "date": "2025-08-03 14:30",
     "meetingNumber": 433,
     "theme": " Speech Marathon",
     "venue": "VN01",
@@ -349,16 +349,48 @@
     "speeches": [
       {
         "memberId": "MB0029",
-        "title": "TBD",
+        "title": "Haha, I’m Here",
         "level": "Level 1",
         "projectId": "PJ01",
         "evaluatorId": "MB0004",
-        "passed": false,
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0023",
+        "title": "What makes someone an entrepreneur?",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0003",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0042",
+        "title": "Keep your own pace",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0002",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0013",
+        "title": "Think like a lawyer",
+        "level": "Level 1",
+        "projectId": "PJ02",
+        "evaluatorId": "MB0022",
+        "passed": true,
         "notes": ""
       }
     ],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0051",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {

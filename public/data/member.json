@@ -507,5 +507,12 @@
     "chineseName": "赵宁",
     "membershipType": "other_club_member",
     "gender": "male"
+  },
+  {
+    "id": "MB0055",
+    "englishName": "Rosemarry",
+    "chineseName": "文陈",
+    "membershipType": "club_member",
+    "gender": "female"
   }
 ]
