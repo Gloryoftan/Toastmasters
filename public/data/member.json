@@ -392,7 +392,7 @@
   {
     "id": "MB0038",
     "englishName": "Ewan",
-    "chineseName": "暂缺",
+    "chineseName": "杨文远",
     "membershipType": "member",
     "gender": "male"
   },
@@ -462,7 +462,7 @@
   {
     "id": "MB0048",
     "englishName": "",
-    "chineseName": "大白",
+    "chineseName": "茅济雄（大白）",
     "membershipType": "other_club_member",
     "gender": "male"
   },
@@ -489,7 +489,7 @@
   },
   {
     "id": "MB0052",
-    "englishName": "Eric",
+    "englishName": "Eric Huang",
     "chineseName": "暂缺",
     "membershipType": "other_club_member",
     "gender": "male"
@@ -512,7 +512,77 @@
     "id": "MB0055",
     "englishName": "Rosemarry",
     "chineseName": "文陈",
-    "membershipType": "club_member",
+    "membershipType": "member",
     "gender": "female"
+  },
+  {
+    "id": "MB0056",
+    "englishName": "Chris",
+    "chineseName": "陈笑笑",
+    "membershipType": "former_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0057",
+    "englishName": "Nora",
+    "chineseName": "",
+    "membershipType": "other_club_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0058",
+    "englishName": "Chris",
+    "chineseName": "陈笑笑",
+    "membershipType": "former_member",
+    "gender": "female"
+  },
+  {
+    "id": "MB0059",
+    "englishName": "Agatha",
+    "chineseName": "",
+    "membershipType": "guest",
+    "gender": "female"
+  },
+  {
+    "id": "MB0060",
+    "englishName": "Hiker Sha",
+    "chineseName": "",
+    "membershipType": "guest",
+    "gender": "male"
+  },
+  {
+    "id": "MB0061",
+    "englishName": "",
+    "chineseName": "赵法庭",
+    "membershipType": "guest",
+    "gender": "male"
+  },
+  {
+    "id": "MB0062",
+    "englishName": "Mandy",
+    "chineseName": "",
+    "membershipType": "guest",
+    "gender": "female"
+  },
+  {
+    "id": "MB0063",
+    "englishName": "Jolly",
+    "chineseName": "",
+    "membershipType": "guest",
+    "gender": "female"
+  },
+  {
+    "id": "MB0064",
+    "englishName": "Glen",
+    "chineseName": "",
+    "membershipType": "guest",
+    "gender": "male"
+  },
+  {
+    "id": "MB0065",
+    "englishName": "Joshua",
+    "chineseName": "宣博",
+    "membershipType": "guest",
+    "gender": "male"
   }
 ]
