@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } fr
 import { Observable, map, switchMap, tap, catchError, of } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { Member, MembershipType, MembershipTypeLabels } from '../../../core/models/member.model';
-import { Pathways } from '../../../core/models/project.model';
+import { Pathway } from '../../../core/models/project.model';
 
 @Component({
   selector: 'app-member-editor',
@@ -39,18 +39,18 @@ export class MemberEditorComponent implements OnInit {
   ];
 
   // Pathways选项
-  pathwaysOptions: Pathways[] = [
-    'Dynamic Leadership',
-    'Presentation Mastery',
-    'Visionary Communication',
-    'Motivational Strategies',
-    'Team Collaboration',
-    'Strategic Relationships',
-    'Engaging Humor',
-    'Effective Coaching',
-    'Innovative Planning',
-    'Leadership Development',
-    'Persuasive Influence'
+  pathwaysOptions: Pathway[] = [
+    { id: 'PW01', englishName: 'Dynamic Leadership', chineseName: '动态领导力' },
+    { id: 'PW02', englishName: 'Presentation Mastery', chineseName: '演讲精通' },
+    { id: 'PW03', englishName: 'Visionary Communication', chineseName: '远见沟通' },
+    { id: 'PW04', englishName: 'Motivational Strategies', chineseName: '激励策略' },
+    { id: 'PW05', englishName: 'Team Collaboration', chineseName: '团队协作' },
+    { id: 'PW06', englishName: 'Strategic Relationships', chineseName: '战略关系' },
+    { id: 'PW07', englishName: 'Engaging Humor', chineseName: '幽默演讲' },
+    { id: 'PW08', englishName: 'Effective Coaching', chineseName: '有效指导' },
+    { id: 'PW09', englishName: 'Innovative Planning', chineseName: '创新规划' },
+    { id: 'PW10', englishName: 'Leadership Development', chineseName: '领导力发展' },
+    { id: 'PW11', englishName: 'Persuasive Influence', chineseName: '说服影响力' }
   ];
 
   ngOnInit() {
@@ -68,7 +68,7 @@ export class MemberEditorComponent implements OnInit {
       toastmastersId: [''],
       joinDate: [''],
       gender: [''],
-      pathways: this.fb.array([]),
+      pathwaysIds: this.fb.array([]),
       credentials: [''],
       email: ['', [Validators.email]],
       phone: [''],
@@ -100,7 +100,7 @@ export class MemberEditorComponent implements OnInit {
       chineseName: '',
       joinDate: new Date(),
       gender: 'male',
-      pathways: [],
+      pathwaysIds: [],
       credentials: '',
       email: '',
       phone: '',
@@ -171,9 +171,9 @@ export class MemberEditorComponent implements OnInit {
     }
 
     // 设置Pathways
-    if (member.pathways) {
-      member.pathways.forEach(pathway => {
-        this.addPathway(pathway);
+    if (member.pathwaysIds) {
+      member.pathwaysIds.forEach(pathwayId => {
+        this.addPathway(pathwayId);
       });
     }
   }
@@ -182,8 +182,8 @@ export class MemberEditorComponent implements OnInit {
     while (this.additionalMembershipTypesArray.length !== 0) {
       this.additionalMembershipTypesArray.removeAt(0);
     }
-    while (this.pathwaysArray.length !== 0) {
-      this.pathwaysArray.removeAt(0);
+    while (this.pathwaysIdsArray.length !== 0) {
+      this.pathwaysIdsArray.removeAt(0);
     }
   }
 
@@ -217,8 +217,8 @@ export class MemberEditorComponent implements OnInit {
     return this.memberForm.get('additionalMembershipTypes') as FormArray;
   }
 
-  get pathwaysArray(): FormArray {
-    return this.memberForm.get('pathways') as FormArray;
+  get pathwaysIdsArray(): FormArray {
+    return this.memberForm.get('pathwaysIds') as FormArray;
   }
 
   // 添加附加会员类型
@@ -233,14 +233,14 @@ export class MemberEditorComponent implements OnInit {
   }
 
   // 添加Pathway
-  addPathway(pathway?: Pathways) {
-    const control = this.fb.control(pathway || 'Dynamic Leadership');
-    this.pathwaysArray.push(control);
+  addPathway(pathwayId?: string) {
+    const control = this.fb.control(pathwayId || 'PW01');
+    this.pathwaysIdsArray.push(control);
   }
 
   // 移除Pathway
   removePathway(index: number) {
-    this.pathwaysArray.removeAt(index);
+    this.pathwaysIdsArray.removeAt(index);
   }
 
   // 保存会员
@@ -258,7 +258,7 @@ export class MemberEditorComponent implements OnInit {
       joinDate: formValue.joinDate ? new Date(formValue.joinDate) : '',
       birthDate: formValue.birthDate ? new Date(formValue.birthDate) : '',
       additionalMembershipTypes: formValue.additionalMembershipTypes || [],
-      pathways: formValue.pathways || []
+      pathwaysIds: formValue.pathwaysIds || []
     };
 
     console.log('准备保存会员数据:', memberData);
@@ -313,20 +313,8 @@ export class MemberEditorComponent implements OnInit {
   }
 
   // 获取Pathway显示文本
-  getPathwayDisplayName(pathway: string): string {
-    const pathwayMap: Record<string, string> = {
-      'Dynamic Leadership': '动态领导力',
-      'Presentation Mastery': '演讲精通',
-      'Visionary Communication': '远见沟通',
-      'Motivational Strategies': '激励策略',
-      'Team Collaboration': '团队协作',
-      'Strategic Relationships': '战略关系',
-      'Engaging Humor': '幽默魅力',
-      'Effective Coaching': '有效指导',
-      'Innovative Planning': '创新规划',
-      'Leadership Development': '领导力发展',
-      'Persuasive Influence': '说服影响力'
-    };
-    return pathwayMap[pathway] || pathway;
+  getPathwayDisplayName(pathwayId: string): string {
+    const pathway = this.pathwaysOptions.find(p => p.id === pathwayId);
+    return pathway ? pathway.chineseName : pathwayId;
   }
 }

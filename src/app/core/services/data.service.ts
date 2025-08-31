@@ -9,6 +9,8 @@ import { Venue } from '../models/venue.model';
 import { AttendanceStats } from '../models/statistics.model';
 import { Officer, PastOfficer } from '../models/past-officers.model';
 import { Officer as OfficerPosition } from '../models/role.model';
+import { AugustSpeechStats } from '../models/statistics.model';
+import { AugustAttendanceStats } from '../models/statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -476,6 +478,178 @@ export class DataService {
       catchError(error => {
         console.error('❌ 删除会员失败:', error);
         throw error;
+      })
+    );
+  }
+
+  // 获取8月备稿演讲统计数据
+  getAugustSpeechStats(): Observable<AugustSpeechStats[]> {
+    return combineLatest([this.meetings$, this.members$, this.projects$]).pipe(
+      map(([meetings, members, projects]) => {
+        const augustMeetings = meetings.filter(m => {
+          const date = m.date;
+          return date.getMonth() === 7 && date.getFullYear() === 2025; // 2025年8月
+        });
+
+        const stats: AugustSpeechStats[] = [];
+        
+        augustMeetings.forEach(meeting => {
+          meeting.speeches.forEach(speech => {
+            const member = members.find(m => m.id === speech.memberId);
+            const evaluator = members.find(m => m.id === speech.evaluatorId);
+            const project = projects.find(p => p.id === speech.projectId);
+            
+            if (member) {
+              stats.push({
+                memberId: speech.memberId,
+                memberName: member.englishName,
+                speechTitle: speech.title,
+                projectId: speech.projectId,
+                projectName: project ? project.englishName : speech.projectId,
+                evaluatorId: speech.evaluatorId || '',
+                evaluatorName: evaluator ? evaluator.englishName : '未指定',
+                meetingDate: meeting.date,
+                meetingNumber: meeting.meetingNumber
+              });
+            }
+          });
+        });
+        
+        return stats.sort((a, b) => b.meetingDate.getTime() - a.meetingDate.getTime());
+      })
+    );
+  }
+
+  // 获取8月会员参会统计数据
+  getAugustAttendanceStats(): Observable<AugustAttendanceStats[]> {
+    return combineLatest([this.meetings$, this.members$]).pipe(
+      map(([meetings, members]) => {
+        const augustMeetings = meetings.filter(m => {
+          const date = m.date;
+          return date.getMonth() === 7 && date.getFullYear() === 2025; // 2025年8月
+        });
+
+        // 创建会员统计映射
+        const memberStatsMap = new Map<string, AugustAttendanceStats>();
+
+        augustMeetings.forEach(meeting => {
+          // 收集本场会议中每个会员的所有参与方式
+          const meetingMemberRoles = new Map<string, {
+            speechCount: number;
+            evaluationCount: number;
+            roleCount: number;
+          }>();
+
+          // 统计备稿演讲
+          meeting.speeches.forEach(speech => {
+            const member = members.find(m => m.id === speech.memberId);
+            if (member && member.membershipType !== 'visitor' && member.membershipType !== 'guest') {
+              const existing = meetingMemberRoles.get(speech.memberId);
+              if (existing) {
+                existing.speechCount++;
+              } else {
+                meetingMemberRoles.set(speech.memberId, {
+                  speechCount: 1,
+                  evaluationCount: 0,
+                  roleCount: 0
+                });
+              }
+            }
+          });
+
+          // 统计个评
+          meeting.speeches.forEach(speech => {
+            if (speech.evaluatorId) {
+              const member = members.find(m => m.id === speech.evaluatorId);
+              if (member && member.membershipType !== 'visitor' && member.membershipType !== 'guest') {
+                const existing = meetingMemberRoles.get(speech.evaluatorId);
+                if (existing) {
+                  existing.evaluationCount++;
+                } else {
+                  meetingMemberRoles.set(speech.evaluatorId, {
+                    speechCount: 0,
+                    evaluationCount: 1,
+                    roleCount: 0
+                  });
+                }
+              }
+            }
+          });
+
+          // 统计角色分配
+          meeting.assignments.forEach(assignment => {
+            const member = members.find(m => m.id === assignment.memberId);
+            if (member && member.membershipType !== 'visitor' && member.membershipType !== 'guest') {
+              const existing = meetingMemberRoles.get(assignment.memberId);
+              if (existing) {
+                existing.roleCount++;
+              } else {
+                meetingMemberRoles.set(assignment.memberId, {
+                  speechCount: 0,
+                  evaluationCount: 0,
+                  roleCount: 1
+                });
+              }
+            }
+          });
+
+          // 统计纯参会（无角色）的会员
+          meeting.attendees?.forEach(attendee => {
+            const member = members.find(m => m.id === attendee.memberId);
+            if (member && member.membershipType !== 'visitor' && member.membershipType !== 'guest') {
+              // 检查是否已经有其他角色
+              const hasOtherRole = meetingMemberRoles.has(attendee.memberId);
+              
+              if (!hasOtherRole) {
+                // 纯参会，没有担任任何角色
+                meetingMemberRoles.set(attendee.memberId, {
+                  speechCount: 0,
+                  evaluationCount: 0,
+                  roleCount: 0
+                });
+              }
+            }
+          });
+
+          // 将本场会议的数据累加到总统计中
+          meetingMemberRoles.forEach((roles, memberId) => {
+            const member = members.find(m => m.id === memberId);
+            if (member) {
+              const existing = memberStatsMap.get(memberId);
+              if (existing) {
+                // 累加各项数据
+                existing.speechCount += roles.speechCount;
+                existing.evaluationCount += roles.evaluationCount;
+                existing.roleCount += roles.roleCount;
+                existing.totalAttendance++; // 每场会议只算一次参会
+              } else {
+                // 创建新的统计记录
+                memberStatsMap.set(memberId, {
+                  memberId: memberId,
+                  memberName: member.englishName,
+                  totalAttendance: 1, // 每场会议只算一次参会
+                  speechCount: roles.speechCount,
+                  evaluationCount: roles.evaluationCount,
+                  roleCount: roles.roleCount
+                });
+              }
+            }
+          });
+        });
+
+        // 转换为数组并按总参会次数排序
+        return Array.from(memberStatsMap.values())
+          .sort((a, b) => {
+            // 首先按会员类型排序：ET会员（membershipType === 'member'）排在前面
+            const aIsET = members.find(m => m.id === a.memberId)?.membershipType === 'member';
+            const bIsET = members.find(m => m.id === b.memberId)?.membershipType === 'member';
+            
+            if (aIsET && !bIsET) return -1; // a是ET会员，b不是，a排在前面
+            if (!aIsET && bIsET) return 1;  // a不是ET会员，b是，b排在前面
+            
+            // 如果都是ET会员或都不是ET会员，则按总参会次数排序
+            return b.totalAttendance - a.totalAttendance;
+          });
       })
     );
   }

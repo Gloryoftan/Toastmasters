@@ -190,15 +190,15 @@
           + 添加Pathway
         </button>
       </div>
-      <div class="form-array-items" formArrayName="pathways">
-        <div class="form-array-item" *ngFor="let control of pathwaysArray.controls; let i = index">
+      <div class="form-array-items" formArrayName="pathwaysIds">
+        <div class="form-array-item" *ngFor="let control of pathwaysIdsArray.controls; let i = index">
           <div class="form-group">
             <select [formControlName]="i" class="form-control">
               <option 
                 *ngFor="let pathway of pathwaysOptions" 
-                [value]="pathway"
+                [value]="pathway.id"
               >
-                {{ getPathwayDisplayName(pathway) }}
+                {{ pathway.chineseName }}
               </option>
             </select>
           </div>

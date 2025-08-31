@@ -510,7 +510,7 @@
     "speeches": [
       {
         "memberId": "MB0055",
-        "title": "Rosemarry",
+        "title": "Life Is A Book",
         "level": "Level 1",
         "projectId": "PJ01",
         "evaluatorId": "MB0003",
@@ -683,14 +683,60 @@
     "id": "MT0009",
     "date": "2025-08-31 14:30",
     "meetingNumber": 437,
-    "theme": "",
+    "theme": "Little happiness: Would you like to share your happy moments?",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0003",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0052",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0008",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0055",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0066",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0049",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0038",
+        "title": "How to Fake Confidence",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0027",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0060",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {

@@ -102,11 +102,11 @@ interface MemberDetailView {
           </div>
         </div>
         
-        <div class="pathways-section" *ngIf="detail.member.pathways && detail.member.pathways.length > 0">
+        <div class="pathways-section" *ngIf="detail.member.pathwaysIds && detail.member.pathwaysIds.length > 0">
           <label>Pathways:</label>
           <div class="pathways-list">
-            <span class="pathway-badge" *ngFor="let pathway of detail.member.pathways">
-              {{ pathway }}
+            <span class="pathway-badge" *ngFor="let pathwayId of detail.member.pathwaysIds">
+              {{ getPathwayDisplayName(pathwayId) }}
             </span>
           </div>
         </div>
@@ -706,5 +706,22 @@ export class MemberDetailComponent implements OnInit {
       'other': 'inactive'
     };
     return classMap[membershipType] || 'inactive';
+  }
+
+  getPathwayDisplayName(pathwayId: string): string {
+    const pathwayMap: { [key: string]: string } = {
+      'PW01': '动态领导力',
+      'PW02': '演讲精通',
+      'PW03': '远见沟通',
+      'PW04': '激励策略',
+      'PW05': '团队协作',
+      'PW06': '战略关系',
+      'PW07': '幽默演讲',
+      'PW08': '有效指导',
+      'PW09': '创新规划',
+      'PW10': '领导力发展',
+      'PW11': '说服影响力'
+    };
+    return pathwayMap[pathwayId] || pathwayId;
   }
 }

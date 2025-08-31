@@ -99,4 +99,21 @@ export class MembersListComponent implements OnInit {
     this.searchControl.setValue('');
     this.filterControl.setValue('');
   }
+
+  getPathwaysDisplayNames(pathwayIds: string[]): string {
+    const pathwayMap: { [key: string]: string } = {
+      'PW01': '动态领导力',
+      'PW02': '演讲精通',
+      'PW03': '远见沟通',
+      'PW04': '激励策略',
+      'PW05': '团队协作',
+      'PW06': '战略关系',
+      'PW07': '幽默演讲',
+      'PW08': '有效指导',
+      'PW09': '创新规划',
+      'PW10': '领导力发展',
+      'PW11': '说服影响力'
+    };
+    return pathwayIds.map(id => pathwayMap[id] || id).join(', ');
+  }
 } 

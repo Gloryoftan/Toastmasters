@@ -7,12 +7,12 @@
   {
     "id": "PW02",
     "englishName": "Presentation Mastery",
-    "chineseName": "演讲精通"
+    "chineseName": "精通演讲"
   },
   {
     "id": "PW03",
     "englishName": "Visionary Communication",
-    "chineseName": "远见沟通"
+    "chineseName": "愿景沟通"
   },
   {
     "id": "PW04",
@@ -37,12 +37,12 @@
   {
     "id": "PW08",
     "englishName": "Effective Coaching",
-    "chineseName": "有效指导"
+    "chineseName": "高效教练"
   },
   {
     "id": "PW09",
     "englishName": "Innovative Planning",
-    "chineseName": "创新规划"
+    "chineseName": "创新计划"
   },
   {
     "id": "PW10",
@@ -52,6 +52,6 @@
   {
     "id": "PW11",
     "englishName": "Persuasive Influence",
-    "chineseName": "说服影响力"
+    "chineseName": "有说服力的演讲"
   }
 ]

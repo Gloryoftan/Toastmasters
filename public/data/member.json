@@ -8,8 +8,8 @@
     "gender": "male",
     "joinDate": "2015-09-01",
     "status": "active",
-    "pathways": [
-      "Visionary Communication"
+    "pathwaysIds": [
+      "PW03"
     ],
     "credentials": "VC2"
   },
@@ -22,8 +22,8 @@
     "gender": "male",
     "joinDate": "2016-08-01",
     "status": "active",
-    "pathways": [
-      "Dynamic Leadership"
+    "pathwaysIds": [
+      "PW01"
     ],
     "credentials": "DL3"
   },
@@ -36,8 +36,8 @@
     "gender": "female",
     "joinDate": "2018-11-01",
     "status": "active",
-    "pathways": [
-      "Motivational Strategies"
+    "pathwaysIds": [
+      "PW04"
     ],
     "credentials": "MS1"
   },
@@ -50,8 +50,8 @@
     "gender": "male",
     "joinDate": "2019-04-01",
     "status": "active",
-    "pathways": [
-      "Visionary Communication"
+    "pathwaysIds": [
+      "PW03"
     ],
     "credentials": "VC2"
   },
@@ -64,8 +64,8 @@
     "gender": "female",
     "joinDate": "2021-11-01",
     "status": "active",
-    "pathways": [
-      "Team Collaboration"
+    "pathwaysIds": [
+      "PW05"
     ],
     "credentials": "TC4"
   },
@@ -78,8 +78,8 @@
     "gender": "female",
     "joinDate": "2021-12-01",
     "status": "active",
-    "pathways": [
-      "Presentation Mastery"
+    "pathwaysIds": [
+      "PW02"
     ],
     "credentials": "PMI"
   },
@@ -92,8 +92,8 @@
     "gender": "female",
     "joinDate": "2022-08-01",
     "status": "active",
-    "pathways": [
-      "Presentation Mastery"
+    "pathwaysIds": [
+      "PW02"
     ],
     "credentials": "PM2"
   },
@@ -106,8 +106,8 @@
     "gender": "female",
     "joinDate": "2023-11-01",
     "status": "active",
-    "pathways": [
-      "Dynamic Leadership"
+    "pathwaysIds": [
+      "PW01"
     ],
     "credentials": "DL2"
   },
@@ -120,8 +120,8 @@
     "gender": "male",
     "joinDate": "2023-11-01",
     "status": "active",
-    "pathways": [
-      "Presentation Mastery"
+    "pathwaysIds": [
+      "PW02"
     ],
     "credentials": "PMI"
   },
@@ -134,8 +134,8 @@
     "gender": "female",
     "joinDate": "2024-12-01",
     "status": "active",
-    "pathways": [
-      "Presentation Mastery"
+    "pathwaysIds": [
+      "PW02"
     ],
     "credentials": "PMI"
   },
@@ -148,8 +148,8 @@
     "gender": "male",
     "joinDate": "2025-02-01",
     "status": "active",
-    "pathways": [
-      "Innovative Planning"
+    "pathwaysIds": [
+      "PW09"
     ]
   },
   {
@@ -161,8 +161,8 @@
     "gender": "male",
     "joinDate": "2025-03-01",
     "status": "active",
-    "pathways": [
-      "Dynamic Leadership"
+    "pathwaysIds": [
+      "PW01"
     ]
   },
   {
@@ -174,8 +174,8 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Presentation Mastery"
+    "pathwaysIds": [
+      "PW02"
     ]
   },
   {
@@ -187,8 +187,8 @@
     "gender": "male",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Engaging Humor"
+    "pathwaysIds": [
+      "PW07"
     ]
   },
   {
@@ -200,8 +200,8 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Strategic Relationships"
+    "pathwaysIds": [
+      "PW06"
     ]
   },
   {
@@ -213,8 +213,8 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Innovative Planning"
+    "pathwaysIds": [
+      "PW09"
     ]
   },
   {
@@ -226,8 +226,8 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Visionary Communication"
+    "pathwaysIds": [
+      "PW03"
     ],
     "credentials": "VC1"
   },
@@ -240,8 +240,8 @@
     "gender": "female",
     "joinDate": "2025-04-01",
     "status": "active",
-    "pathways": [
-      "Effective Coaching"
+    "pathwaysIds": [
+      "PW08"
     ]
   },
   {
@@ -253,8 +253,8 @@
     "gender": "male",
     "joinDate": "2025-05-01",
     "status": "active",
-    "pathways": [
-      "Strategic Relationships"
+    "pathwaysIds": [
+      "PW06"
     ]
   },
   {
@@ -266,8 +266,8 @@
     "gender": "female",
     "joinDate": "2025-06-01",
     "status": "active",
-    "pathways": [
-      "Engaging Humor"
+    "pathwaysIds": [
+      "PW07"
     ]
   },
   {
@@ -461,7 +461,7 @@
   },
   {
     "id": "MB0048",
-    "englishName": "",
+    "englishName": "Dabai",
     "chineseName": "茅济雄（大白）",
     "membershipType": "other_club_member",
     "gender": "male"
@@ -583,6 +583,13 @@
     "englishName": "Joshua",
     "chineseName": "宣博",
     "membershipType": "guest",
+    "gender": "male"
+  },
+  {
+    "id": "MB0066",
+    "englishName": "Lei",
+    "chineseName": "陈磊",
+    "membershipType": "former_member",
     "gender": "male"
   }
 ]

@@ -1,6 +1,6 @@
 // src/app/core/models/member.model.ts
 
-import { Pathways } from './project.model';
+import { Pathway } from './project.model';
 
 export type MembershipType =
   | 'member' // 会员
@@ -32,7 +32,7 @@ export interface Member {
   toastmastersId?: string; // 演讲会会员ID（可选）
   joinDate?: Date; // 加入日期（可选）
   gender?: 'male' | 'female'; // 性别（可选）
-  pathways?: Pathways[]; // Pathways学习路径（可选）
+  pathwaysIds?: string[]; // Pathways学习路径ID数组（可选）
   credentials?: string; // 头衔/资历（可选）
   email?: string; // 电子邮箱（可选）
   phone?: string; // 电话号码（可选）
