@@ -56,26 +56,6 @@ export class MeetingEditorComponent implements OnInit {
     'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5', 'Contest'
   ];
 
-  // 日期格式化工具函数
-  private formatDateForInput(date: Date | string): string {
-    if (date instanceof Date) {
-      // 转换为本地时间字符串，避免时区问题
-      const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-      return localDate.toISOString().slice(0, 16);
-    } else if (typeof date === 'string') {
-      // 如果是字符串，尝试解析并格式化
-      const dateObj = new Date(date);
-      if (!isNaN(dateObj.getTime())) {
-        const localDate = new Date(dateObj.getTime() - (dateObj.getTimezoneOffset() * 60000));
-        return localDate.toISOString().slice(0, 16);
-      }
-    }
-    // 默认返回当前时间
-    const now = new Date();
-    const localDate = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
-    return localDate.toISOString().slice(0, 16);
-  }
-
   ngOnInit() {
     this.initializeData();
     this.setupForm();
@@ -163,16 +143,9 @@ export class MeetingEditorComponent implements OnInit {
   }
 
   private populateForm(meeting: Meeting) {
-    // 使用日期格式化工具函数
-    const dateValue = this.formatDateForInput(meeting.date);
-    
-    // 添加调试信息
-    console.log('📅 原始会议日期:', meeting.date, '类型:', typeof meeting.date);
-    console.log('📅 格式化后的日期:', dateValue);
-
     this.meetingForm.patchValue({
       id: meeting.id,
-      date: dateValue,
+      date: new Date(meeting.date).toISOString().slice(0, 16),
       meetingNumber: meeting.meetingNumber,
       theme: meeting.theme || '',
       venue: meeting.venue,
@@ -301,27 +274,9 @@ export class MeetingEditorComponent implements OnInit {
   async saveMeeting() {
     if (this.meetingForm.valid) {
       const formValue = this.meetingForm.value;
-      
-      // 修复日期处理：确保保存的日期格式正确
-      let meetingDate: Date;
-      if (formValue.date) {
-        // 从 datetime-local 输入获取的日期字符串已经是本地时间
-        // 直接创建 Date 对象，避免时区转换问题
-        meetingDate = new Date(formValue.date);
-        
-        // 验证日期是否有效
-        if (isNaN(meetingDate.getTime())) {
-          console.error('❌ 无效的日期格式:', formValue.date);
-          alert('日期格式无效，请检查输入');
-          return;
-        }
-      } else {
-        meetingDate = new Date();
-      }
-
       const meeting: Meeting = {
         ...formValue,
-        date: meetingDate,
+        date: new Date(formValue.date),
         assignments: formValue.assignments || [],
         speeches: formValue.speeches || [],
         visitors: formValue.visitors || [],
@@ -330,7 +285,6 @@ export class MeetingEditorComponent implements OnInit {
 
       try {
         console.log('🔄 正在保存会议:', meeting);
-        console.log('📅 会议日期:', meeting.date, '类型:', typeof meeting.date);
         
         if (this.isNewMeeting) {
           // 创建新会议
