@@ -598,5 +598,12 @@
     "chineseName": "暂缺",
     "membershipType": "member",
     "gender": "male"
+  },
+  {
+    "id": "MB0068",
+    "englishName": "Oliver",
+    "chineseName": "欧阳",
+    "membershipType": "other_club_member",
+    "gender": "male"
   }
 ]
