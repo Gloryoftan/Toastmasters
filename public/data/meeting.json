@@ -1030,12 +1030,12 @@
   },
   {
     "id": "MT0015",
-    "date": "2025-10-11 14:30",
+    "date": "2025-10-12 14:30",
     "meetingNumber": 443,
     "theme": "Holiday Tales",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
+    "status": "completed",
     "assignments": [
       {
         "roleId": "RL01",
@@ -1056,6 +1056,11 @@
         "roleId": "RL07",
         "memberId": "MB0005",
         "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0004",
+        "notes": ""
       }
     ],
     "speeches": [
@@ -1065,7 +1070,7 @@
         "level": "Level 1",
         "projectId": "PJ03",
         "evaluatorId": "MB0022",
-        "passed": true,
+        "passed": false,
         "notes": ""
       }
     ],
@@ -1075,133 +1080,581 @@
   },
   {
     "id": "MT0016",
-    "date": "2025-10-19 06:30",
+    "date": "2025-10-19 14:30",
     "meetingNumber": 444,
-    "theme": "Holiday Tales",
+    "theme": "Autumn",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0017",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0069",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0067",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0004",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0055",
+        "title": "Phones",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
     "id": "MT0017",
-    "date": "2025-10-26 06:30",
+    "date": "2025-10-26 14:30",
     "meetingNumber": 445,
-    "theme": "Holiday Tales",
+    "theme": "Time Traveler",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0003",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0067",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0041",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0069",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0017",
+        "title": "From a “Fire-Starter” to a “Flame-Guardian”",
+        "level": "Level 2",
+        "projectId": "PJ16",
+        "evaluatorId": "MB0001",
+        "passed": false,
+        "notes": ""
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
     "id": "MT0018",
-    "date": "2025-11-02 06:30",
-    "meetingNumber": 446,
-    "theme": "Holiday Tales",
+    "date": "2025-11-02 14:30",
+    "meetingNumber": 2,
+    "theme": "户外活动",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
+    "status": "completed",
     "assignments": [],
     "speeches": [],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0001",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0008",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0009",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0017",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0067",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0014",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0051",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0034",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {
     "id": "MT0019",
-    "date": "2025-11-09 06:30",
-    "meetingNumber": 447,
-    "theme": "Holiday Tales",
+    "date": "2025-11-08 14:30",
+    "meetingNumber": 446,
+    "theme": "Diabetes - The Right Sweetness for a Healthy Life",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0055",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0008",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0065",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0069",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0017",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0003",
+        "title": "Eulogy for Tiki Mao",
+        "level": "Level 3",
+        "projectId": "PJ10",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0067",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {
     "id": "MT0020",
-    "date": "2025-11-16 06:30",
-    "meetingNumber": 448,
-    "theme": "Holiday Tales",
+    "date": "2025-11-15 14:30",
+    "meetingNumber": 447,
+    "theme": "Small Daily Habits",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0027",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0003",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0041",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0005",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0069",
+        "title": "Five Seconds That Changes Everything",
+        "level": "Level 1",
+        "projectId": "PJ02",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0017",
+        "title": "From a “Fire-Starter” to a “Flame-Guardian”",
+        "level": "Level 2",
+        "projectId": "PJ16",
+        "evaluatorId": "MB0004",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
     "id": "MT0021",
-    "date": "2025-11-23 06:30",
-    "meetingNumber": 449,
-    "theme": "Holiday Tales",
+    "date": "2025-11-23 14:30",
+    "meetingNumber": 448,
+    "theme": "Where Does Happiness Come From for Adults?",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0041",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0027",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0003",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0023",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0055",
+        "title": "Getting Back Into a Reading Routine",
+        "level": "Level 1",
+        "projectId": "PJ04",
+        "evaluatorId": "MB0017",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0069",
+        "title": "Five Seconds That Changes Everything",
+        "level": "Level 1",
+        "projectId": "PJ02",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
     "id": "MT0022",
-    "date": "2025-11-30 06:30",
-    "meetingNumber": 450,
-    "theme": "Holiday Tales",
+    "date": "2025-11-30 14:30",
+    "meetingNumber": 449,
+    "theme": "Design Your Dream Retirement",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0055",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0017",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0001",
+        "notes": ""
+      }
+    ],
     "speeches": [],
     "visitors": [],
-    "attendees": [],
+    "attendees": [
+      {
+        "memberId": "MB0071",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0034",
+        "notes": ""
+      }
+    ],
     "notes": ""
   },
   {
     "id": "MT0023",
-    "date": "2025-12-07 06:30",
-    "meetingNumber": 451,
-    "theme": "Holiday Tales",
+    "date": "2025-12-07 14:30",
+    "meetingNumber": 450,
+    "theme": "Dream",
     "venue": "VN01",
     "type": "regular",
-    "status": "scheduled",
-    "assignments": [],
-    "speeches": [],
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0038",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0069",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0051",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL08",
+        "memberId": "MB0055",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0004",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0070",
+        "title": "Dad & Son: Learning to Speak in Toastmaster Together",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "MB0003",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0017",
+        "title": "Who am I",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0003",
+        "passed": true,
+        "notes": "比赛磨稿"
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
     "id": "MT0024",
-    "date": "2025-12-14 06:30",
-    "meetingNumber": 452,
-    "theme": "Holiday Tales",
+    "date": "2025-12-13 14:30",
+    "meetingNumber": 451,
+    "theme": "Club Speech Contest",
     "venue": "VN01",
-    "type": "regular",
-    "status": "scheduled",
+    "type": "contest",
+    "status": "completed",
     "assignments": [],
     "speeches": [],
+    "visitors": [],
+    "attendees": [
+      {
+        "memberId": "MB0001",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0002",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0003",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0004",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0005",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0067",
+        "notes": ""
+      },
+      {
+        "memberId": "MB0070",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0008",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0051",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0069",
+        "notes": "参赛"
+      },
+      {
+        "memberId": "MB0055",
+        "notes": "参赛"
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "id": "MT0025",
+    "date": "2025-12-21 14:30",
+    "meetingNumber": 452,
+    "theme": "Fun",
+    "venue": "VN01",
+    "type": "regular",
+    "status": "completed",
+    "assignments": [
+      {
+        "roleId": "RL01",
+        "memberId": "MB0002",
+        "notes": ""
+      },
+      {
+        "roleId": "RL02",
+        "memberId": "MB0004",
+        "notes": ""
+      },
+      {
+        "roleId": "RL06",
+        "memberId": "MB0051",
+        "notes": ""
+      },
+      {
+        "roleId": "RL07",
+        "memberId": "MB0005",
+        "notes": ""
+      },
+      {
+        "roleId": "RL03",
+        "memberId": "MB0055",
+        "notes": ""
+      }
+    ],
+    "speeches": [
+      {
+        "memberId": "MB0034",
+        "title": "My journey to Toastmasters",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "MB0001",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0071",
+        "title": " From Germany to Nanjing: My Toastmasters Restart Journey",
+        "level": "Level 1",
+        "projectId": "PJ01",
+        "evaluatorId": "MB0002",
+        "passed": true,
+        "notes": ""
+      },
+      {
+        "memberId": "MB0017",
+        "title": "Where does strength come from?",
+        "level": "Level 1",
+        "projectId": "PJ03",
+        "evaluatorId": "MB0004",
+        "passed": true,
+        "notes": "比赛磨稿"
+      }
+    ],
     "visitors": [],
     "attendees": [],
     "notes": ""
   },
   {
-    "id": "MT0025",
-    "date": "2025-12-21 06:30",
+    "id": "MT0026",
+    "date": "2025-12-28 14:30",
     "meetingNumber": 453,
     "theme": "Holiday Tales",
     "venue": "VN01",
